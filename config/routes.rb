@@ -1,4 +1,10 @@
 Zoomasstextbooks::Application.routes.draw do
+  get "info/home"
+
+  get "info/contact"
+
+  get "info/about"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
