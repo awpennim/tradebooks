@@ -1,4 +1,6 @@
 Zoomasstextbooks::Application.routes.draw do
+  resources :textbooks
+
   match "/help", :to => "info#home"
   match "/contact", :to => "info#contact"
   match "/about", :to => "info#about"

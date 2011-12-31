@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Isbn:</b>
+  <%= @textbook.isbn %>
+</p>
+
+<p>
+  <b>Author:</b>
+  <%= @textbook.author %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @textbook.title %>
+</p>
+
+
+<%= link_to 'Edit', edit_textbook_path(@textbook) %> |
+<%= link_to 'Back', textbooks_path %>

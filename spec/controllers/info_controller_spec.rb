@@ -42,5 +42,4 @@ describe InfoController do
       response.should have_selector("title", :content => @base_title + "About")
     end
   end
-
 end
