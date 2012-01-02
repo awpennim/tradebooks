@@ -1,5 +1,5 @@
 class Textbook < ActiveRecord::Base
-  require 'isbn_app.rb'
+  require 'isbn_appp'
   include ISBN_app
 
   attr_accessible :isbn
