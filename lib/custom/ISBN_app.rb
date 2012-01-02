@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'rexml/document'
 
-module isbn_app
+module ISBN_app
 
   ISBNDB_URL = "http://isbndb.com/api/books.xml?access_key=KT6GCO29"
 
