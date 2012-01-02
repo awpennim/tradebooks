@@ -8,6 +8,8 @@ module ISBN_app
   def book_data(hash)
     url = ISBNDB_URL.dup
 
+    nothing = 1
+
     return nil if hash[:isbn] == nil
 
     url << ("&index1=isbn&value1=#{hash[:isbn].to_s}")
