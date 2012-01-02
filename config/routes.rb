@@ -4,6 +4,7 @@ Zoomasstextbooks::Application.routes.draw do
   match "/help", :to => "info#home"
   match "/contact", :to => "info#contact"
   match "/about", :to => "info#about"
+  match "/faq", :to => "info#faq"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

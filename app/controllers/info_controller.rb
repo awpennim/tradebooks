@@ -11,4 +11,8 @@ class InfoController < ApplicationController
     @title = "About"
   end
 
+  def faq
+    @title = "FAQs"
+  end
+
 end
