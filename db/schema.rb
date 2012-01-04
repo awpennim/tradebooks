@@ -14,11 +14,11 @@
 ActiveRecord::Schema.define(:version => 20111231164608) do
 
   create_table "textbooks", :force => true do |t|
-    t.integer  "isbn",                           :null => false
-    t.string   "author",                         :null => false
-    t.string   "title",                          :null => false
+    t.integer  "isbn",           :null => false
+    t.string   "author",         :null => false
+    t.string   "title",          :null => false
     t.boolean  "suffix"
-    t.text     "summary",        :limit => 1000
+    t.text     "summary"
     t.string   "publisher_text"
     t.datetime "created_at"
     t.datetime "updated_at"
