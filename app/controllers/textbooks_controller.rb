@@ -11,6 +11,10 @@ class TextbooksController < ApplicationController
     @textbook = Textbook.new
   end
 
+  def search
+    @textbook = Textbook.new
+  end
+
   # GET /textbooks/1/edit
   def edit
     @textbook = Textbook.find(params[:id])
@@ -19,10 +23,14 @@ class TextbooksController < ApplicationController
   def create
     @textbook = Textbook.new(params[:textbook])
 
-    if @textbook.fill_atts! && @textbook.save
+    if @textbook.save
       redirect_to @textbook
     else
-      render new_textbook_path
+      if @textbook.id.nil?
+        render textbooks_search_path
+      else
+        redirect_to textbook_path(@textbook.id)
+      end
     end
   end
 

@@ -1,4 +1,4 @@
-<h1>Listing textbooks</h1>
+<h2>Textbooks in Database</h2>
 
 <table>
   <tr>
@@ -12,7 +12,7 @@
 
 <% @textbooks.each do |textbook| %>
   <tr>
-    <td><%= textbook.isbn %></td>
+    <td><%= textbook.isbn_dsp %></td>
     <td><%= textbook.author %></td>
     <td><%= textbook.title %></td>
     <td><%= link_to 'Show', textbook %></td>
@@ -24,4 +24,4 @@
 
 <br />
 
-<%= link_to 'New Textbook', new_textbook_path %>
+<%= link_to 'Search Textbooks', textbooks_search_path %>

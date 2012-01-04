@@ -2,12 +2,7 @@
 
 <p>
   <b>Isbn:</b>
-  <%= @textbook.isbn %>
-</p>
-
-<p>
-  <b>Author:</b>
-  <%= @textbook.author %>
+  <%= @textbook.isbn_dsp %>
 </p>
 
 <p>
@@ -15,6 +10,23 @@
   <%= @textbook.title %>
 </p>
 
+<p>
+  <b>Author:</b>
+  <%= @textbook.author %>
+</p>
 
-<%= link_to 'Edit', edit_textbook_path(@textbook) %> |
-<%= link_to 'Back', textbooks_path %>
+<% if @textbook.summary %>
+  <p>
+    <b>Summary:</b>
+    <%= @textbook.summary %>
+  </p>
+<% end %>
+
+<% if @textbook.publisher_text %>
+  <p>
+    <b>Publisher Info:</b>
+    <%= @textbook.publisher_text %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', textbooks_search_path %>

@@ -53,3 +53,58 @@ footer {
   padding-bottom: 1em;
   padding-top: 2em;
 }
+
+#error_explanation {
+  width: 450px;
+  border: 2px solid #6b2c2c;
+  padding: 7 px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #666;
+}
+
+#error_explanation h2{
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 13px;
+  margin: -7px;
+  margin-bottom: 0px;
+  background-color: #6b2c2c;
+  color: white;
+}
+
+#error_explanation ul li {
+  color: white;
+}
+
+.field {
+  padding-bottom: 15px;
+}
+
+.field div{
+  display: inline;
+}
+
+.field #textbook_isbn {
+  width: 13em;
+  font-family: arial;
+}
+
+.actions {
+  display: inline;
+}
+
+.field label{
+  font-weight: bold;
+  color: white;
+  padding-right: 1em;
+}
+
+.field_with errors {
+
+}
+
+#notice {
+  color: white;
+}
