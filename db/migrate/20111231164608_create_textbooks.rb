@@ -5,7 +5,7 @@ class CreateTextbooks < ActiveRecord::Migration
       t.string :author, :null => false
       t.string :title, :null => false
       t.boolean :suffix
-      t.text :summary, :limit => 1000
+      t.text :summary
       t.string :publisher_text
 
       t.timestamps
