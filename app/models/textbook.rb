@@ -5,7 +5,7 @@ class Textbook < ActiveRecord::Base
   attr_accessor :isbn_str
   attr_accessible :isbn, :isbn_str
 
-  validates :isbn, :uniqueness => true
+  validates :isbn, :uniqueness => {:scope => :suffix}
   validates :author, :presence => true
   validates :title, :presence => true
 
