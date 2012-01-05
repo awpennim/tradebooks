@@ -23,9 +23,6 @@ class TextbooksController < ApplicationController
   end
 
   def create
-    params[:textbook][:isbn_str] = params[:textbook][:isbn]
-    params[:textbook][:isbn] = nil
-
     @textbook = Textbook.new(params[:textbook])
 
     if @textbook.save

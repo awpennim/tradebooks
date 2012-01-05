@@ -86,25 +86,48 @@ footer {
   display: inline;
 }
 
-.field #textbook_isbn {
+.isbn_search #textbook_isbn {
   width: 13em;
   font-family: arial;
 }
 
-.actions {
-  display: inline;
+.textbook_form .field{
+  padding-bottom: 10px;
 }
 
-.field label{
+.actions {
+}
+
+.isbn_search label{
   font-weight: bold;
   color: white;
   padding-right: 1em;
 }
 
-.field_with errors {
-
+.field_with_errors {
+  border: solid;
+  border-color: red;
 }
 
-#notice {
+.flash {
+  width: 500px;
+  border: solid;
+  padding: 1em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.flash_notice {
   color: white;
+  font-weight: bold;
+  list-style-type: circle;
+  margin-left: 10px;
+}
+
+.login_form div {
+  display: block;
+}
+
+.double {
+  font-size: 2em;
 }

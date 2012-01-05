@@ -1,12 +1,21 @@
 Zoomasstextbooks::Application.routes.draw do
+  get "sessions/new"
+
+  resources :users
+
   get "textbooks/search" 
-  
   resources :textbooks
+
+  resources :sessions, :only => [:new, :create, :destroy]
+  match '/signout', :to => 'sessions#destroy'
+  match '/signin', :to => 'sessions#new'
 
   match "/help", :to => "info#home"
   match "/contact", :to => "info#contact"
   match "/about", :to => "info#about"
   match "/faq", :to => "info#faq"
+
+  match "/signup", :to => "users#new"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

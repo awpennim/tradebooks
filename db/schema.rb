@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111231164608) do
+ActiveRecord::Schema.define(:version => 20120104234151) do
 
   create_table "textbooks", :force => true do |t|
     t.integer  "isbn",           :null => false
@@ -25,5 +25,16 @@ ActiveRecord::Schema.define(:version => 20111231164608) do
   end
 
   add_index "textbooks", ["isbn"], :name => "index_textbooks_on_isbn", :unique => true
+
+  create_table "users", :force => true do |t|
+    t.string   "email"
+    t.string   "salt"
+    t.boolean  "admin"
+    t.string   "encrypted_password"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
 
 end

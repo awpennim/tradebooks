@@ -5,7 +5,7 @@ class Textbook < ActiveRecord::Base
   attr_accessor :isbn_str
   attr_accessible :isbn, :isbn_str
 
-  validates :isbn, :numericality => true, :uniqueness => true
+  validates :isbn, :uniqueness => true
   validates :author, :presence => true
   validates :title, :presence => true
 
@@ -16,11 +16,11 @@ class Textbook < ActiveRecord::Base
     isbn_str.gsub!(' ', '') unless isbn_str.nil?
 
 
-    length = isbn_str.length
+    length = isbn_str.length unless isbn_str.nil?
 
-    if !isbn_str.nil? && !(length === 10 || (length === 13 && isbn_str[0..2] === "978"))
+    if isbn_str.nil? || !(length === 10 || (length === 13 && isbn_str[0..2] === "978"))
       self.errors.add(:isbn, "must be 10 or 13 characters") 
-      self.isbn = -1 #so error messages don't repeat
+      self.isbn = isbn_str #so error messages don't repeat
       return nil
     end
     if isbn_str[0..(length - 2)].gsub(/[^0-9]/,'') + isbn_str[length - 1].sub(/[^(0-9)|(x|X)]/,'') != isbn_str then
