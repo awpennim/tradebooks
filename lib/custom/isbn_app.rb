@@ -10,7 +10,9 @@ module ISBN_app
 
     return nil if hash[:isbn] == nil
 
-    url << ("&results=texts&index1=isbn&value1=978#{hash[:isbn].to_s}") #978 for all
+    puts "sent empty hash"
+
+    url << ("&results=texts&index1=isbn&value1=#{hash[:isbn].to_s}") #978 for all
     doc = REXML::Document.new(getXML(url))
 
     return nil if doc.root.get_elements("BookList")[0].attribute("total_results").value === "0"

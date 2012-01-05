@@ -1,6 +1,11 @@
-<h1>Editing textbook</h1>
+<h2>Editing textbook</h2>
+
+<p>
+  <b>ISBN:</b>
+  <%= @textbook.isbn_dsp %>
+</p>
 
 <%= render 'form', :textbook => @textbook %>
 
-<%= link_to 'Show', @textbook %> |
-<%= link_to 'Back', textbooks_path %>
+<%= link_to 'View Textbook', @textbook %> |
+<%= link_to 'All Textbooks', textbooks_path %>

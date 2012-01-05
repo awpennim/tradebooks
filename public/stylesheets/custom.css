@@ -129,3 +129,11 @@ footer {
 .double {
   font-size: 2em;
 }
+
+.textbook_form table {
+  border-spacing: 10px;
+}
+
+.textbook_form .isbn_field {
+  width: 50px;
+}

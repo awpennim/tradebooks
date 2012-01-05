@@ -1,18 +1,9 @@
 <%= form_for(textbook) do |f| %>
-  <% if textbook.errors.any? %>
-    <div id="error_explanation">
-      <h2>A textbook with that ISBN number couldn't be found</h2>
-      <ul>
-        <% textbook.errors.each do |att, msg| %>
-          <% if att == :isbn %><li>ISBN <%= msg %><% end %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'errors', :textbook => textbook %>
 
   <div class="isbn_search">
     <%= f.label :isbn_str, 'ISBN:' %>
-    <%= f.text_field :isbn %>
+    <%= f.text_field :isbn_str %>
   </div>
   <div class="actions">
     <%= f.submit "Search" %>

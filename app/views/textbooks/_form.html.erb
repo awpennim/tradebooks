@@ -1,15 +1,31 @@
 <div class ="textbook_form">
   <%= form_for(textbook) do |f| %>
+    <%= render 'errors', :textbook => textbook %>
+
     <table>
       <tr>
-        <td><%= f.label 'ISBN', :isbn %></td>
-        <td class="isbn_field"><%= f.text_field :isbn %></td>
+        <td><%= f.label :title, 'Title' %></td>
+        <td><%= f.text_field :title %></td>
       </tr>
       <tr>
-        <td><%= f.label 'TITLE', :title %></td>
-        <td class="title_field"><%= f.text_field :title %></td>
+        <td><%= f.label :author, 'Author' %></td>
+        <td><%= f.text_field :author %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :summary, 'Summary' %></td>
+        <td><%= f.text_area :summary, :cols => 40, :rows => 6 %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :publisher_text, 'Publisher Info' %></td>
+        <td><%= f.text_field :publisher_text %></td>
       </tr>
     </table>
+    <br>
+
+    <div class="actions">
+      <%= f.submit "Update" %>
+    </div>
   <% end %>
 </div>
 
+<br>

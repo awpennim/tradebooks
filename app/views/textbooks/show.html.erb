@@ -1,7 +1,5 @@
-<p id="notice"><%= notice %></p>
-
 <p>
-  <b>Isbn:</b>
+  <b>ISBN:</b>
   <%= @textbook.isbn_dsp %>
 </p>
 
@@ -30,3 +28,7 @@
 <% end %>
 
 <%= link_to 'Back', textbooks_search_path %>
+<% if current_user && current_user.admin? %>
+<%= link_to 'Edit', edit_textbook_path(@textbook) %>
+<%= link_to 'All', textbooks_path %>
+<% end %>

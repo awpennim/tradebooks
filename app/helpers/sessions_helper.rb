@@ -5,7 +5,7 @@ module SessionsHelper
 
   def deny_access
     store_location
-    redirect_to signup_path, :notice => "You must be logged in to do that"
+    redirect_to signin_path, :notice => "You must be logged in to do that"
   end
 
   def store_location
@@ -27,11 +27,18 @@ module SessionsHelper
   end
 
   def authenticate_admin
-    redirect_to root_path unless current_user && current_user.admin?
+    if current_user.nil?
+      store_location
+      redirect_to signin_path, :notice => "You must be logged in to do that"
+      return
+    end
+    unless current_user.admin?
+      redirect_to user, :notice => "You don't have permission to view that page"
+    end
   end
 
   def approved_user
-    redirect_to user_path(current_user) if current_user.id.to_s != params[:id] && !current_user.admin?
+    redirect_to current_user if current_user.id.to_s != params[:id] && !current_user.admin?
   end
 
   def correct_user

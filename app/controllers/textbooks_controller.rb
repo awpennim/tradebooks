@@ -1,5 +1,5 @@
 class TextbooksController < ApplicationController
-  before_filter :authenticate_admin, :only => [:index, :new]
+  before_filter :authenticate_admin, :only => [:index, :new, :update, :delete, :edit]
 
   def index
     @textbooks = Textbook.all
@@ -20,12 +20,15 @@ class TextbooksController < ApplicationController
   # GET /textbooks/1/edit
   def edit
     @textbook = Textbook.find(params[:id])
+    @textbook.isbn_str = @textbook.isbn_dsp
   end
 
   def create
-    params[:textbook][:isbn_str] = params[:textbook][:isbn]
-    params[:textbook][:isbn] = nil
-
+    if params[:textbook].nil?
+      redirect_to root_path
+      return
+    end
+     
     @textbook = Textbook.new(params[:textbook])
 
     if @textbook.save
@@ -40,12 +43,13 @@ class TextbooksController < ApplicationController
   end
 
   def update
-    @textbook = Textbook.find(params[:id])
+    @textbook = Textbook.find_by_id(params[:id])
 
-    if @textbook.update_attributes(params[:textbook])
+    if !@textbook.nil? && @textbook.update_attributes(params[:textbook])
       redirect_to(@textbook, :notice => 'Textbook was successfully updated.')
     else
-      render edit_textbook_path(@textbook), :action => :edit 
+      @textbook.isbn_str = @textbook.isbn_dsp
+      render :edit 
     end
   end
 
