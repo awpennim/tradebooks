@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   EMAIL_REGEX = /\A[\w+\-.]+@student\.umass\.edu/i
 
-  validates :email, :presence => true,
+  validates :email, :presence => {:message => "Email field is blank"},
                     :format => {:with => EMAIL_REGEX},
 		    :uniqueness => {:case_sensitive => false}
   validates :password, :presence => true,

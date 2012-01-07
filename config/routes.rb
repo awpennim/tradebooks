@@ -2,6 +2,7 @@ Zoomasstextbooks::Application.routes.draw do
   get "sessions/new"
 
   resources :users
+  match "/signup", :to => "users#new"
 
   get "textbooks/search" 
   resources :textbooks
@@ -15,7 +16,6 @@ Zoomasstextbooks::Application.routes.draw do
   match "/about", :to => "info#about"
   match "/faq", :to => "info#faq"
 
-  match "/signup", :to => "users#new"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
