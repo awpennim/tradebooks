@@ -13,6 +13,10 @@ class Textbook < ActiveRecord::Base
 
   
   def update_attributes(params = {})
+
+    params[:summary] = nil if params[:summary].blank?
+    params[:publisher_text] = nil if params[:publisher_text].blank?
+
     self.author = params[:author]
     self.title = params[:title]
     self.summary = params[:summary]

@@ -12,12 +12,10 @@
 
 <% @textbooks.each do |textbook| %>
   <tr>
-    <td><%= textbook.isbn_dsp %></td>
+    <td><%= link_to textbook.isbn_dsp, textbook %></td>
     <td><%= textbook.author %></td>
-    <td><%= textbook.title %></td>
-    <td><%= link_to 'Show', textbook %></td>
-    <td><%= link_to 'Edit', edit_textbook_path(textbook) %></td>
-    <td><%= link_to 'Destroy', textbook, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to textbook.title, textbook %></td>
+    <td><%= link_to 'Delete', textbook, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

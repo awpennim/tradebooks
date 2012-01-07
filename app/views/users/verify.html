@@ -1,0 +1,15 @@
+<h2>Account Verification</h2>
+
+<div class="verify_form">
+  <%= form_tag post_verify_user_path(@user) do %>
+
+    <div class="verify">
+      <%= label_tag 'Verification Token' %><br/>
+      <%= text_field_tag :token %>
+    </div>
+    <br/>
+    <div class="actions">
+      <%= submit_tag 'Verify' %>
+    </div>
+  <% end %>
+</div>

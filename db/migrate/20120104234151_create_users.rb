@@ -3,8 +3,10 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.string :email
       t.string :salt
-      t.boolean :admin
+      t.boolean :admin, :default => false
       t.string :encrypted_password
+      t.boolean :verified, :default => false
+      t.string :verify_token
 
       t.timestamps
     end

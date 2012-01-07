@@ -6,12 +6,14 @@ class User < ActiveRecord::Base
 
   validates :email, :presence => true,
                     :format => {:with => EMAIL_REGEX},
-		    :uniqueness => {:case_sensitive => false}
+		    :uniqueness => {:case_sensitive => false}, :if => :new_record?
   validates :password, :presence => true,
                        :confirmation => true,
-		       :length => {:within => 6..30}
+		       :length => {:within => 6..30}, :if => :new_record?
 
   before_save :encrypt_password
+
+  after_create :make_verify_token
 
   def has_password?(value)
     self.encrypted_password == encrypt(value)
@@ -45,6 +47,27 @@ class User < ActiveRecord::Base
     email[0..(email.index("@") - 1)]
   end
 
+  def verify!(value)
+    return false if value.nil?
+
+    if value.to_s == self.verify_token
+      self.verified = true 
+      save!
+    end
+  end
+
+  def verified?
+    self.verified == true
+  end
+
+  def make_verify_token
+    self.verify_token = Digest::SHA1.hexdigest("--#{Time.now.to_s}--")[0,20]
+    save!
+  end
+
+  def get_token
+    self.verify_token
+  end
 
   private
 

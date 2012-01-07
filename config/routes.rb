@@ -1,7 +1,13 @@
 Zoomasstextbooks::Application.routes.draw do
   get "sessions/new"
 
-  resources :users
+  resources :users do
+    member do
+      get 'home'
+      get 'verify'
+      post 'post_verify'
+    end
+  end
 
   get "textbooks/search" 
   resources :textbooks
