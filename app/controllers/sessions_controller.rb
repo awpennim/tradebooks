@@ -13,6 +13,8 @@ class SessionsController < ApplicationController
     else
       params[:session][:password] = nil
       @title = "Sign in"
+      @error = true  
+     
       render 'new'
     end
   end

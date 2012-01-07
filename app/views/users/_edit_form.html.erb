@@ -1,0 +1,24 @@
+<div class="user_form">
+  <%= form_for(user) do |f| %>
+    <%= render 'layouts/errors', :error => user, :header => "Your new password couldn't be saved" %>
+
+    <div class="settings">
+      <%= f.label :current_password %>
+      <%= f.password_field :current_password %>
+    </div>
+    <br />
+    <div class="settings">
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+    </div>
+    <div class="settings">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation %>
+    </div>
+    <div class="actions">
+      <%= f.submit "Update Profile" %>
+    </div>
+  <% end %>
+</div>
+
+<br />

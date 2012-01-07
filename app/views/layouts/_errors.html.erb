@@ -1,9 +1,9 @@
-<% if textbook.errors.any? %>
+<% if error.errors.any? %>
   <div id="error_explanation">
-    <h2>A textbook with that ISBN number couldn't be found</h2>
+    <% if header %><h2><%= header %></h2><% end %>
     <ul>
-      <% textbook.errors.each do |att, msg| %>
-        <% if att == :isbn %><li>ISBN <%= msg %><% end %></li>
+      <% error.errors.each do |att, msg| %>
+        <li><%= att %> <%= msg %></li>
       <% end %>
     </ul>
   </div>

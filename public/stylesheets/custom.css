@@ -104,7 +104,8 @@ footer {
   padding-right: 1em;
 }
 
-.field_with_errors {
+.user_form .field_with_errors {
+  display: inline;
 }
 
 .flash {
@@ -135,5 +136,12 @@ footer {
 }
 
 .textbook_form .isbn_field {
-  width: 50px;
+}
+
+.user_form label{
+  margin-right: 20px;
+}
+
+.user_form .settings{
+  padding-bottom: 1em;
 }

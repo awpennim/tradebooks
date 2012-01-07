@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :authenticate, :only => [:edit, :update, :show]
   before_filter :correct_user, :only => [:edit, :update]
-  before_filter :approved_user, :only => [:show, :destroy]
+  before_filter :approved_user, :only => [:show, :destroy, :show]
   before_filter :authenticate_admin, :only => [:index]
   before_filter :not_logged_in, :only => [:new, :create]
 
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
   end
 
   def create
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
     if @user.save
       sign_in @user
-      redirect_to(user_path(@user), :notice => 'User was successfully created.')
+      redirect_to @user, :notice => 'User was successfully created.'
     else
       render :action => "new"
     end
@@ -36,9 +36,10 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.update_attributes(params[:user])
-      redirect_to(@user, :notice => 'User was successfully updated.')
+      sign_in @user
+      redirect_to @user, :notice => 'Settings Updated!'
     else
-      render :action => "edit"
+      render :edit
     end
   end
 

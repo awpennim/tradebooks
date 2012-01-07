@@ -1,5 +1,5 @@
 <%= form_for(textbook) do |f| %>
-  <%= render 'errors', :textbook => textbook %>
+  <%= render 'layouts/errors', :error => textbook %>
 
   <div class="isbn_search">
     <%= f.label :isbn_str, 'ISBN:' %>

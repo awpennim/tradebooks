@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
-  attr_accessor :password, :password_confirmation
-  attr_accessible :email, :password, :password_confirmation
+  attr_accessor :password, :password_confirmation, :current_password
+  attr_accessible :email, :password, :password_confirmation, :current_password
 
   EMAIL_REGEX = /\A[\w+\-.]+@student\.umass\.edu/i
 
@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
                        :confirmation => true,
 		       :length => {:within => 6..30}
 
+  
+  before_validation :validate_current_password, :if => :old_record?
   before_save :encrypt_password
 
   def has_password?(value)
@@ -47,6 +49,18 @@ class User < ActiveRecord::Base
 
 
   private
+    def old_record?
+      !new_record?
+    end
+
+    def validate_current_password
+      unless has_password? current_password
+        self.errors.add(:current_password, "is incorrect")
+        return false
+      end
+
+      return true
+    end
 
     def encrypt_password
       return if password == nil
