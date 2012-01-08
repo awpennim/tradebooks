@@ -2,6 +2,9 @@
 
 <span class="login_form">
   <%= form_for(:session, :url => sessions_path) do |f| %>
+    
+    <%= render 'invalid' %>
+
     <div class="field">
       <%= f.label :email %>
       <%= f.text_field :email %>

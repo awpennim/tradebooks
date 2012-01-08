@@ -42,7 +42,7 @@ module SessionsHelper
   end
 
   def correct_user
-    redirect_to current_user unless params[:id] == current_user.id.to_s
+    redirect_to current_user if params[:id] != current_user.id.to_s
   end
 
   def current_user

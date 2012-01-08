@@ -1,16 +1,18 @@
 class User < ActiveRecord::Base
-  attr_accessor :password, :password_confirmation
-  attr_accessible :email, :password, :password_confirmation
+  attr_accessor :password, :password_confirmation, :current_password
+  attr_accessible :email, :password, :password_confirmation, :current_password
 
   EMAIL_REGEX = /\A[\w+\-.]+@student\.umass\.edu/i
 
-  validates :email, :presence => true,
+  validates :email, :presence => {:message => "Email field is blank"},
                     :format => {:with => EMAIL_REGEX},
 		    :uniqueness => {:case_sensitive => false}, :if => :new_record?
   validates :password, :presence => true,
                        :confirmation => true,
 		       :length => {:within => 6..30}, :if => :new_record?
 
+  
+  before_validation :validate_current_password, :if => :old_record?
   before_save :encrypt_password
 
   after_create :make_verify_token
@@ -70,6 +72,18 @@ class User < ActiveRecord::Base
   end
 
   private
+    def old_record?
+      !new_record?
+    end
+
+    def validate_current_password
+      unless has_password? current_password
+        self.errors.add(:current_password, "is incorrect")
+        return false
+      end
+
+      return true
+    end
 
     def encrypt_password
       return if password == nil

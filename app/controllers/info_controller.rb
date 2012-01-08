@@ -5,6 +5,7 @@ class InfoController < ApplicationController
 
   def contact
     @title = "Contact"
+    Emailer.welcome_user(User.find_by_email("awpennim@student.umass.edu"))
   end
 
   def about

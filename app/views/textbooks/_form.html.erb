@@ -1,6 +1,6 @@
 <div class ="textbook_form">
   <%= form_for(textbook) do |f| %>
-    <%= render 'errors', :textbook => textbook %>
+    <%= render 'layouts/errors', :error => textbook %>
 
     <table>
       <tr>
