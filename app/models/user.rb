@@ -5,14 +5,12 @@ class User < ActiveRecord::Base
   EMAIL_REGEX = /\A[\w+\-.]+@student\.umass\.edu/i
 
   validates :email, :presence => {:message => "Email field is blank"},
-                    :format => {:with => EMAIL_REGEX},
-		    :uniqueness => {:case_sensitive => false}, :if => :new_record?
-  validates :password, :presence => true,
-                       :confirmation => true,
-		       :length => {:within => 6..30}, :if => :new_record?
+                    :format => {:with => EMAIL_REGEX, :message => "Make sure your email ends with '@student.umass.edu'"},
+		    :uniqueness => {:case_sensitive => false, :message => "You've already registered <br/> Follow the link below to login"}
+  validates :password, :presence => {:message => "You left the password field blank!"},
+                       :confirmation => {:message => "Your confirmation didn't match your password"},
+		       :length => {:within => 6..30, :message => "Your password must be between 6 and 30 characters"}
 
-  
-  before_validation :validate_current_password, :if => :old_record?
   before_save :encrypt_password
 
   after_create :make_verify_token
@@ -51,11 +49,11 @@ class User < ActiveRecord::Base
 
   def verify!(value)
     return false if value.nil?
-
     if value.to_s == self.verify_token
-      self.verified = true 
-      save!
+      self.toggle!(:verified) unless self.verified?
     end
+
+    return true
   end
 
   def verified?
@@ -65,6 +63,7 @@ class User < ActiveRecord::Base
   def make_verify_token
     self.verify_token = Digest::SHA1.hexdigest("--#{Time.now.to_s}--")[0,20]
     save!
+    self.verify_token
   end
 
   def get_token
@@ -73,12 +72,13 @@ class User < ActiveRecord::Base
 
   private
     def old_record?
-      !new_record?
+      puts new_record?
+      new_record? == false
     end
 
-    def validate_current_password
-      unless has_password? current_password
-        self.errors.add(:current_password, "is incorrect")
+    def validate_password(value)
+      unless has_password? value
+        self.errors.add(:current_password, "Current Password is incorrect")
         return false
       end
 
@@ -86,8 +86,14 @@ class User < ActiveRecord::Base
     end
 
     def encrypt_password
-      return if password == nil
-      self.salt = make_salt unless has_password?(password)
+      return if password == nil || has_password?(password)
+
+      if new_record? == false && !has_password?(current_password)#checks old password
+        self.errors.add(:current_password, "The current password you enterered does not match our records")
+	returns false
+      end
+
+      self.salt = make_salt
       self.encrypted_password = encrypt(password)
     end
 

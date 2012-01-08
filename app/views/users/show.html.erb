@@ -1,12 +1,4 @@
-<% if current_user.admin? && current_user == @user %>
-  <p>
-    <b class="double">You are an administrator</b>
-  </p>
-
-  <p>
-    View all users <%= link_to 'here', users_path %>
-  </p>
-<% end %>
+<h2><%= @user.username %></h2>
 
 <p>
   <b>Username:</b>
@@ -17,3 +9,7 @@
   <b>Email:</b>
   <%= @user.email %>
 </p>
+
+<% if @user.admin? %>
+  <%= link_to 'View All Users', users_path %>
+<% end %>

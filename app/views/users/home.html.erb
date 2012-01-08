@@ -20,8 +20,7 @@
 
 <% unless @user.verified? %>
   <p>
-    <%= link_to 'Verify Token:', verify_user_path(@user) %>
-    <%= @user.get_token %>   *** this will be removed
+    <%= link_to 'Verify Token Here!', verify_user_path(@user, :token => @user.verify_token) %>
   </p>
 <% end %>
 

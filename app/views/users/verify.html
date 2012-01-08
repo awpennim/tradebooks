@@ -5,7 +5,7 @@
 
     <div class="verify">
       <%= label_tag 'Verification Token' %><br/>
-      <%= text_field_tag :token %>
+      <%= text_field_tag :token, params[:token], :maxlength => 20 %>
     </div>
     <br/>
     <div class="actions">

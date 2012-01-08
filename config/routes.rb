@@ -1,13 +1,15 @@
 Zoomasstextbooks::Application.routes.draw do
   get "sessions/new"
 
-  resources :users do
+  resources :users, :only => [:new, :create, :destroy, :show, :index, :update] do
     member do
       get 'home'
       get 'verify'
       post 'post_verify'
+      get 'settings'
     end
   end
+
   match "/signup", :to => "users#new"
 
   get "textbooks/search" 

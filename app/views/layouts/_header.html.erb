@@ -3,7 +3,7 @@
     <% if logged_in? %>
       <li><%= link_to "Home", home_user_path(current_user) %></li>
       <li><%= link_to "Profile", current_user %></li>
-      <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+      <li><%= link_to "Settings", settings_user_path(current_user) %></li>
       <li><%= link_to "Sign Out", signout_path %></li>
     <% else %>
       <li><%= link_to "Home", root_path %></li>

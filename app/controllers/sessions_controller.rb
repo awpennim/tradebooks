@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+
+  skip_before_filter :ensure_verified, :only => [:destroy]
+
   def new
     @title = "Sign In"
   end
@@ -9,7 +12,7 @@ class SessionsController < ApplicationController
 
     if user
       sign_in user
-      redirect_back_or user
+      redirect_back_or home_user_path user
     else
       params[:session][:password] = nil
       @title = "Sign in"

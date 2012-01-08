@@ -1,5 +1,6 @@
 class TextbooksController < ApplicationController
   before_filter :authenticate_admin, :only => [:index, :new, :update, :delete, :edit]
+  skip_before_filter :ensure_verified
 
   def index
     @textbooks = Textbook.all

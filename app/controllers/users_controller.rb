@@ -1,9 +1,11 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :only => [:edit, :update, :show, :home, :verify, :post_verify]
-  before_filter :correct_user, :only => [:edit, :update, :home, :verify, :post_verify]
+  before_filter :authenticate, :only => [:edit, :update, :show, :home, :verify]
+  before_filter :correct_user, :only => [:edit, :update, :home, :verify ]
   before_filter :approved_user, :only => [:show, :destroy, :show]
   before_filter :authenticate_admin, :only => [:index]
   before_filter :not_logged_in, :only => [:new, :create]
+
+  skip_before_filter :ensure_verified, :except => [:show]
 
   def index
     @users = User.all
@@ -21,7 +23,7 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  def edit
+  def settings
     @user = User.find_by_id(params[:id])
   end
 
@@ -47,6 +49,7 @@ class UsersController < ApplicationController
       sign_in @user
       redirect_to(home_user_path(@user), :notice => 'User was successfully created.')
     else
+      puts @user.id.to_s + "better not work"
       render :action => "new"
     end
   end
@@ -56,9 +59,9 @@ class UsersController < ApplicationController
 
     if @user.update_attributes(params[:user])
       sign_in @user
-      redirect_to @user, :notice => 'Settings Updated!'
+      redirect_to home_user_path, :notice => 'Settings Updated!'
     else
-      render :edit
+      render :settings
     end
   end
 

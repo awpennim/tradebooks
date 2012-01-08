@@ -1,6 +1,6 @@
 module SessionsHelper
   def authenticate
-    deny_access unless signed_in?
+    deny_access unless logged_in?
   end
 
   def deny_access
@@ -49,13 +49,12 @@ module SessionsHelper
     @current_user || user_from_remember_token
   end
 
-  def signed_in?
-    !current_user.nil?
+  def logged_in?
+    current_user.nil? == false
   end
-  alias :logged_in? :signed_in?
 
   def not_logged_in
-    redirect_to user_path(current_user) unless !logged_in?
+    redirect_to user_path(current_user) if logged_in?
   end
 
   def sign_in user
@@ -74,6 +73,10 @@ module SessionsHelper
 
   def current_user?(user)
     user == current_user
+  end
+
+  def ensure_verified
+    redirect_to home_user_path(current_user), :notice => "You must verify your account first!" unless current_user.verified?
   end
 
   private

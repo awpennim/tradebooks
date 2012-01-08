@@ -3,7 +3,7 @@
     <% if header %><h2><%= header %></h2><% end %>
     <ul>
       <% error.errors.each do |att, msg| %>
-        <li><%= att %> <%= msg %></li>
+        <li><%= raw msg %></li>
       <% end %>
     </ul>
   </div>
