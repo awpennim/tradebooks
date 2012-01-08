@@ -33,16 +33,16 @@ module SessionsHelper
       return
     end
     unless current_user.admin?
-      redirect_to user, :notice => "You don't have permission to view that page"
+      redirect_to home_user_path(current_user), :notice => "You don't have permission to view that page"
     end
   end
 
   def approved_user
-    redirect_to current_user if current_user.id.to_s != params[:id] && !current_user.admin?
+    redirect_to home_user_path(current_user) if current_user.id.to_s != params[:id] && !current_user.admin?
   end
 
   def correct_user
-    redirect_to current_user if params[:id] != current_user.id.to_s
+    redirect_to home_user_path(current_user) if params[:id] != current_user.id.to_s
   end
 
   def current_user
@@ -54,7 +54,7 @@ module SessionsHelper
   end
 
   def not_logged_in
-    redirect_to user_path(current_user) if logged_in?
+    redirect_to home_user_path(current_user), :notice => "You are already logged in!" if logged_in?
   end
 
   def sign_in user

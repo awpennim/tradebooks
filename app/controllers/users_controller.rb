@@ -47,9 +47,8 @@ class UsersController < ApplicationController
 
     if @user.save
       sign_in @user
-      redirect_to(home_user_path(@user), :notice => 'User was successfully created.')
+      redirect_to(home_user_path(@user), :notice => 'Congratulations on joining Campus Books. A verification email has been sent. Please verify your account before continuing.')
     else
-      puts @user.id.to_s + "better not work"
       render :action => "new"
     end
   end
