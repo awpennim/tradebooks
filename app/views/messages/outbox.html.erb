@@ -1,0 +1,9 @@
+<%= link_to "Compose Message", new_user_message_path(current_user) %>
+
+<% @messages.each do |msg| %>
+  <div class="notification_or_message">
+    <p class="date small_text"><%= raw "(unread) &nbsp; | &nbsp; " if msg.read? == false %> <%= time_ago_in_words(msg.created_at) %> ago</p>
+    <p class="small_text">To: <%= link_to msg.reciever.username, msg.reciever %></p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= msg.text.to_s %></p>
+  </div>
+<% end %>

@@ -52,6 +52,7 @@ class Textbook < ActiveRecord::Base
 
       value.gsub!('-', '')
       value.gsub!(' ', '')
+      value.gsub!("\t",'')
 
       length = value.length
 

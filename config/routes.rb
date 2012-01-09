@@ -1,4 +1,6 @@
 Zoomasstextbooks::Application.routes.draw do
+  resources :messages
+
   get "sessions/new"
 
   resources :users, :only => [:new, :create, :destroy, :show, :index, :update] do
@@ -8,6 +10,14 @@ Zoomasstextbooks::Application.routes.draw do
       post 'post_verify'
       get 'settings'
       get 'notifications'
+    end
+
+    resources :messages, :only => [:destroy, :create, :new, :index, :show], :path_names => { :new => "compose" } do
+
+      collection do
+        get 'inbox'
+	get 'outbox'
+      end
     end
   end
 

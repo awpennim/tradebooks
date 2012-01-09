@@ -15,9 +15,15 @@ class User < ActiveRecord::Base
   after_create :make_verify_token
 
   has_many :notifications, :order => 'created_at DESC', :dependent => :delete_all
+  has_many :sent_messages, :class_name => "Message", :foreign_key => "sender_id", :dependent => :delete_all, :order => 'created_at DESC'
+  has_many :recieved_messages, :class_name => "Message", :foreign_key => "reciever_id", :dependent => :delete_all, :order => 'created_at DESC'
 
   def new_notifications
     Notification.where(:user_id => self.id, :read => false)
+  end
+
+  def new_messages
+    Message.where(:reciever_id => self, :read => false)
   end
 
   def has_password?(value)
@@ -81,6 +87,10 @@ class User < ActiveRecord::Base
 
   def admin?
     self.admin == true
+  end
+
+  def self.find_by_username(username)
+    find_by_email(username.to_s + "@student.umass.edu")
   end
 
   private
