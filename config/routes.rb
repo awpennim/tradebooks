@@ -7,6 +7,7 @@ Zoomasstextbooks::Application.routes.draw do
       get 'verify'
       post 'post_verify'
       get 'settings'
+      get 'notifications'
     end
   end
 

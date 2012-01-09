@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120104234151) do
+ActiveRecord::Schema.define(:version => 20120108164249) do
+
+  create_table "notifications", :force => true do |t|
+    t.string   "message"
+    t.boolean  "read",       :default => false
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "notifications", ["user_id"], :name => "index_notifications_on_user_id"
 
   create_table "textbooks", :force => true do |t|
     t.integer  "isbn",           :null => false

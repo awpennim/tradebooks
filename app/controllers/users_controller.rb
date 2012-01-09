@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :only => [:edit, :update, :show, :home, :verify]
-  before_filter :correct_user, :only => [:edit, :update, :home, :verify ]
+  before_filter :authenticate, :only => [:edit, :update, :show, :home, :verify, :notifications]
+  before_filter :correct_user, :only => [:edit, :update, :home, :verify, :notifications ]
   before_filter :approved_user, :only => [:show, :destroy, :show]
   before_filter :authenticate_admin, :only => [:index]
   before_filter :not_logged_in, :only => [:new, :create]
@@ -9,33 +9,45 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    @title = "All Users"
   end
 
   def show
     @user = User.find(params[:id])
+    @title = @user.username
   end
 
   def home
-    @user = User.find(params[:id])
+    @user = current_user
+    @title = "Home"
   end
 
   def new
     @user = User.new
+    @title = "Sign up!"
+  end
+
+  def notifications
+    @user = current_user
+    @title = "Notifications"
   end
 
   def settings
     @user = User.find_by_id(params[:id])
+    @title = "Settings"
   end
 
   def verify
     @user = User.find(params[:id])
+    @title = "Account Verification"
   end
 
   def post_verify
     token = params[:token]
-    @user = User.find(params[:id])
+    @user = current_user
 
     if @user.verify! token
+      @user.notify("Your account has been verified. You may now buy and sell books.")
       redirect_to home_user_path(@user), :notice => "Your account has been verified!"
     else
       redirect_to verify_user_path(@user), :notice => "Token didn't match our records"
@@ -47,14 +59,15 @@ class UsersController < ApplicationController
 
     if @user.save
       sign_in @user
-      redirect_to(home_user_path(@user), :notice => 'Congratulations on joining Campus Books. A verification email has been sent. Please verify your account before continuing.')
+      @user.notify("Congratulations on creating a Campus Books account. Make sure you verify your account so you can start buying and selling books to other UMass students.")
+      redirect_to(home_user_path(@user), :notice => 'A verification email has been sent. Please verify your account before continuing.')
     else
       render :action => "new"
     end
   end
 
   def update
-    @user = User.find(params[:id])
+    @user = current_user
 
     if @user.update_attributes(params[:user])
       sign_in @user
@@ -82,11 +95,4 @@ class UsersController < ApplicationController
       redirect_to root_path, :notice => "#{@user.username}, you have successfully destroyed your account"
     end
   end
-
-  def admin?
-    admin
-  end
-
-  private
-
 end

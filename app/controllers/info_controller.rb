@@ -14,7 +14,7 @@ class InfoController < ApplicationController
   end
 
   def faq
-    @title = "FAQs"
+    @title = "Frequently Asked Questions"
   end
 
 end

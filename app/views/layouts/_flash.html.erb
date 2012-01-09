@@ -1,0 +1,7 @@
+<% if !flash.empty? %>
+  <div class="flash">
+    <% flash.each do |key,value| %>
+      <li class="flash_<%= key %>"><%= value %></li>
+    <% end %>
+  </div>
+<% end %>

@@ -3,19 +3,23 @@ class TextbooksController < ApplicationController
   skip_before_filter :ensure_verified
 
   def index
+    @title = "Textbooks in Database"
     @textbooks = Textbook.all
   end
 
   def show
     @textbook = Textbook.find(params[:id])
+    @title = @textbook.title
   end
 
   def new
     @textbook = Textbook.new
+    @title = "New Textbook"
   end
 
   def search
     @textbook = Textbook.new
+    @title = "Search for Textbooks"
   end
 
   # GET /textbooks/1/edit

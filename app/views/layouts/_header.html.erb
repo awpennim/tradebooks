@@ -1,5 +1,12 @@
 <header>
-  <ul class="links">
+  <% if logged_in? %>
+    <ul class="links left">
+      <%= raw display_link(current_user.new_notifications, :notification) %>
+      <%=  %>
+    </ul>
+  <% end %>
+
+  <ul class="links right">
     <% if logged_in? %>
       <li><%= link_to "Home", home_user_path(current_user) %></li>
       <li><%= link_to "Profile", current_user %></li>
@@ -13,3 +20,9 @@
 </header>
 
 <h1>UMass Textbooks</h1>
+
+<%= render 'layouts/flash', :flash => flash %>
+
+<% if @title %>
+  <h2><%= @title %></h2> 
+<% end %>

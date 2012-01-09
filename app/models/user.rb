@@ -12,8 +12,13 @@ class User < ActiveRecord::Base
 		       :length => {:within => 6..30, :message => "Your password must be between 6 and 30 characters"}
 
   before_save :encrypt_password
-
   after_create :make_verify_token
+
+  has_many :notifications, :order => 'created_at DESC', :dependent => :delete_all
+
+  def new_notifications
+    Notification.where(:user_id => self.id, :read => false)
+  end
 
   def has_password?(value)
     self.encrypted_password == encrypt(value)
@@ -68,6 +73,14 @@ class User < ActiveRecord::Base
 
   def get_token
     self.verify_token
+  end
+
+  def notify(message)
+    self.notifications.build(:message => message.to_s).save
+  end
+
+  def admin?
+    self.admin == true
   end
 
   private
