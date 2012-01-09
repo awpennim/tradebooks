@@ -85,11 +85,10 @@ class UsersController < ApplicationController
       return
     end
 
-    id = @user.id
     @user.destroy
 
-    if current_user.admin?
-      redirect_to users_url, :notice => "You successfully destroyed the user, #{@user.username}, with ID: #{id}"
+    if !current_user.nil? && current_user.admin?
+      redirect_to users_url, :notice => "You successfully destroyed the user, #{@user.username}, with ID: #{@user.id}"
     else  
       sign_out
       redirect_to root_path, :notice => "#{@user.username}, you have successfully destroyed your account"
