@@ -1,14 +1,18 @@
 <%= form_for(@message) do |f| %>
-  <%= render 'layouts/errors', :error => message, :header => "Your message couldn't be sent" %>
+  <%= render 'layouts/errors', :error => @message, :header => "Your message couldn't be sent" %>
 
-  <div>
-    <%= f.label 'To: ' %><br />
-    <%= f.text_field :reciever_id %>
-  </div> <br />
+  <% if @user.nil? %>
+    <div>
+      <%= f.label 'To: ' %><br />
+      <%= f.text_field :reciever_username %>
+    </div> <br />
+  <% else %>
+    <%= f.hidden_field :reciever_username, :value => @user.username %>
+  <% end %>
 
   <div>
     <%= f.label :text %><br />
-    <%= f.text_area :text, :cols => 50, :rows => 30 %>
+    <%= f.text_area :text, :cols => 50, :rows => 10 %>
   </div> <br />
   <div class="actions">
     <%= f.submit %>

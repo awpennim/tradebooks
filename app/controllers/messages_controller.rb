@@ -1,83 +1,60 @@
 class MessagesController < ApplicationController
-  # GET /messages
-  # GET /messages.xml
-  def index
-    @messages = Message.all
+  before_filter :approved_user, :only => [:show, :delete]
+  before_filter :correct_user, :only => [:new] 
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @messages }
-    end
-  end
+  skip_before_filter 
 
-  # GET /messages/1
-  # GET /messages/1.xml
   def show
     @message = Message.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @message }
-    end
   end
 
-  # GET /messages/new
-  # GET /messages/new.xml
   def new
+    if params[:to] && User.find_by_username(params[:to]).nil? == false
+      @user = User.find_by_username(params[:to])
+      @title = "Compose Message to #{@user.username}"
+    else
+      @title = "Compose Message"
+    end
+
     @message = Message.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @message }
-    end
   end
 
-  # GET /messages/1/edit
-  def edit
-    @message = Message.find(params[:id])
+  def inbox
+    @title = "Inbox"
+    @messages = current_user.recieved_messages
   end
 
-  # POST /messages
-  # POST /messages.xml
+  def outbox
+    @title = "Outbox"
+    @messages = current_user.sent_messages
+  end
+
   def create
-    @message = Message.new(params[:message])
+    @message = current_user.sent_messages.build(params[:message])
 
-    respond_to do |format|
-      if @message.save
-        format.html { redirect_to(@message, :notice => 'Message was successfully created.') }
-        format.xml  { render :xml => @message, :status => :created, :location => @message }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @message.errors, :status => :unprocessable_entity }
-      end
+    if @message.save
+      redirect_to(outbox_user_messages_path(current_user), :notice => "Your message has been sent")
+    else
+      render :action => "new"
     end
   end
 
-  # PUT /messages/1
-  # PUT /messages/1.xml
-  def update
-    @message = Message.find(params[:id])
-
-    respond_to do |format|
-      if @message.update_attributes(params[:message])
-        format.html { redirect_to(@message, :notice => 'Message was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @message.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /messages/1
-  # DELETE /messages/1.xml
   def destroy
     @message = Message.find(params[:id])
     @message.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(messages_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to inbox_user_messages_path(current_user), :notice => "Message deleted"
   end
+
+  private
+
+    def approved_user #called when show and destroy
+      redirect_to home_user_path(current_user), :notice => "A message with that ID couldn't be found" if Message.find_by_id(params[:id]).nil?
+      redirect_to home_user_path(current_user), :notice => "You don't have permission to view that page" if Message.find_by_id(params[:id]).approved_user?(current_user) == false
+      return true
+    end
+
+    def correct_user
+      redirect_to home_user_path(current_user), :notice => "You don't have permission to view that page" if current_user.id.to_s != params[:user_id]
+    end
 end

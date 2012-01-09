@@ -12,7 +12,13 @@ Zoomasstextbooks::Application.routes.draw do
       get 'notifications'
     end
 
-    resources :messages, :only => [:destroy, :create, :new]
+    resources :messages, :only => [:destroy, :create, :new, :index, :show], :path_names => { :new => "compose" } do
+
+      collection do
+        get 'inbox'
+	get 'outbox'
+      end
+    end
   end
 
   match "/signup", :to => "users#new"

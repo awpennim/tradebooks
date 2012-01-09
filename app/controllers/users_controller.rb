@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :authenticate, :only => [:edit, :update, :show, :home, :verify, :notifications]
   before_filter :correct_user, :only => [:edit, :update, :home, :verify, :notifications ]
-  before_filter :approved_user, :only => [:show, :destroy, :show]
+  before_filter :approved_user, :only => [:destroy ]
   before_filter :authenticate_admin, :only => [:index]
   before_filter :not_logged_in, :only => [:new, :create]
 

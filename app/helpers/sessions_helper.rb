@@ -38,11 +38,11 @@ module SessionsHelper
   end
 
   def approved_user
-    redirect_to home_user_path(current_user) if current_user.id.to_s != params[:id] && !current_user.admin?
+    redirect_to home_user_path(current_user), :notice => "You do no have permission to view that page" if current_user.id.to_s != params[:id] && !current_user.admin?
   end
 
   def correct_user
-    redirect_to home_user_path(current_user) if params[:id] != current_user.id.to_s
+    redirect_to home_user_path(current_user), :notice => "You do not have permission to view that page" if params[:id] != current_user.id.to_s
   end
 
   def current_user

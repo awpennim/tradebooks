@@ -10,7 +10,7 @@ module ApplicationHelper
 
   def display_link(item, name)
     if item.size > 0
-      return helper(name, true,item.size)
+      return helper(name, true, item.size)
     else
       return helper(name, false, item.size)
     end
@@ -18,17 +18,20 @@ module ApplicationHelper
 
   private
 
-    def helper(name, plural,size)
+    def helper(name, not_zero,size)
       if name.to_sym == :notification
-        if plural
-          return "<li class='new_link'>#{ link_to pluralize(item.size, 'Notification'), notifications_user_path(current_user) }</li>"
+        if not_zero
+          return "<li class='new_link'>#{ link_to pluralize(size, 'Notification'), notifications_user_path(current_user) }</li>"
 	else
           return "<li>#{ link_to 'Notifications', notifications_user_path(current_user) }</li>"
 	end
-      elsif name.to_sym == :deal
-
-      elsif name.to_sym == :offer
-
+      elsif name.to_sym == :message
+        if not_zero
+          return "<li class='new_link'>#{ link_to pluralize(size, 'Message'), inbox_user_messages_path(current_user) }</li>"
+	else
+          return "<li>#{ link_to 'Messages', inbox_user_messages_path(current_user) }</li>"
+	end
+      elsif name.to_sym == :outbox
       end
     end
 end

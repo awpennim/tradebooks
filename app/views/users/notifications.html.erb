@@ -1,5 +1,5 @@
 <% @user.notifications.each do |note| %>
-  <div class="notification <%= if note.read? == false then "white" end %>">
+  <div class="notification_or_message <%= if note.read? == false then "white" end %>">
     <p class="date"><%= time_ago_in_words(note.created_at) %> ago</p>
     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= note.message %></p>
   </div>
