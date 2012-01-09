@@ -1,4 +1,6 @@
 Zoomasstextbooks::Application.routes.draw do
+  resources :messages
+
   get "sessions/new"
 
   resources :users, :only => [:new, :create, :destroy, :show, :index, :update] do
@@ -9,6 +11,8 @@ Zoomasstextbooks::Application.routes.draw do
       get 'settings'
       get 'notifications'
     end
+
+    resources :messages, :only => [:destroy, :create, :new]
   end
 
   match "/signup", :to => "users#new"

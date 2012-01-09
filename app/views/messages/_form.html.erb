@@ -1,0 +1,16 @@
+<%= form_for(@message) do |f| %>
+  <%= render 'layouts/errors', :error => message, :header => "Your message couldn't be sent" %>
+
+  <div>
+    <%= f.label 'To: ' %><br />
+    <%= f.text_field :reciever_id %>
+  </div> <br />
+
+  <div>
+    <%= f.label :text %><br />
+    <%= f.text_area :text, :cols => 50, :rows => 30 %>
+  </div> <br />
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   after_create :make_verify_token
 
   has_many :notifications, :order => 'created_at DESC', :dependent => :delete_all
+  has_many :sent_messages, :class_name => "Message", :foreign_key => "sender_id", :dependent => :delete_all
+  has_many :recieved_messages, :class_name => "Message", :foreign_key => "reciever_id", :dependent => :delete_all
 
   def new_notifications
     Notification.where(:user_id => self.id, :read => false)
