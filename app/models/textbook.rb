@@ -5,12 +5,14 @@ class Textbook < ActiveRecord::Base
   attr_accessor :isbn_str
   attr_accessible :isbn, :isbn_str
 
+  has_many :sell_listings, :class_name => "Listing", :foreign_key => "textbook_id", :dependent => :delete_all, :order => 'created_at DESC', :conditions => { :selling => true }
+  has_many :buy_listings, :class_name => "Listing", :foreign_key => "textbook_id", :dependent => :delete_all, :order => 'created_at DESC', :conditions => { :selling => false }
+
   validates :isbn, :uniqueness => {:scope => :suffix}
   validates :author, :presence => true
   validates :title, :presence => true
 
   before_validation :fill_atts, :if => :need_fill?
-
   
   def update_attributes(params = {})
 

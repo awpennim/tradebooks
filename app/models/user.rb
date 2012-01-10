@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
   has_many :sent_messages, :class_name => "Message", :foreign_key => "sender_id", :dependent => :delete_all, :order => 'created_at DESC'
   has_many :recieved_messages, :class_name => "Message", :foreign_key => "reciever_id", :dependent => :delete_all, :order => 'created_at DESC'
 
+  has_many :sell_listings, :class_name => "Listing", :foreign_key => "user_id", :dependent => :delete_all, :order => 'created_at DESC', :conditions => { :selling => true }
+  has_many :buy_listings, :class_name => "Listing", :foreign_key => "user_id", :dependent => :delete_all, :order => 'created_at DESC', :conditions => { :selling => false }
+
+
   def new_notifications
     Notification.where(:user_id => self.id, :read => false)
   end

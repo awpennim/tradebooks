@@ -24,7 +24,14 @@ Zoomasstextbooks::Application.routes.draw do
   match "/signup", :to => "users#new"
 
   get "textbooks/search" 
-  resources :textbooks
+  resources :textbooks do
+
+    member do
+      get 'buy_listings'
+      get 'sell_listings'
+    end
+
+  end
 
   resources :sessions, :only => [:new, :create, :destroy]
   match '/signout', :to => 'sessions#destroy'

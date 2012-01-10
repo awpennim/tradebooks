@@ -11,7 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120109045127) do
+ActiveRecord::Schema.define(:version => 20120110045626) do
+
+  create_table "listings", :force => true do |t|
+    t.boolean  "selling"
+    t.decimal  "price",       :precision => 2, :scale => 0
+    t.integer  "user_id"
+    t.integer  "textbook_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "listings", ["textbook_id", "selling"], :name => "index_listings_on_textbook_id_and_selling"
+  add_index "listings", ["user_id", "selling"], :name => "index_listings_on_user_id_and_selling"
 
   create_table "messages", :force => true do |t|
     t.string   "text"
