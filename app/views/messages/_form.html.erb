@@ -3,7 +3,7 @@
 
   <% if @user.nil? %>
     <div>
-      <%= f.label 'To: ' %><br />
+      <%= f.label 'To (please use their username): ' %><br />
       <%= f.text_field :reciever_username %>
     </div> <br />
   <% else %>
@@ -11,10 +11,10 @@
   <% end %>
 
   <div>
-    <%= f.label :text %><br />
+    <%= f.label 'Message (limit 500 characters)' %><br />
     <%= f.text_area :text, :cols => 50, :rows => 10 %>
   </div> <br />
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Send' %>
   </div>
 <% end %>

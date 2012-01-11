@@ -1,0 +1,14 @@
+<% form_for(@listing, :url => textbook_listing_path(@textbook, @listing)) do |f| %>
+  <%= render 'layouts/errors', :error => @listing, :header => "We couldn't update your listing" %>
+
+  <div>
+    <%= f.label 'Asking Price (between 299.99 and 0.01) :' %>
+    <%= f.text_field :price %>
+  </div><br />
+  <div class="action">
+    <%= f.submit "Update Listing!" %>
+  </div>
+<% end %>
+
+<br />
+<%= link_to "Back to your Listing", textbook_listing_path(@textbook, @listing) %>

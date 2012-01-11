@@ -17,4 +17,12 @@ class InfoController < ApplicationController
     @title = "Frequently Asked Questions"
   end
 
+  def why_renew
+    @title = "Why Renew?"
+  end
+
+  def under_construction
+    @title = "Under Construction Page"
+  end
+
 end

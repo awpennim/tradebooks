@@ -1,6 +1,8 @@
+<p>You can view your sent messages <%= link_to "here", outbox_user_messages_path(current_user) %></p>
+
 <% @messages.each do |msg| %>
   <div class="notification_or_message <%= if msg.read? == false then "white" end %>">
-    <p class="date small_text"><%= link_to 'Delete Message', user_message_path(current_user, msg), :confirm => "Are you sure you'd like to delete this message?", :method => :delete %> | <%= time_ago_in_words(msg.created_at) %> ago</p>
+    <p class="date small_text"><%= link_to 'Flag Spam or Offensive', info_under_construction_path %> | <%= link_to 'Reply', new_user_message_path(current_user, :to => msg.sender.username) %> | <%= link_to 'Delete Message', user_message_path(current_user, msg), :confirm => "Are you sure you'd like to delete this message?", :method => :delete %> | <%= time_ago_in_words(msg.created_at) %> ago</p>
     <p class="small_text">From: <%= link_to msg.sender.username, msg.sender %> <br /> To: <%= link_to msg.reciever.username, msg.reciever %></p>
     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= msg.text.to_s %></p>
   </div>

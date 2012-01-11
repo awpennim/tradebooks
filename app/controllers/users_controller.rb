@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :only => [:edit, :update, :show, :home, :verify, :notifications]
+  before_filter :authenticate, :only => [:edit, :update, :show, :home, :verify, :notifications, :looking_for_listings, :for_sale_listings]
   before_filter :correct_user, :only => [:edit, :update, :home, :verify, :notifications ]
   before_filter :approved_user, :only => [:destroy ]
   before_filter :authenticate_admin, :only => [:index]
   before_filter :not_logged_in, :only => [:new, :create]
 
-  skip_before_filter :ensure_verified, :except => [:show]
+  skip_before_filter :ensure_verified, :except => [:show ]
 
   def index
     @users = User.all
@@ -30,6 +30,18 @@ class UsersController < ApplicationController
   def notifications
     @user = current_user
     @title = "Notifications"
+  end
+
+  def for_sale_listings
+    @user = User.find_by_id(params[:id])
+    @title = "#{@user.username}'s 'For Sale' listings"
+    @listings = @user.sell_listings.paginate(:page => params[:page])
+  end
+
+  def looking_for_listings
+    @user = User.find_by_id(params[:id])
+    @title = "#{@user.username}'s 'Looking For' listings"
+    @listings = @user.buy_listings.paginate(:page => params[:page])
   end
 
   def settings
