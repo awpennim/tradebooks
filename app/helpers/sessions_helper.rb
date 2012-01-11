@@ -9,7 +9,7 @@ module SessionsHelper
   end
 
   def store_location
-    puts session[:return_to] = request.fullpath
+    session[:return_to] = request.fullpath
   end
 
   def clear_return_to

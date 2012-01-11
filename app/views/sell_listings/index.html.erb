@@ -1,0 +1,34 @@
+<p><%= link_to "Back to #{@textbook.title}", @textbook %></p>
+
+<% if @listings.size > 0 %>
+  <%= will_paginate @listings %>
+
+  <table class="full_width">
+    <tr class="bold">
+      <td>Listing ID</td>
+      <td>User</td>
+      <td>Location</td>
+      <td>Asking Price</td>
+      <td>Last renewed</td>
+    </tr>
+    <br />
+
+    <% @listings.each do |listing| %>
+      <tr>
+        <td><%= link_to listing.id_long, textbook_sell_listing_path(@textbook, listing) %></td>
+        <td><%= link_to listing.poster.username, listing.poster %></td>
+	<td><%= listing.poster %></td>
+        <td><%= number_to_currency(listing.price) %></td>
+        <td><%= time_ago_in_words(listing.updated_at) %> ago</td>
+      </tr>
+    <% end %>
+  </table>
+
+  <br />
+
+  <%= will_paginate @listings %>
+
+  <p><%= link_to "Back to #{@textbook.title}", @textbook %></p>
+<% else %>
+  <p>Nobody has listed an item yet</p>
+<% end %>

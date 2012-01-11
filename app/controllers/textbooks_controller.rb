@@ -10,6 +10,15 @@ class TextbooksController < ApplicationController
   def show
     @textbook = Textbook.find(params[:id])
     @title = @textbook.title
+
+    @looking_for_counter = @textbook.buy_listings.count
+    @selling_counter = @textbook.sell_listings.count
+
+    if Listing.where(:user_id => current_user.id, :selling => true).first 
+      @user_listing_path = textbook_sell_listing_path(@textbook, Listing.where(:user_id => current_user.id, :selling => true).first)
+    elsif Listing.where(:user_id => current_user.id, :selling => false).first
+      @user_listing_path = textbook_sell_listing_path(@textbook, Listing.where(:user_id => current_user.id, :selling => false).first)
+    end
   end
 
   def new

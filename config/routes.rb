@@ -1,4 +1,5 @@
 Zoomasstextbooks::Application.routes.draw do
+
   resources :messages
 
   get "sessions/new"
@@ -25,10 +26,22 @@ Zoomasstextbooks::Application.routes.draw do
 
   get "textbooks/search" 
   resources :textbooks do
+    
+    resources :sell_listings do
+      member do
+        get 'renew'
+      end
+    end
 
-    member do
-      get 'buy_listings'
+    resources :buy_listings do
+      member do
+        get 'renew'
+      end
+    end
+
+    collection do
       get 'sell_listings'
+      get 'buy_listings'
     end
 
   end

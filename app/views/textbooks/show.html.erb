@@ -1,31 +1,51 @@
-<p>
-  <b>ISBN:</b>
-  <%= @textbook.isbn_dsp %>
+<p class="bigger right new_link no_margin">
+  <b><%= pluralize @looking_for_counter, "'Looking For' Listing" %> </b> &nbsp; <%= link_to "View here!", textbook_buy_listings_path(@textbook) %><br />
+  <% unless @user_listing_path %>
+    <span><%= link_to "Post your 'Looking For' Listing!", new_textbook_sell_listing_path(@textbook) %></span><br />
+  <% end %><br/>
+
+  <b><%= pluralize @selling_counter, "'For Sale' Listing" %></b> &nbsp <%= link_to 'View here!', textbook_sell_listings_path(@textbook) %><br />
+  <% unless @user_listing_path %>
+    <span><%= link_to "Post your 'For Sale' Listing!", new_textbook_sell_listing_path(@textbook) %></span><br/><br/>
+  <% end %>
+
+    <% if @user_listing_path %>
+    <br />
+    <br />
+    <span><%= link_to "Go to Your Listing", @user_listing_path %></span>
+  <% end %>
 </p>
 
-<p>
-  <b>Title:</b>
-  <%= @textbook.title %>
-</p>
-
-<p>
-  <b>Author:</b>
-  <%= @textbook.author %>
-</p>
-
-<% if @textbook.summary %>
-  <p>
-    <b>Summary:</b>
-    <%= @textbook.summary %>
+<span>
+  <p class="book_info">
+    <b>ISBN:</b>
+    <%= @textbook.isbn_dsp %>
   </p>
-<% end %>
 
-<% if @textbook.publisher_text %>
-  <p>
-    <b>Publisher Info:</b>
-    <%= @textbook.publisher_text %>
+  <p class="book_info">
+    <b>Title:</b>
+    <%= @textbook.title %>
   </p>
-<% end %>
+
+  <p class="book_info">
+    <b>Author:</b>
+    <%= @textbook.author %>
+  </p>
+
+  <% if @textbook.summary %>
+    <p class="book_info">
+      <b>Summary:</b>
+      <%= @textbook.summary %>
+    </p>
+  <% end %>
+
+  <% if @textbook.publisher_text %>
+    <p class="book_info">
+      <b>Publisher Info:</b>
+      <%= @textbook.publisher_text %>
+    </p>
+  <% end %>
+</span>
 
 <%= link_to 'Back to Search', textbooks_search_path %>
 <% if current_user && current_user.admin? %>

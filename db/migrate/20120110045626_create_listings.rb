@@ -1,8 +1,8 @@
 class CreateListings < ActiveRecord::Migration
   def self.up
     create_table :listings do |t|
-      t.boolean :selling
-      t.decimal :price, :precision => 2
+      t.boolean :selling, :default => false
+      t.decimal :price, :precision => 8, :scale => 2
       t.integer :user_id
       t.integer :textbook_id
 

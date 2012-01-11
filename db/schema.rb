@@ -14,8 +14,8 @@
 ActiveRecord::Schema.define(:version => 20120110045626) do
 
   create_table "listings", :force => true do |t|
-    t.boolean  "selling"
-    t.decimal  "price",       :precision => 2, :scale => 0
+    t.boolean  "selling",                                   :default => false
+    t.decimal  "price",       :precision => 8, :scale => 2
     t.integer  "user_id"
     t.integer  "textbook_id"
     t.datetime "created_at"
