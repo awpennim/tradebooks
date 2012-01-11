@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20120110045626) do
   end
 
   add_index "listings", ["textbook_id", "selling"], :name => "index_listings_on_textbook_id_and_selling"
-  add_index "listings", ["user_id", "selling"], :name => "index_listings_on_user_id_and_selling"
+  add_index "listings", ["user_id", "textbook_id"], :name => "index_listings_on_user_id_and_textbook_id", :unique => true
 
   create_table "messages", :force => true do |t|
     t.string   "text"

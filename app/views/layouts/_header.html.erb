@@ -3,7 +3,8 @@
     <ul class="links left">
       <%= raw display_link(current_user.new_notifications, :notification) %>
       <%= raw display_link(current_user.new_messages, :message) %>
-      <%= link_to "Outbox", outbox_user_messages_path(current_user) %>
+      <%= link_to "'For Sale'", for_sale_listings_user_path(current_user) %>
+      <%= link_to "'Looking For'", looking_for_listings_user_path(current_user) %>
     </ul>
   <% end %>
 

@@ -11,6 +11,8 @@ Zoomasstextbooks::Application.routes.draw do
       post 'post_verify'
       get 'settings'
       get 'notifications'
+      get 'for_sale_listings'
+      get 'looking_for_listings'
     end
 
     resources :messages, :only => [:destroy, :create, :new, :index, :show], :path_names => { :new => "compose" } do
@@ -27,21 +29,17 @@ Zoomasstextbooks::Application.routes.draw do
   get "textbooks/search" 
   resources :textbooks do
     
-    resources :sell_listings do
+    resources :listings, :except => [:index, :new] do
       member do
         get 'renew'
       end
-    end
 
-    resources :buy_listings do
-      member do
-        get 'renew'
+      collection do
+        get 'for_sale'
+	get 'looking_for'
+	get 'post_for_sale'
+	get 'post_looking_for'
       end
-    end
-
-    collection do
-      get 'sell_listings'
-      get 'buy_listings'
     end
 
   end
@@ -54,6 +52,8 @@ Zoomasstextbooks::Application.routes.draw do
   match "/contact", :to => "info#contact"
   match "/about", :to => "info#about"
   match "/faq", :to => "info#faq"
+  get "info/why_renew"
+  get "info/under_construction"
 
 
   # The priority is based upon order of creation:

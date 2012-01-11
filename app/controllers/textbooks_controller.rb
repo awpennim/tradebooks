@@ -12,12 +12,10 @@ class TextbooksController < ApplicationController
     @title = @textbook.title
 
     @looking_for_counter = @textbook.buy_listings.count
-    @selling_counter = @textbook.sell_listings.count
+    @for_sale_counter = @textbook.sell_listings.count
 
-    if Listing.where(:user_id => current_user.id, :selling => true).first 
-      @user_listing_path = textbook_sell_listing_path(@textbook, Listing.where(:user_id => current_user.id, :selling => true).first)
-    elsif Listing.where(:user_id => current_user.id, :selling => false).first
-      @user_listing_path = textbook_sell_listing_path(@textbook, Listing.where(:user_id => current_user.id, :selling => false).first)
+    if Listing.where(:user_id => current_user.id, :textbook_id => @textbook.id).first
+      @listing = Listing.where(:user_id => current_user.id).first
     end
   end
 

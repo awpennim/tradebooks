@@ -1,18 +1,33 @@
 <p class="bigger right new_link no_margin">
-  <b><%= pluralize @looking_for_counter, "'Looking For' Listing" %> </b> &nbsp; <%= link_to "View here!", textbook_buy_listings_path(@textbook) %><br />
-  <% unless @user_listing_path %>
-    <span><%= link_to "Post your 'Looking For' Listing!", new_textbook_sell_listing_path(@textbook) %></span><br />
+  <b>
+    <%= pluralize @looking_for_counter, "'Looking For' Listing" %> 
+  </b> 
+
+  <% if @looking_for_counter > 0 %>
+    &nbsp; <%= link_to "View here!", looking_for_textbook_listings_path(@textbook) %>
+  <% end %>
+  <br />
+
+  <% unless @listing %>
+    <span><%= link_to "Post your 'Looking For' Listing!", post_looking_for_textbook_listings_path(@textbook) %></span><br />
   <% end %><br/>
 
-  <b><%= pluralize @selling_counter, "'For Sale' Listing" %></b> &nbsp <%= link_to 'View here!', textbook_sell_listings_path(@textbook) %><br />
-  <% unless @user_listing_path %>
-    <span><%= link_to "Post your 'For Sale' Listing!", new_textbook_sell_listing_path(@textbook) %></span><br/><br/>
+  <b>
+    <%= pluralize @for_sale_counter, "'For Sale' Listing" %>
+  </b> 
+  <% if @for_sale_counter > 0 %>
+    &nbsp <%= link_to 'View here!', for_sale_textbook_listings_path(@textbook) %>
+  <% end %>
+  <br />
+
+  <% unless @listing %>
+    <span><%= link_to "Post your 'For Sale' Listing!", post_for_sale_textbook_listings_path(@textbook) %></span><br/><br/>
   <% end %>
 
-    <% if @user_listing_path %>
+    <% if @listing %>
     <br />
     <br />
-    <span><%= link_to "Go to Your Listing", @user_listing_path %></span>
+    <span><%= link_to "Go to Your Listing", textbook_listing_path(@textbook, @listing) %></span>
   <% end %>
 </p>
 

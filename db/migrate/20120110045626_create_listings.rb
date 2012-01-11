@@ -8,7 +8,7 @@ class CreateListings < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :listings, [:user_id, :selling]
+    add_index :listings, [:user_id, :textbook_id], :unique => true
     add_index :listings, [:textbook_id, :selling]
   end
 
