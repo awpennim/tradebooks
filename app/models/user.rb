@@ -97,7 +97,7 @@ class User < ActiveRecord::Base
   end
 
   def verified?
-    self.verified == true
+    self.verified
   end
 
   def make_verify_token

@@ -72,10 +72,20 @@ class UsersController < ApplicationController
     puts @user.location
 
     if @user.save
-      sign_in @user
-      @user.notify("Congratulations on creating a Campus Books account. Make sure you verify your account so you can start buying and selling books to other UMass students.")
-      redirect_back_or(home_user_path(@user), 'A verification email has been sent. Please verify your account before continuing.')
+      sign_in_for_first_time(@user)
     else
+      user = User.find_by_email(@user.email)
+      puts user.email
+      puts user.nil?
+      puts user.verified?
+      if user.nil? == false && user.verified? == false
+        user.destroy
+
+	if @user.save
+	  sign_in_for_first_time(@user)
+	  return
+	end
+      end
       @user.password = ""
       @user.password_confirmation = ""
       render :action => "new"
@@ -114,4 +124,12 @@ class UsersController < ApplicationController
       redirect_to root_path, :notice => "#{@user.username}, you have successfully destroyed your account"
     end
   end
+
+  private
+
+    def sign_in_for_first_time(user)
+      sign_in user
+      user.notify("Congratulations on creating a Campus Books account. Make sure you verify your account so you can start buying and selling books to other UMass students.")
+      redirect_back_or(home_user_path(user), 'A verification email has been sent. Please verify your account before continuing.')
+    end
 end
