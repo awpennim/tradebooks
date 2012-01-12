@@ -18,10 +18,10 @@
         <td><%= link_to listing.id_long, textbook_listing_path(@textbook, listing) %></td>
         <td><%= link_to listing.poster.username, listing.poster %></td>
 	<td>
-	  <%= if User.matching_locations(current_user, listing.poster) %>
+	  <% if User.matching_locations(current_user, listing.poster) %>
 	    <b><%= User.location_from_index listing.poster.location %></b>
 	  <% else %>
-	    <%= User.location_from_index listing.poster.location %>
+	    <%= listing.poster.location_str %>
 	  <% end %>
 	</td>
         <td><%= number_to_currency(listing.price) %></td>

@@ -1,6 +1,4 @@
 Development:
-  messages (inbox link. sent link)
-  listings
   offers and counter offers
   deals
   FAQ models
