@@ -16,11 +16,11 @@ module SessionsHelper
     session[:return_to] = nil
   end
 
-  def redirect_back_or(default)
+  def redirect_back_or(default, notice = nil)
     if session[:return_to]
-      redirect_to session[:return_to]
+      redirect_to session[:return_to], :notice => notice
     else
-      redirect_to default
+      redirect_to default, :notice => notice
     end
 
     clear_return_to

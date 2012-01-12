@@ -40,6 +40,10 @@ class Textbook < ActiveRecord::Base
     end
   end
 
+  def title_short
+    self.title[0..20]
+  end
+
   private
 
     def need_fill?

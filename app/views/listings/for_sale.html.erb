@@ -17,7 +17,13 @@
       <tr>
         <td><%= link_to listing.id_long, textbook_listing_path(@textbook, listing) %></td>
         <td><%= link_to listing.poster.username, listing.poster %></td>
-	<td><%= listing.poster %></td>
+	<td>
+	  <% if User.matching_locations(current_user, listing.poster) %>
+	    <b><%= User.location_from_index listing.poster.location %></b>
+	  <% else %>
+	    <%= User.location_from_index listing.poster.location %>
+	  <% end %>
+	</td>
         <td><%= number_to_currency(listing.price) %></td>
         <td><%= time_ago_in_words(listing.updated_at) %> ago</td>
       </tr>

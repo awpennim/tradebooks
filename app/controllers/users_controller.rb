@@ -67,24 +67,32 @@ class UsersController < ApplicationController
   end
 
   def create
+    params[:user][:location] = User.index_from_location params[:user][:location]
     @user = User.new(params[:user])
+    puts @user.location
 
     if @user.save
       sign_in @user
       @user.notify("Congratulations on creating a Campus Books account. Make sure you verify your account so you can start buying and selling books to other UMass students.")
-      redirect_to(home_user_path(@user), :notice => 'A verification email has been sent. Please verify your account before continuing.')
+      redirect_back_or(home_user_path(@user), 'A verification email has been sent. Please verify your account before continuing.')
     else
+      @user.password = ""
+      @user.password_confirmation = ""
       render :action => "new"
     end
   end
 
   def update
     @user = current_user
+    params[:user][:location] = User.index_from_location params[:user][:location]
 
     if @user.update_attributes(params[:user])
       sign_in @user
       redirect_to home_user_path, :notice => 'Settings Updated!'
     else
+      @user.current_password = ""
+      @user.password = ""
+      @user.password_confirmation = ""
       render :settings
     end
   end

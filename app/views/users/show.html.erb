@@ -1,15 +1,41 @@
-<p>
-  <%= link_to 'Send Message', new_user_message_path(current_user, :to => @user.username) %>
-</p>
+<table class="full_width">
+  <tr>
+    <td><b>Username:</b> <%= @user.username %></td>
+    <td><b>Email:</b> <%= @user.email %></td>
+    <td><b>Living Location:</b> <%= @user.location_str %></td>
+    <td><b>Completed Deals:</b> 0</td>
+  </tr>
+</table>
 
-</p>
-  <b>Username:</b>
-  <%= @user.username %>
-</p>
+<br/>
+
+<table class="full_width">
+  <tr class="bold double">
+    <td class="center_text">
+      <p>
+        <%= pluralize(@user.buy_listings.count, "'Looking For' Listing") %>
+
+        <% if @user.buy_listings.count > 0 %>
+	  <br />
+          <%= link_to 'View Listings', looking_for_listings_user_path(@user) %>
+        <% end %>
+      </p>
+    </td>
+    <td class="center_text">
+      <p>
+        <%= pluralize(@user.sell_listings.count, "'For Sale' Listing") %>
+
+        <% if @user.sell_listings.count > 0 %>
+	  <br />
+          <%= link_to "View Listings", for_sale_listings_user_path(@user) %>
+        <% end %>
+      </p>
+    </td>
+  </tr>
+</table>
 
 <p>
-  <b>Email:</b>
-  <%= @user.email %>
+  <%= link_to "Send #{@user.username} a Message", new_user_message_path(current_user, :to => @user.username) %>
 </p>
 
 <% if current_user.admin? %>

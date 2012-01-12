@@ -3,7 +3,7 @@
     <%= render 'layouts/errors', :error => user, :header => "Your new password couldn't be saved" %>
 
     <div class="settings">
-      <%= f.label :current_password %><br/>
+      <%= f.label :current_password, "Current Password" %><br/>
       <%= f.password_field :current_password %>
     </div>
     <br />
@@ -12,8 +12,12 @@
       <%= f.password_field :password %>
     </div>
     <div class="settings">
-      <%= f.label :password_confirmation %><br/>
+      <%= f.label :password_confirmation, "Password Confirmation" %><br/>
       <%= f.password_field :password_confirmation %>
+    </div>
+    <div class="settings">
+      <%= f.label :location, 'Living Location' %>
+      <%= f.select :location, options_for_select(User.LOCATIONS_LIST_ARRAY, user.location_str) %>
     </div>
     <div class="actions">
       <%= f.submit "Update Profile" %>

@@ -1,6 +1,7 @@
 class ListingsController < ApplicationController
   before_filter :set_textbook
   before_filter :set_listing, :except => [:for_sale, :looking_for, :post_for_sale, :post_looking_for, :create]
+  before_filter :authenticate, :except => [:for_sale, :looking_for]
 
   def for_sale
     @title = "For Sale : #{ @textbook.title }"

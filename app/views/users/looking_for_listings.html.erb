@@ -15,7 +15,7 @@
     <% @listings.each do |listing| %>
       <tr>
         <td><%= link_to listing.id_long, textbook_listing_path(listing.textbook, listing) %></td>
-	<td><%= link_to listing.textbook.title, textbook_path(listing.textbook) %></td>
+	<td><%= link_to listing.textbook.title_short, textbook_path(listing.textbook) %></td>
         <td><%= number_to_currency(listing.price) %></td>
         <td><%= time_ago_in_words(listing.updated_at) %> ago</td>
       </tr>

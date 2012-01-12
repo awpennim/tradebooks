@@ -1,6 +1,6 @@
 <% if current_user.admin? && current_user == @user %>
   <p>
-    You are an administrator. Go to the administrator page <%= link_to 'here', users_path %>
+    <%= link_to 'Go to the administrator page', info_under_construction_path %>
   </p>
 <% end %>
 

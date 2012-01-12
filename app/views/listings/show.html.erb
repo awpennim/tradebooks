@@ -3,7 +3,7 @@
     <td><span class="bold">ISBN: </span><%= link_to @textbook.isbn_dsp, @textbook %></td>
     <td><span class="bold">ID: </span><%= link_to @listing.id_long, textbook_listing_path(@textbook, @listing) %></td>
     <td><span class="bold">Poster: </span><%= link_to @listing.poster.username, @listing.poster %></td>
-    <td><span class="bold">Location: </span><%= @listing.poster.username %></span>
+    <td><span class="bold">Location: </span><%= @listing.poster.location_str %></span>
     <td><span class="bold">Last Renewed: </span><%= time_ago_in_words(@listing.updated_at) %> ago</td>
   </tr>
 </table>

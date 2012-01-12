@@ -14,7 +14,7 @@ class TextbooksController < ApplicationController
     @looking_for_counter = @textbook.buy_listings.count
     @for_sale_counter = @textbook.sell_listings.count
 
-    if Listing.where(:user_id => current_user.id, :textbook_id => @textbook.id).first
+    if logged_in? && Listing.where(:user_id => current_user.id, :textbook_id => @textbook.id).first
       @listing = Listing.where(:user_id => current_user.id).first
     end
   end
