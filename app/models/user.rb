@@ -113,7 +113,7 @@ class User < ActiveRecord::Base
   end
 
   def listing_from_textbook(textbook_id)
-    Listing.where(:user_id => self.id, :textbook_id => textbook_id).first
+    Listing.where(:user_id => self.id, :textbook_id => textbook_id).order('created_at DESC').limit(1).first
   end
 
   def offers_for_textbook(textbook_id)

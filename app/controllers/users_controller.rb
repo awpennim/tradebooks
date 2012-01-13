@@ -102,7 +102,7 @@ class UsersController < ApplicationController
     else
       @user.current_password = ""
       @user.password = ""
-      @user.password_confirmation = ""
+     @user.password_confirmation = ""
       render :settings
     end
   end

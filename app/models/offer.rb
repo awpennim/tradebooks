@@ -32,6 +32,14 @@ class Offer < ActiveRecord::Base
     self.status == 0
   end
 
+  def listing
+    if selling?
+      sender.listing_from_textbook(textbook_id)
+    else
+      reciever.listing_from_textbook(textbook_id)
+    end
+  end
+
   def make_deal!
     return true if deal_with_other_offers 
   end
@@ -46,7 +54,7 @@ class Offer < ActiveRecord::Base
     def make_sure_no_duplicate_offers
       other_offer = self.sender.offers_for_textbook_with_user(self.textbook_id, self.reciever_id).first
 
-      return true if other_offer.active? == false
+      return true if other_offer.nil? || other_offer.active? == false
 
       if self.reciever_id == other_offer.reciever_id
         self.errors.add(:reciever_id, "You already sent #{self.reciever.username} an offer for this book. You can check your offers sent by navigating to the 'Offers' page in the upper-left links then clicking 'View sent offers here'. (note: once a user rejects (not counter offers) your offer for a particular book, you may only respond to their offers)")
@@ -64,22 +72,46 @@ class Offer < ActiveRecord::Base
         if self.sender.nil? == false
           self.sender.active_offers_for_textbook(self.textbook_id).each do |offer|
             offer.update_status(3)
+
+            if self.sender_id == offer.sender_id
+              offer.reciever.notify("#{self.sender.username} sold their copy of #{self.textbook.title_short} to another buyer")
+	    else
+              offer.sender.notify("#{self.sender.username} sold their copy of #{self.textbook.title_short} to another buyer")
+	    end
 	  end
         end
 	if self.reciever.nil? == false
 	  self.reciever.active_offers_for_textbook(self.textbook_id).each do |offer|
 	    offer.update_status(4)
+
+            if self.sender_id == offer.sender_id
+              offer.reciever.notify("#{self.reciever.username} bought a copy of #{self.textbook.title_short} from another seller")
+	    else
+              offer.sender.notify("#{self.reciever.username} bought a copy of #{self.textbook.title_short} from another seller")
+	    end
 	  end
 	end
       else
         if self.sender.nil? == false
           self.sender.active_offers_for_textbook(self.textbook_id).each do |offer|
             offer.update_status(4)
+
+            if self.sender_id == offer.sender_id
+              offer.reciever.notify("#{self.sender.username} bought a copy of #{self.textbook.title_short} from another seller")
+	    else
+              offer.sender.notify("#{self.sender.username} bought a copy of #{self.textbook.title_short} from another seller")
+	    end
 	  end
 	end
 	if self.reciever.nil? == false
 	  self.reciever.active_offers_for_textbook(self.textbook_id).each do |offer|
 	    offer.update_status(3)
+
+            if self.sender_id == offer.sender_id
+              offer.reciever.notify("#{self.sender.username} sold their copy of #{self.textbook.title_short} to another buyer")
+	    else
+              offer.sender.notify("#{self.sender.username} sold their copy of #{self.textbook.title_short} to another buyer")
+	    end
 	  end
 	end
       end

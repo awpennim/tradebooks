@@ -6,17 +6,26 @@ class OffersController < ApplicationController
   before_filter :authenticate
 
   def counter
-    redirect_to info_under_construction_path
+    @listing = @offer.listing
+    @counter = true
+
+    if @offer.selling?
+      @offer = Offer.new
+      render 'listings/new_buying_offer'
+    else
+      @offer = Offer.new
+      render 'listings/new_selling_offer'
+    end
   end
 
   def accept
-    @offer.make_deal!
     @offer.update_status(9)
+    @offer.make_deal!
     if @offer.selling?
-      @offer.sender.notify("Your offer to #{@offer.reciever.username} to buy #{@offer.textbook.title_short} for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
+      @offer.sender.notify("Your offer to #{@offer.reciever.username} to sell your copy of #{@offer.textbook.title_short} for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
       redirect_to recieved_offers_user_path(current_user), :notice => "Congratulations! You've accepted to sell #{@offer.sender.username} your copy of #{@offer.textbook.title_short} for #{@offer.price}"
     else
-      @offer.sender.notify("Your offer to #{@offer.reciever.username} to sell your copy of #{@offer.textbook.title_short} for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
+      @offer.sender.notify("Your offer to #{@offer.reciever.username} to buy #{@offer.textbook.title_short} for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
       redirect_to recieved_offers_user_path(current_user), :notice => "Congratulations! You've accepted to buy #{@offer.sender.username}'s copy of #{@offer.textbook.title_short} for #{@offer.price}"
     end
   end
