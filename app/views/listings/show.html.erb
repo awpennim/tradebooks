@@ -16,9 +16,9 @@
 <% else %>
     <p><%= link_to "Send #{@listing.poster.username} a message", new_user_message_path(current_user, :to => @listing.poster.username) %></p>
   <% if @selling %>
-    <p class="double new_link"><%= link_to "Send #{@listing.poster.username} an Offer for this Book!", info_under_construction_path %></p>
+    <p class="double new_link"><%= link_to "Send #{@listing.poster.username} an Offer for this Book!", new_buying_offer_textbook_listing_path(@textbook, @listing) %></p>
   <% else %>
-    <p class="double new_link"><%= link_to "Send #{@listing.poster.username} an Offer to Sell your Book!", info_under_construction_path %></p>
+    <p class="double new_link"><%= link_to "Send #{@listing.poster.username} an Offer to Sell your Book!", new_selling_offer_textbook_listing_path(@textbook, @listing) %></p>
   <% end %>
 <% end %>
 

@@ -1,6 +1,6 @@
 class ListingsController < ApplicationController
-  before_filter :set_textbook
   before_filter :set_listing, :except => [:for_sale, :looking_for, :post_for_sale, :post_looking_for, :create]
+  before_filter :set_textbook
   before_filter :authenticate, :except => [:for_sale, :looking_for]
 
   def for_sale
@@ -11,6 +11,16 @@ class ListingsController < ApplicationController
   def looking_for
     @title = "Looking For: #{ @textbook.title }"
     @listings = @textbook.buy_listings.paginate(:page => params[:page])
+  end
+
+  def new_selling_offer
+    @title = "Sell #{@listing.poster.username} your copy of #{@textbook.title_short}"
+    @offer = Offer.new
+  end
+
+  def new_buying_offer
+    @title = "Buy #{@listing.poster.username}'s #{@textbook.title_short}"
+    @offer = Offer.new
   end
 
   def show
@@ -89,12 +99,12 @@ class ListingsController < ApplicationController
 
   private
 
-    def set_textbook
-      @textbook = Textbook.find_by_id(params[:textbook_id])
-    end
-
     def set_listing
       @listing = Listing.find_by_id(params[:id])
       @selling = @listing.selling?
+    end
+
+    def set_textbook
+      @textbook = Textbook.find_by_id(params[:textbook_id])
     end
 end

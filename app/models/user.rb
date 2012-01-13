@@ -26,6 +26,9 @@ class User < ActiveRecord::Base
   has_many :sell_listings, :class_name => "Listing", :foreign_key => "user_id", :dependent => :delete_all, :order => 'created_at DESC', :conditions => { :selling => true }
   has_many :buy_listings, :class_name => "Listing", :foreign_key => "user_id", :dependent => :delete_all, :order => 'created_at DESC', :conditions => { :selling => false }
 
+  has_many :sent_offers, :class_name => "Offer", :foreign_key => "sender_id", :order => 'created_at DESC'
+  has_many :recieved_offers, :class_name => "Offer", :foreign_key => 'reciever_id', :order => 'created_at DESC'
+
   def self.LOCATIONS_LIST_ARRAY
     LOCATIONS_LIST
   end
@@ -107,6 +110,26 @@ class User < ActiveRecord::Base
 
   def get_token
     self.verify_token
+  end
+
+  def listing_from_textbook(textbook_id)
+    Listing.where(:user_id => self.id, :textbook_id => textbook_id).first
+  end
+
+  def offers_for_textbook(textbook_id)
+    Offer.where(:sender_id => self.id, :textbook_id => textbook_id) + Offer.where(:reciever_id => self.id, :textbook_id => textbook_id)
+  end
+
+  def active_offers_for_textbook(textbook_id)
+    Offer.where(:sender_id => self.id, :textbook_id => textbook_id, :status => 0) + Offer.where(:reciever_id => self.id, :textbook_id => textbook_id, :status => 0)
+  end
+
+  def active_offers_for_textbook_with_user(textbook, user1)
+    Offer.where(:sender_id => self.id, :reciever_id => user1, :textbook_id => textbook, :status => 0) + Offer.where(:sender_id => user1, :reciever_id => self.id, :textbook_id => textbook, :status => 0)
+  end
+
+  def new_offers
+    Offer.where(:reciever_id => self.id, :status => 0)
   end
 
   def notify(message)
