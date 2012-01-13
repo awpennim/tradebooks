@@ -1,6 +1,6 @@
 module ApplicationHelper
   def title
-    base_title = "Zoomass Textbooks"
+    base_title = "Trade Campus Books"
     if @title
       "#{base_title} | #{@title}" 
     else
