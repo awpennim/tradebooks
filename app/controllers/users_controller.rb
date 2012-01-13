@@ -75,9 +75,6 @@ class UsersController < ApplicationController
       sign_in_for_first_time(@user)
     else
       user = User.find_by_email(@user.email)
-      puts user.email
-      puts user.nil?
-      puts user.verified?
       if user.nil? == false && user.verified? == false
         user.destroy
 
