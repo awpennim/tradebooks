@@ -10,7 +10,15 @@ class OffersController < ApplicationController
   end
 
   def accept
-    redirect_to info_under_construction_path
+    @offer.make_deal!
+    @offer.update_status(9)
+    if @offer.selling?
+      @offer.sender.notify("Your offer to #{@offer.reciever.username} to buy #{@offer.textbook.title_short} for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
+      redirect_to recieved_offers_user_path(current_user), :notice => "Congratulations! You've accepted to sell #{@offer.sender.username} your copy of #{@offer.textbook.title_short} for #{@offer.price}"
+    else
+      @offer.sender.notify("Your offer to #{@offer.reciever.username} to sell your copy of #{@offer.textbook.title_short} for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
+      redirect_to recieved_offers_user_path(current_user), :notice => "Congratulations! You've accepted to buy #{@offer.sender.username}'s copy of #{@offer.textbook.title_short} for #{@offer.price}"
+    end
   end
 
   def reject
@@ -22,10 +30,10 @@ class OffersController < ApplicationController
   def cancel
     if @offer.selling?
       @offer.update_status(7)
-      redirect_to sent_offers_user_path(current_user), :notice => "You've cancelled your selling offer to #{@offer.reciever.username} for #{@offer.textbook.title_short}"
+      redirect_to params[:path], :notice => "You've cancelled your selling offer to #{@offer.reciever.username} for #{@offer.textbook.title_short}"
     else
       @offer.update_status(8)
-      redirect_to sent_offers_user_path(current_user), :notice => "You've cancelled your buying offer to #{@offer.reciever.username} for #{@offer.textbook.title_short}"
+      redirect_to params[:path], :notice => "You've cancelled your buying offer to #{@offer.reciever.username} for #{@offer.textbook.title_short}"
     end
   end
 

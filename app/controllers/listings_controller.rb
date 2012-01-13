@@ -14,11 +14,15 @@ class ListingsController < ApplicationController
   end
 
   def new_selling_offer
+    redirect_to textbook_listing_path(@textbook, @listing), :notice => "You've already sent #{@listing.poster.username} an offer for this book. You can check your offers sent by navigating to the 'Offers' page in the upper-left links then clicking 'View sent offers here'" if current_user.active_offers_for_textbook_with_user(@textbook.id, @listing.poster.id).first
+
     @title = "Sell #{@listing.poster.username} your copy of #{@textbook.title_short}"
     @offer = Offer.new
   end
 
   def new_buying_offer
+    redirect_to textbook_listing_path(@textbook, @listing), :notice => "You've already sent #{@listing.poster.username} an offer for this book. You can check your offers sent by navigating to the 'Offers' page in the upper-left links then clicking 'View sent offers here'" if current_user.active_offers_for_textbook_with_user(@textbook.id, @listing.poster.id).first 
+
     @title = "Buy #{@listing.poster.username}'s #{@textbook.title_short}"
     @offer = Offer.new
   end
@@ -28,6 +32,8 @@ class ListingsController < ApplicationController
       redirect_to root_path 
       return
     end
+
+    @offer = current_user.active_offers_for_textbook_with_user(@textbook.id, @listing.poster.id).first
 
     if @selling	
       @title = "#{@listing.poster.username}'s 'For Sale' Listing for: #{@listing.textbook.title}"

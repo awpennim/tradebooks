@@ -28,6 +28,14 @@ class Offer < ActiveRecord::Base
     STATUS_LIST[index]
   end
 
+  def active?
+    self.status == 0
+  end
+
+  def make_deal!
+    return true if deal_with_other_offers 
+  end
+
   private
 
     def check_textbook_id_and_reciever_id
@@ -36,16 +44,18 @@ class Offer < ActiveRecord::Base
     end
 
     def make_sure_no_duplicate_offers
-      self.sender.active_offers_for_textbook_with_user(self.textbook_id, self.reciever_id).each do |offer|
-	if self.reciever_id == offer.reciever_id
-          self.errors.add(:reciever_id, "You already sent #{User.find_by_id(reciever_id).username} an offer for this book. You can check your offers sent by navigating to the 'Offers' page in the upper-left links then clicking 'View sent offers here'")
-	  return false
-        elsif self.counter && self.reciever_id == offer.sender_id
-          offer.update_status(2)
-	  return true
-	else
-          self.errors.add(:reciever_id, "You must respond to #{offer.sender.username}'s offer for this textbook first!")
-	end
+      other_offer = self.sender.offers_for_textbook_with_user(self.textbook_id, self.reciever_id).first
+
+      return true if other_offer.active? == false
+
+      if self.reciever_id == other_offer.reciever_id
+        self.errors.add(:reciever_id, "You already sent #{self.reciever.username} an offer for this book. You can check your offers sent by navigating to the 'Offers' page in the upper-left links then clicking 'View sent offers here'. (note: once a user rejects (not counter offers) your offer for a particular book, you may only respond to their offers)")
+        return false
+      elsif self.counter && self.reciever_id == other_offer.sender_id
+        other_offer.update_status(2)
+        return true
+      else
+        self.errors.add(:reciever_id, "You must respond to #{self.reciever.username}'s offer for this textbook first!")
       end
     end
 

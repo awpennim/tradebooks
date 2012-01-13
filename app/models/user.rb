@@ -124,6 +124,10 @@ class User < ActiveRecord::Base
     Offer.where(:sender_id => self.id, :textbook_id => textbook_id, :status => 0) + Offer.where(:reciever_id => self.id, :textbook_id => textbook_id, :status => 0)
   end
 
+  def offers_for_textbook_with_user(textbook, user1)
+    Offer.where(:sender_id => self.id, :reciever_id => user1, :textbook_id => textbook) + Offer.where(:sender_id => user1, :reciever_id => self.id, :textbook_id => textbook)
+  end
+
   def active_offers_for_textbook_with_user(textbook, user1)
     Offer.where(:sender_id => self.id, :reciever_id => user1, :textbook_id => textbook, :status => 0) + Offer.where(:sender_id => user1, :reciever_id => self.id, :textbook_id => textbook, :status => 0)
   end
