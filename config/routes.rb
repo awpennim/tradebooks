@@ -1,5 +1,9 @@
 Zoomasstextbooks::Application.routes.draw do
 
+  get "help/buying_and_selling"
+
+  get "help/offers"
+
   resources :messages
 
   get "sessions/new"
