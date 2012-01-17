@@ -15,6 +15,7 @@ class InfoController < ApplicationController
 
   def faq
     @title = "Frequently Asked Questions"
+    @faqs = Faq.paginate(:page => params[:page], :per_page => 5, :order => 'created_at DESC')
   end
 
   def why_renew

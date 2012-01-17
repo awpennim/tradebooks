@@ -33,6 +33,8 @@ class User < ActiveRecord::Base
   has_many :sent_offers, :class_name => "Offer", :foreign_key => "sender_id", :order => 'created_at DESC', :dependent => :delete_all
   has_many :recieved_offers, :class_name => "Offer", :foreign_key => 'reciever_id', :order => 'created_at DESC', :dependent => :delete_all
 
+  has_many :faqs
+
   def self.LOCATIONS_LIST_ARRAY
     LOCATIONS_LIST
   end

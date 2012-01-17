@@ -8,6 +8,17 @@ Zoomasstextbooks::Application.routes.draw do
 
   get "sessions/new"
 
+  resources :admins, :only => [:index] do
+    member do
+      delete 'delete_faq'
+    end
+
+    collection do
+      get 'add_faq'
+      post 'add_faq' => 'admins#create_faq'
+    end
+  end
+
   resources :users, :only => [:new, :create, :destroy, :show, :index, :update] do
     member do
       get 'home'

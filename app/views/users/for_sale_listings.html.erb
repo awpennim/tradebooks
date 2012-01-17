@@ -32,7 +32,7 @@
 <% else %>
   <% if @user.id == current_user.id %>
     <p>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You haven't posted any <b>'For Sale'</b> listings. To start posting, find the ISBN (usually near the barcode) on the back cover of your book, then click the (<%= link_to 'Search', textbooks_search_path %>) link in the upper-right header. Once you search for your book you can then follow the 'Post your For Sale Listing!' so other people can send you offers to buy your book. After that, you can also check to see if anyone is 'Looking For' your book and send them offers.
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You haven't posted any <b>'For Sale'</b> listings. To start posting, find the ISBN (usually near the barcode) on the back cover of your book, then click the (<%= link_to 'Buy and Sell', textbooks_search_path %>) link in the upper-right header. Once you search for your book you can then follow the 'Post your For Sale Listing!' so other people can send you offers to buy your book. After that, you can also check to see if anyone is 'Looking For' your book and send them offers.
     </p>
   <% else %>
     <p class="bold bigger"><%= @user.username %> hasn't posted any 'For Sale' listings yet </p>

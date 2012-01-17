@@ -41,7 +41,11 @@ class Textbook < ActiveRecord::Base
   end
 
   def title_short
-    self.title[0..50]
+    if self.title.length > 50
+      self.title[0..47] + "..."   
+    else
+      self.title
+    end
   end
 
   private

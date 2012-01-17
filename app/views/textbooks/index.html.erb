@@ -1,3 +1,7 @@
+<%= will_paginate %>
+
+<br/>
+
 <table>
   <tr>
     <th>Isbn</th>
@@ -12,7 +16,7 @@
   <tr>
     <td><%= link_to textbook.isbn_dsp, textbook %></td>
     <td><%= textbook.author %></td>
-    <td><%= link_to textbook.title, textbook %></td>
+    <td><%= link_to textbook.title_short, textbook %></td>
     <td><%= link_to 'Delete', textbook, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
@@ -20,4 +24,4 @@
 
 <br />
 
-<%= link_to 'Search Textbooks', textbooks_search_path %>
+<%= will_paginate %>

@@ -5,11 +5,11 @@ class TextbooksController < ApplicationController
 
   def index
     @title = "Textbooks in Database"
-    @textbooks = Textbook.all
+    @textbooks = Textbook.paginate(:page => params[:page])
   end
 
   def show
-    @title = @textbook.title
+    @title = @textbook.title_short
 
     @looking_for_counter = @textbook.buy_listings.count
     @for_sale_counter = @textbook.sell_listings.count

@@ -1,0 +1,12 @@
+<% form_for(@faq, :url => add_faq_admins_path, :method => :post) do |f| %>
+  <%= render 'layouts/errors', :error => @faq, :header => "Couldn't post your FAQ" %>
+
+  <%= f.label :question, 'Question: ' %><br/>
+  <%= f.text_area :question, :cols => 40, :rows => 4 %><br/><br/>
+  <%= f.label :answer, 'Answer: ' %><br/>
+  <%= f.text_area :answer, :cols => 40, :rows => 10 %><br/><br/>
+
+  <div class="action">
+    <%= f.submit 'Post FAQ' %>
+  </div>
+<% end %>

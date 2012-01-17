@@ -1,3 +1,12 @@
-<div>
-  <p>To be written FAQs</p>
-</div>
+<%= will_paginate @faqs %>
+<br/>
+
+<% @faqs.each do |faq| %>
+  <div>
+    <b class="bigger">Q: <%= faq.question %></b> <br/><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= faq.answer %><br/>
+    <%= if logged_in? && current_user.admin? then link_to 'Delete', delete_faq_admin_path(faq.id), :confirm  => "Are you sure you'd like to remove this FAQ?", :method => :delete end %><br/><br/>
+  </div>
+<% end %>
+
+<%= will_paginate @faqs %>

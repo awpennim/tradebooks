@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   skip_before_filter :ensure_verified, :except => [:show, :for_sale_listings, :looking_for_listings ]
 
   def index
-    @users = User.all
+    @users = User.paginate(:page => params[:page])
     @title = "All Users"
   end
 
