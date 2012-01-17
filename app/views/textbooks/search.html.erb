@@ -1,1 +1,7 @@
+<% if logged_in? %>
+  <p class="bigger">
+    Search your textbooks you wish to list <b>'Looking For'</b> and <b>'For Sale'</b>
+  </p>
+<% end %>
+
 <%= render 'search_form', :textbook => @textbook %>
