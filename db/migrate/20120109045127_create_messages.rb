@@ -5,8 +5,7 @@ class CreateMessages < ActiveRecord::Migration
       t.integer :reciever_id
       t.boolean :read, :default => false
       t.string :subject, :default => "(no subject)"
-
-      t.string :text
+      t.text :text
 
       t.timestamps
     end
@@ -16,6 +15,5 @@ class CreateMessages < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :messages
   end
 end
