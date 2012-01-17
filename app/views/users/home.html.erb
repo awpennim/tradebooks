@@ -14,7 +14,7 @@
   <%= @user.email %>
 </p>
 
-<% if Rails.env == "development" %>
+<% if Rails.env == "development" && current_user.verified? == false %>
   <p>
     <%= link_to 'Verify Token Here!', verify_user_path(@user, :token => @user.verify_token) %>
   </p>

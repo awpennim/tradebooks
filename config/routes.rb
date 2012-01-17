@@ -13,6 +13,8 @@ Zoomasstextbooks::Application.routes.draw do
       get 'notifications'
       get 'for_sale_listings'
       get 'looking_for_listings'
+      get 'recieved_offers'
+      get 'sent_offers'
     end
 
     resources :messages, :only => [:destroy, :create, :new, :index, :show], :path_names => { :new => "compose" } do
@@ -32,6 +34,8 @@ Zoomasstextbooks::Application.routes.draw do
     resources :listings, :except => [:index, :new] do
       member do
         get 'renew'
+        get 'new_selling_offer'
+	get 'new_buying_offer'
       end
 
       collection do
@@ -42,9 +46,17 @@ Zoomasstextbooks::Application.routes.draw do
       end
     end
 
+    resources :offers, :only => [:show, :create ] do
+      member do
+        post 'accept'
+	delete 'reject'
+	get 'counter'
+	delete 'cancel'
+      end
+    end
   end
 
-  resources :sessions, :only => [:new, :create, :destroy]
+  resources :sessions, :only => [:new, :create, :destroy], :path_names => {:create => 'signin'}
   match '/signout', :to => 'sessions#destroy'
   match '/signin', :to => 'sessions#new'
 
@@ -52,6 +64,7 @@ Zoomasstextbooks::Application.routes.draw do
   match "/contact", :to => "info#contact"
   match "/about", :to => "info#about"
   match "/faq", :to => "info#faq"
+  match "/privacy_policy", :to => "info#privacy_policy"
   get "info/why_renew"
   get "info/under_construction"
 

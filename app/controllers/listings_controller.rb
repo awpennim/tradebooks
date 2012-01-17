@@ -1,6 +1,6 @@
 class ListingsController < ApplicationController
-  before_filter :set_textbook
   before_filter :set_listing, :except => [:for_sale, :looking_for, :post_for_sale, :post_looking_for, :create]
+  before_filter :set_textbook
   before_filter :authenticate, :except => [:for_sale, :looking_for]
 
   def for_sale
@@ -13,11 +13,27 @@ class ListingsController < ApplicationController
     @listings = @textbook.buy_listings.paginate(:page => params[:page])
   end
 
+  def new_selling_offer
+    redirect_to textbook_listing_path(@textbook, @listing), :notice => "You've already sent #{@listing.poster.username} an offer for this book. You can check your offers sent by navigating to the 'Offers' page in the upper-left links then clicking 'View sent offers here'" if current_user.active_offers_for_textbook_with_user(@textbook.id, @listing.poster.id).first
+
+    @title = "Sell #{@listing.poster.username} your copy of #{@textbook.title_short}"
+    @offer = Offer.new
+  end
+
+  def new_buying_offer
+    redirect_to textbook_listing_path(@textbook, @listing), :notice => "You've already sent #{@listing.poster.username} an offer for this book. You can check your offers sent by navigating to the 'Offers' page in the upper-left links then clicking 'View sent offers here'" if current_user.active_offers_for_textbook_with_user(@textbook.id, @listing.poster.id).first 
+
+    @title = "Buy #{@listing.poster.username}'s #{@textbook.title_short}"
+    @offer = Offer.new
+  end
+
   def show
     if @listing.nil?
       redirect_to root_path 
       return
     end
+
+    @offer = current_user.active_offers_for_textbook_with_user(@textbook.id, @listing.poster.id).first
 
     if @selling	
       @title = "#{@listing.poster.username}'s 'For Sale' Listing for: #{@listing.textbook.title}"
@@ -89,12 +105,12 @@ class ListingsController < ApplicationController
 
   private
 
-    def set_textbook
-      @textbook = Textbook.find_by_id(params[:textbook_id])
-    end
-
     def set_listing
       @listing = Listing.find_by_id(params[:id])
       @selling = @listing.selling?
+    end
+
+    def set_textbook
+      @textbook = Textbook.find_by_id(params[:textbook_id])
     end
 end

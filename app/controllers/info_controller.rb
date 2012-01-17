@@ -21,6 +21,10 @@ class InfoController < ApplicationController
     @title = "Why Renew?"
   end
 
+  def privacy_policy
+    @title = "Privacy Policy"
+  end
+
   def under_construction
     @title = "Under Construction Page"
   end

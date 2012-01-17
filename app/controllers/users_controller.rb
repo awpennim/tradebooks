@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :only => [:edit, :update, :show, :home, :verify, :notifications, :looking_for_listings, :for_sale_listings]
-  before_filter :correct_user, :only => [:edit, :update, :home, :verify, :notifications ]
+  before_filter :authenticate, :only => [:edit, :update, :show, :home, :verify, :notifications, :looking_for_listings, :for_sale_listings, :recieved_offers, :sent_offers]
+  before_filter :correct_user, :only => [:edit, :update, :home, :verify, :notifications, :recieved_offers, :sent_offers ]
   before_filter :approved_user, :only => [:destroy ]
   before_filter :authenticate_admin, :only => [:index]
   before_filter :not_logged_in, :only => [:new, :create]
 
-  skip_before_filter :ensure_verified, :except => [:show ]
+  skip_before_filter :ensure_verified, :except => [:show, :for_sale_listings, :looking_for_listings ]
 
   def index
     @users = User.all
@@ -99,9 +99,19 @@ class UsersController < ApplicationController
     else
       @user.current_password = ""
       @user.password = ""
-      @user.password_confirmation = ""
+     @user.password_confirmation = ""
       render :settings
     end
+  end
+
+  def recieved_offers
+    @title = "Offers"
+    @offers = current_user.recieved_offers.paginate(:page => params[:page])
+  end
+
+  def sent_offers
+    @title = "Sent Offers"
+    @offers = current_user.sent_offers.paginate(:page => params[:page])
   end
 
   def destroy

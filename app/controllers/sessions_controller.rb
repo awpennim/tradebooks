@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
       @title = "Login"
       @error = true  
      
-      render 'new'
+      render :new
     end
   end
 

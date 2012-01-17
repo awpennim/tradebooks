@@ -4,7 +4,7 @@ class Listing < ActiveRecord::Base
   belongs_to :poster, :class_name => "User", :foreign_key => 'user_id'
   belongs_to :textbook
 
-  validates :price, :numericality => {:greater_than => 0.0, :less_than => 300.0, :message => "You must enter a number between 0 and 300"}
+  validates :price, :numericality => {:greater_than => 0.0, :less_than => 300.0, :message => "You must enter a price between $300 and $0 (exclusive)"}
   validates :user_id, :presence => {:message => "You must be signed in!"},
                       :uniqueness => {:scope => [:textbook_id ], :message => "You are only allowed one listing per book. However, you may edit your book or click 'renew' (accessing it through 'Listings' or 'Looking For' in the upper left header) to move it to the top of the list."}
   validates :textbook_id, :presence => {:message => "Database error!"}

@@ -1,0 +1,9 @@
+<% if @offers.size > 0 %>
+  <%= will_paginate @offers %>
+
+  <% @offers.each do |offer| %>
+    <%= render 'users/sent_offer', :offer => offer %>
+  <% end %>
+
+  <%= will_paginate @offers %>
+<% end %>

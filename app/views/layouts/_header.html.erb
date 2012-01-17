@@ -5,6 +5,7 @@
       <%= raw display_link(current_user.new_messages, :message) %>
       <%= link_to "'For Sale'", for_sale_listings_user_path(current_user) %>
       <%= link_to "'Looking For'", looking_for_listings_user_path(current_user) %>
+      <%= raw display_link(current_user.new_offers, :offer) %>
     </ul>
   <% end %>
 

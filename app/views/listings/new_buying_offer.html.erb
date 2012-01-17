@@ -1,0 +1,41 @@
+<%= link_to "Back to #{@listing.poster.username}'s listing for #{@textbook.title_short}" %><br/><br/>
+
+<% form_for(@offer, :url => textbook_offers_path(@textbook)) do |f| %>
+  <%= render 'layouts/errors', :error => @offer, :header => "We couldn't submit your offer" %>
+
+  <%= f.hidden_field :selling, :value => false %>
+  <%= f.hidden_field :reciever_id, :value => @listing.poster.id %>
+  <%= f.hidden_field :textbook_id, :value => @textbook.id%>
+  <%= f.hidden_field :listing_id, :value => @listing.id %>
+
+  <div class="bigger">
+    <b><%= @listing.poster.username %>'s Asking Price:</b> <%= number_to_currency(@listing.price) %>
+  </div><br/>
+
+  <div>
+    <b>Item Location:</b> <%= @listing.poster.location_str %>
+  </div><br />
+
+  <% if true == false #@listing.description %>
+    <div>
+      Description: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @listing.description %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :price, 'Offer Amount (between $299.99 and $0.01) :' %><br/><br/>
+    $<%= f.text_field :price, :maxlength => 6 %>
+  </div><br/>
+
+  <div>
+    <%= f.label :message, 'Message (optional)' %><br/>
+    <%= f.text_area :message, :cols => 40, :rows => 4 %>
+  </div>
+
+  <div class="action">
+    <%= f.submit 'Submit Buy Offer!', :onclick => "return confirm('This is a binding offer. You MUST BUY this item if the offer is accepted.')" %>
+  </div>
+<% end %>
+
+<br/>
+<%= link_to "Back to #{@listing.poster.username}'s listing for #{@textbook.title_short}" %>

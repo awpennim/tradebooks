@@ -13,12 +13,14 @@
   <p><span class="new_link"><%= link_to "Renew your listing!", renew_textbook_listing_path(@textbook, @listing) %></span> | <%= link_to "Why?", info_why_renew_path %></p>
   <p class="new_link"><%= link_to "Edit your listing", edit_textbook_listing_path(@textbook, @listing) %></p>
   <p class="new_link"><%= link_to "Remove your listing", textbook_listing_path(@textbook, @listing), :confirm => "Are you sure you'd like to remove this listing? This will permantly remove all offers affiliated with this listing.", :method => :delete %></p>
+<% elsif @offer %>
+    <p><%= render 'users/sent_offer', :offer => @offer, :url => textbook_listing_path(@textbook, @listing) %></p>
 <% else %>
     <p><%= link_to "Send #{@listing.poster.username} a message", new_user_message_path(current_user, :to => @listing.poster.username) %></p>
   <% if @selling %>
-    <p class="double new_link"><%= link_to "Send #{@listing.poster.username} an Offer for this Book!", info_under_construction_path %></p>
+    <p class="double new_link"><%= link_to "Send #{@listing.poster.username} an Offer for this Book!", new_buying_offer_textbook_listing_path(@textbook, @listing) %></p>
   <% else %>
-    <p class="double new_link"><%= link_to "Send #{@listing.poster.username} an Offer to Sell your Book!", info_under_construction_path %></p>
+    <p class="double new_link"><%= link_to "Send #{@listing.poster.username} an Offer to Sell your Book!", new_selling_offer_textbook_listing_path(@textbook, @listing) %></p>
   <% end %>
 <% end %>
 
