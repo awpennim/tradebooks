@@ -30,5 +30,11 @@
 
   <p><%= link_to "Back to #{@user.username}", @user %></p>
 <% else %>
-  <p class="bold bigger"><%= @user.username %> hasn't posted any 'Looking For' listings yet </p>
+  <% if @user.id == current_user.id %>
+    <p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You haven't posted any <b>'Looking For'</b> listings. To start posting, find out the ISBN for each book you are looking for, then click the (<%= link_to 'Search', textbooks_search_path %>) link in the upper-right header to see if anyone is selling theirs. Once you've chosen who you'd like to send offers to and sent them, follow the 'Post your Looking For Listing!' link to let other people know you are looking for that book.
+    </p>
+  <% else %>
+    <p class="bold bigger"><%= @user.username %> hasn't posted any 'Looking For' listings yet </p>
+  <% end %>
 <% end %>
