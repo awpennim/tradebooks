@@ -2,4 +2,4 @@
 
 <br />
 
-<%= link_to "Back to #{@user.username}", @user if @user %>
+<%= link_to "Back to your Inbox", inbox_user_messages_path(current_user) %>

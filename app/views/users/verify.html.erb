@@ -1,8 +1,18 @@
+<p>
+  If you haven't already checked, we sent a verification link to <b><%= current_user.email %></b>. You may either click the link in the email <b>or</b> copy and paste the 'Verification Token' into the text field. If you want us to send you another verification token, <%= link_to 'click here', new_verification_token_user_path(current_user), :method => :post  %>
+</p>
+<p>
+  If <b><%= current_user.email %></b> is the wrong email address, signout, then create a new account using the correct one.
+</p>
+<p>
+  The verification process is necessary to ensure that all users are UMass Amherst students with a valid email address.
+</p>
+
 <div class="verify_form">
   <%= form_tag post_verify_user_path(@user) do %>
 
     <div class="verify">
-      <%= label_tag 'Verification Token' %><br/>
+      <%= label_tag :token, 'Verification Token: ' %>&nbsp;&nbsp;&nbsp;
       <%= text_field_tag :token, params[:token], :maxlength => 30 %>
     </div>
     <br/>

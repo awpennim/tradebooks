@@ -19,6 +19,7 @@ Zoomasstextbooks::Application.routes.draw do
       get 'looking_for_listings'
       get 'recieved_offers'
       get 'sent_offers'
+      post 'new_verification_token'
     end
 
     resources :messages, :only => [:destroy, :create, :new, :index, :show], :path_names => { :new => "compose" } do

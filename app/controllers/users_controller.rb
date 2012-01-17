@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate, :only => [:edit, :update, :show, :home, :verify, :notifications, :looking_for_listings, :for_sale_listings, :recieved_offers, :sent_offers]
-  before_filter :correct_user, :only => [:edit, :update, :home, :verify, :notifications, :recieved_offers, :sent_offers ]
+  before_filter :correct_user, :only => [:edit, :update, :home, :verify, :new_verification_token , :notifications, :recieved_offers, :sent_offers ]
   before_filter :approved_user, :only => [:destroy ]
   before_filter :authenticate_admin, :only => [:index]
   before_filter :not_logged_in, :only => [:new, :create]
@@ -56,14 +56,26 @@ class UsersController < ApplicationController
     @title = "Account Verification"
   end
 
+  def new_verification_token
+    @user = User.find(params[:id])
+
+    @user.make_verify_token
+
+    redirect_to verify_user_path(@user), :notice => "New verification token created and emailed to #{@user.email}"
+  end
+
   def post_verify
     token = params[:token]
     @user = current_user
 
-    if @user.verify! token
+    if @user.verified? == false && @user.verify!(token)
       @user.notify("Your account has been verified. You may now buy and sell books.")
       redirect_to home_user_path(@user), :notice => "Your account has been verified!"
     else
+      if @user.verified?
+        redirect_to home_user_path(@user), :notice => 'Your account has already been verified'
+	return
+      end
       redirect_to verify_user_path(@user), :notice => "Token didn't match our records"
     end
   end

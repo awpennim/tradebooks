@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   attr_accessor :password, :password_confirmation, :current_password
   attr_accessible :email, :password, :password_confirmation, :current_password, :location, :username
+  attr_reader :verified
 
   EMAIL_REGEX = /\A[\w+\-.]+@student\.umass\.edu/i
 
@@ -96,10 +97,6 @@ class User < ActiveRecord::Base
     end
 
     return true
-  end
-
-  def verified?
-    self.verified
   end
 
   def make_verify_token
