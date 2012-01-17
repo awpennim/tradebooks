@@ -1,36 +1,10 @@
-<p>You can view your sent offers <%= link_to 'here', sent_offers_user_path(current_user) %></p>
+<%= link_to 'View your Offers Sent', sent_offers_user_path(current_user) %>
 
 <% if @offers.size > 0 %>
   <%= will_paginate @offers %>
 
   <% @offers.each do |offer| %>
-    <div class="notification_or_message <%= if offer.status == 0 then "white" end %>">
-      <p class="date small_text"><%= if offer.message.nil? == false then raw "#{link_to 'Flag Message as Offensive', info_under_construction_path} |" end %> <%= time_ago_in_words(offer.created_at) %> ago</p>
-      <div>
-        <p><span class="bigger"><%= if offer.selling? then "To Sell: " else "To Buy" end %> </span> <%= link_to offer.textbook.title_short, textbook_path(offer.textbook) %></p>
-	<p class="bold">
-	  Price: <%= number_to_currency(offer.price) %>
-
-	  <% if offer.status == 0 %>
-	    <span class="float_right">
-              <%= link_to 'Accept!', accept_textbook_offer_path(offer.textbook, offer), :method => :post %> &nbsp; | &nbsp; <%= link_to 'Send Counter Offer', counter_textbook_offer_path(offer.textbook, offer) %> &nbsp; | &nbsp; <%= link_to 'Reject', reject_textbook_offer_path(offer.textbook, offer), :method => :delete %>
-            </span>
-	  <% end %>
-
-	  <% if listing = current_user.listing_from_textbook(offer.textbook.id) %>
-            <br/>
-
-	    Your asking price in your <%= link_to 'listing', textbook_listing_path(offer.textbook, listing) %> for this book is: <%= number_to_currency(offer.price) %>
-	  <% end %>
-        </p>
-
-            
-      <% if offer.message %>
-        <br />Message: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= offer.message %>
-      <% end %>
-
-      </div>
-    </div>
+    <%= render 'users/recieved_offer', :offer => offer %>
   <% end %>
 
   <%= will_paginate @offers %>

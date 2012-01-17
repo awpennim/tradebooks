@@ -35,12 +35,14 @@ class UsersController < ApplicationController
   def for_sale_listings
     @user = User.find_by_id(params[:id])
     @title = "#{@user.username}'s 'For Sale' listings"
+    @title = "Your 'For Sale' listings" if @user.id == current_user.id
     @listings = @user.sell_listings.paginate(:page => params[:page])
   end
 
   def looking_for_listings
     @user = User.find_by_id(params[:id])
     @title = "#{@user.username}'s 'Looking For' listings"
+    @title = "Your 'Looking For' listings" if @user.id == current_user.id
     @listings = @user.buy_listings.paginate(:page => params[:page])
   end
 
@@ -75,9 +77,6 @@ class UsersController < ApplicationController
       sign_in_for_first_time(@user)
     else
       user = User.find_by_email(@user.email)
-      puts user.email
-      puts user.nil?
-      puts user.verified?
       if user.nil? == false && user.verified? == false
         user.destroy
 

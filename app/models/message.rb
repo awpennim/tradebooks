@@ -7,8 +7,8 @@ class Message < ActiveRecord::Base
 
   validates :sender_id, :presence => true
   validates :reciever_id, :presence => true
-  validates :text, :presence => true,
-                   :length => {:maximum => 800, :message => "Maximum length for messages is 800"}
+  validates :text, :presence => {:message => "Your message is blank!"},
+                   :length => {:maximum => 1000, :message => "Maximum length for messages is 1000 characters"}
 
   before_validation :check_users_existance
 

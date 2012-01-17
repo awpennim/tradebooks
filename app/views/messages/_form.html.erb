@@ -11,9 +11,12 @@
   <% end %>
 
   <div>
-    <%= f.label 'Message (limit 500 characters)' %><br />
+    <%= f.label 'Message (limit 1000 characters)' %><br />
     <%= f.text_area :text, :cols => 50, :rows => 10 %>
   </div> <br />
+  <div>
+    <%= raw get_captcha(:options => {:theme => 'white', :tabindex => 10}) %><br/>
+  </div>
   <div class="actions">
     <%= f.submit 'Send' %>
   </div>

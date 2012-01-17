@@ -11,7 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120112201233) do
+ActiveRecord::Schema.define(:version => 20120116232355) do
+
+  create_table "deals", :force => true do |t|
+    t.integer  "buyer_id"
+    t.integer  "seller_id"
+    t.integer  "seller_status", :default => 0
+    t.integer  "buyer_status",  :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "deals", ["buyer_id"], :name => "index_deals_on_buyer_id"
+  add_index "deals", ["seller_id"], :name => "index_deals_on_seller_id"
 
   create_table "listings", :force => true do |t|
     t.boolean  "selling",                                   :default => false
@@ -26,11 +38,11 @@ ActiveRecord::Schema.define(:version => 20120112201233) do
   add_index "listings", ["user_id", "textbook_id"], :name => "index_listings_on_user_id_and_textbook_id", :unique => true
 
   create_table "messages", :force => true do |t|
-    t.string   "text"
+    t.text     "text",        :limit => 255
     t.integer  "sender_id"
     t.integer  "reciever_id"
-    t.boolean  "read",        :default => false
-    t.string   "subject",     :default => "(no subject)"
+    t.boolean  "read",                       :default => false
+    t.string   "subject",                    :default => "(no subject)"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -90,8 +102,10 @@ ActiveRecord::Schema.define(:version => 20120112201233) do
     t.datetime "updated_at"
     t.string   "forgot_password_token"
     t.integer  "location",              :default => 0
+    t.string   "username"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
 end

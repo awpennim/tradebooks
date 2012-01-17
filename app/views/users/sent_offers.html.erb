@@ -2,7 +2,7 @@
   <%= will_paginate @offers %>
 
   <% @offers.each do |offer| %>
-    <%= render 'users/sent_offer', :offer => offer %>
+    <%= render 'users/sent_offer', :offer => offer, :listing => offer.listing %>
   <% end %>
 
   <%= will_paginate @offers %>

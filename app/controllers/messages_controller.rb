@@ -32,7 +32,7 @@ class MessagesController < ApplicationController
   def create
     @message = current_user.sent_messages.build(params[:message])
 
-    if @message.save
+    if validate_recap(params, @message.errors, :msg => "You typed the authentication words incorrectly") && @message.save
       redirect_to(outbox_user_messages_path(current_user), :notice => "Your message has been sent")
     else
       render :action => "new"

@@ -1,4 +1,4 @@
-<p><%= link_to "Back to #{@user.username}", @user %></p>
+<p><%= link_to "Back to #{ @user.username }", @user %></p>
 
 <% if @listings.size > 0 %>
   <%= will_paginate @listings %>
@@ -8,6 +8,7 @@
       <td>Listing ID</td>
       <td>Book Title</td>
       <td>Asking Price</td>
+      <%= if @user.id != current_user.id then raw "<td>Offer sent?</td>" end %>
       <td>Last renewed</td>
     </tr>
     <br />
@@ -17,6 +18,7 @@
         <td><%= link_to listing.id_long, textbook_listing_path(listing.textbook, listing) %></td>
 	<td><%= link_to listing.textbook.title_short, textbook_path(listing.textbook) %></td>
         <td><%= number_to_currency(listing.price) %></td>
+        <% if @user.id != current_user.id %><td><%= if current_user.active_offer_sent_to_user_for_textbook(@user.id, listing.textbook) then number_to_currency(current_user.active_offer_sent_to_user_for_textbook(@user.id, listing.textbook).price) else "(none)" end %></td><% end %>
         <td><%= time_ago_in_words(listing.updated_at) %> ago</td>
       </tr>
     <% end %>

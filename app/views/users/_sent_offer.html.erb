@@ -1,18 +1,18 @@
-<div class="notification_or_message <%= if offer.status == 0 then "white" end %>">
-  <span class="date small_text right"><%= if offer.status == 0 then raw "#{link_to 'Cancel Offer', cancel_textbook_offer_path(offer.textbook, offer, :path => request.path), :method => :delete, :confirm => 'Are you sure you\'d like to cancel this offer?'} | " end %><%= time_ago_in_words(offer.created_at) %> ago</span>
-  <span class="bigger bold"><%= if offer.selling? then "SELL" else "BUY" end %></span><br/>
+<div class="notification_or_message <%= if offer.status == 0 || offer.status == 9 then "white" end %>">
+  <span class="date small_text right"><% if offer.status == 0 %><%= link_to 'Cancel Offer', cancel_textbook_offer_path(offer.textbook, offer, :path => request.path), :method => :delete, :confirm => 'Are you sure you\'d like to cancel this offer?' %> | Offer expires in (<%= time_ago_in_words(offer.created_at - 24.hours, include_seconds = true) %>) | <% end %> sent <%= time_ago_in_words(offer.created_at) %> ago</span>
+  <span class="bigger bold"><%= if offer.selling? then "Sent Offer To Sell to #{offer.reciever.username}" else "Sent Offer To Buy from #{offer.reciever.username}" end %></span><br/>
   <span><%= link_to offer.textbook.title, textbook_path(offer.textbook) %></span>
   <p>
     <span class="float_right">Offer to: <%= link_to offer.reciever.username, offer.reciever %></span><br/><br/>
     <span class="float_right"><%= offer.reciever.username %>'s Location: <b><%= User.location_from_index offer.reciever.location %></span></b>
 
-    <span class="little_bigger">Price: <b><%= number_to_currency offer.price %></b></span><br/>
+    <span class="little_bigger">Price: <b><%= if offer.active? then number_to_currency offer.price else "(listing removed)" end %></b></span><br/>
 
     <span class="little_bigger">Status: <b><%= Offer.status_from_index offer.status %></b></span>
 
   </p>
 
   <% if offer.message %>
-    <br />Message: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= offer.message %><br/><br/>
+    <br /><b>Message:</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= offer.message %><br/><br/>
   <% end %>
 </div>

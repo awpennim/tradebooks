@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include ReCaptcha::ViewHelper
+
   def title
     base_title = "Zoomass Textbooks"
     if @title

@@ -7,11 +7,16 @@
 <p>
   <b>Username:</b>
   <%= @user.username %>
+  | <%= link_to '(settings)', settings_user_path(current_user) %>
 </p>
 
 <p>
   <b>Email:</b>
   <%= @user.email %>
+</p>
+
+<p>
+  <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start buying and selling books! Search for your books by clicking on the 'Search' link in the upper right header. You can list books you need in 'Looking For' and books you're trying to sell in 'For Sale'</b>
 </p>
 
 <% if Rails.env == "development" && current_user.verified? == false %>

@@ -9,6 +9,7 @@
       <td>User</td>
       <td>Location</td>
       <td>Asking Price</td>
+      <td>Offer sent?</td>
       <td>Last renewed</td>
     </tr>
     <br />
@@ -25,6 +26,7 @@
 	  <% end %>
 	</td>
         <td><%= number_to_currency(listing.price) %></td>
+	<td><%= if logged_in? && current_user.active_offer_sent_to_user_for_textbook(listing.poster.id, @textbook.id) then raw "<b> #{ number_to_currency(current_user.active_offer_sent_to_user_for_textbook(listing.poster.id, @textbook.id).price) } </b>" else raw "(none)" end %></td>
         <td><%= time_ago_in_words(listing.updated_at) %> ago</td>
       </tr>
     <% end %>

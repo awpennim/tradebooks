@@ -7,3 +7,5 @@ Legal:
   UMass colors
   Copyright?
   Company name
+
+change messages text to text instead of string
