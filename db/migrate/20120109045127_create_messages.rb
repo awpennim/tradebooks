@@ -5,7 +5,7 @@ class CreateMessages < ActiveRecord::Migration
       t.integer :reciever_id
       t.boolean :read, :default => false
       t.string :subject, :default => "(no subject)"
-      t.text :text, :limit => nil
+      t.string :text
 
       t.timestamps
     end
