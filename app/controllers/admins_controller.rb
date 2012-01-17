@@ -11,7 +11,7 @@ class AdminsController < ApplicationController
     @faq = current_user.faqs.build(params[:faq])
 
     if @faq.save
-      redirect_to faq_path, :notice => "FAQ #{@faq.question} has been added"
+      redirect_to faq_path, :notice => "FAQ '#{@faq.question}' has been added."
     else
       @title = "Post FAQ"
       render :add_faq

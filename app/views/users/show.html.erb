@@ -36,7 +36,3 @@
 <p>
   <%= link_to "Send #{@user.username} a Message", new_user_message_path(current_user, :to => @user.username) %>
 </p>
-
-<% if current_user.admin? %>
-  <%= link_to 'View All Users', users_path %>
-<% end %>
