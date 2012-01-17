@@ -1,11 +1,11 @@
 class CreateMessages < ActiveRecord::Migration
   def self.up
     create_table :messages do |t|
-      t.text :words
       t.integer :sender_id
       t.integer :reciever_id
       t.boolean :read, :default => false
       t.string :subject, :default => "(no subject)"
+      t.text :text
 
       t.timestamps
     end
