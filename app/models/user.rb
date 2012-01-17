@@ -29,8 +29,8 @@ class User < ActiveRecord::Base
   has_many :sell_listings, :class_name => "Listing", :foreign_key => "user_id", :dependent => :delete_all, :order => 'created_at DESC', :conditions => { :selling => true }
   has_many :buy_listings, :class_name => "Listing", :foreign_key => "user_id", :dependent => :delete_all, :order => 'created_at DESC', :conditions => { :selling => false }
 
-  has_many :sent_offers, :class_name => "Offer", :foreign_key => "sender_id", :order => 'created_at DESC'
-  has_many :recieved_offers, :class_name => "Offer", :foreign_key => 'reciever_id', :order => 'created_at DESC'
+  has_many :sent_offers, :class_name => "Offer", :foreign_key => "sender_id", :order => 'created_at DESC', :dependent => :delete_all
+  has_many :recieved_offers, :class_name => "Offer", :foreign_key => 'reciever_id', :order => 'created_at DESC', :dependent => :delete_all
 
   def self.LOCATIONS_LIST_ARRAY
     LOCATIONS_LIST
