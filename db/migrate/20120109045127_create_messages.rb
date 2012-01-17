@@ -1,7 +1,7 @@
 class CreateMessages < ActiveRecord::Migration
   def self.up
     create_table :messages do |t|
-      t.text :text
+      t.text :words
       t.integer :sender_id
       t.integer :reciever_id
       t.boolean :read, :default => false
