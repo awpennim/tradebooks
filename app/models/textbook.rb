@@ -41,7 +41,7 @@ class Textbook < ActiveRecord::Base
   end
 
   def title_short
-    self.title[0..20]
+    self.title[0..50]
   end
 
   private

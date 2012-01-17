@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include ReCaptcha::ViewHelper
+
   def title
     base_title = "Trade Campus Books"
     if @title

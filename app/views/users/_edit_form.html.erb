@@ -19,6 +19,10 @@
       <%= f.label :location, 'Living Location' %>
       <%= f.select :location, options_for_select(User.LOCATIONS_LIST_ARRAY, user.location_str) %>
     </div>
+    <div class="settings">
+      <%= f.label :username, 'Username' %>
+      <%= f.text_field :username, :value => current_user.username %>
+    </div>
     <div class="actions">
       <%= f.submit "Update Profile" %>
     </div>

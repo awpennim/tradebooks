@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   attr_accessor :password, :password_confirmation, :current_password
-  attr_accessible :email, :password, :password_confirmation, :current_password, :location
+  attr_accessible :email, :password, :password_confirmation, :current_password, :location, :username
 
   EMAIL_REGEX = /\A[\w+\-.]+@student\.umass\.edu/i
 
@@ -14,8 +14,11 @@ class User < ActiveRecord::Base
 		       :length => {:within => 6..30, :message => "Your password must be between 6 and 30 characters"}
   validates :location, :presence => {:message => "You must select a Living Location"},
                        :numericality => {:maximum => 46, :minimum => 0}
+  validates :username, :presence => {:message => "You left the username field blank!"},
+                       :uniqueness => {:case_sensitive => false, :message => "That username is already taken"},
+                       :length => {:is => 8, :message => "Usernames must be 8 characters long"}
 
-  before_validation :fill_passwords_fields_if_empty
+  before_validation :fill_passwords_and_username_fields_if_empty
   before_validation :encrypt_password
   after_create :make_verify_token
 
@@ -86,10 +89,6 @@ class User < ActiveRecord::Base
     return user if user.has_password?(password)
   end
 
-  def username
-    email[0..(email.index("@") - 1)]
-  end
-
   def verify!(value)
     return false if value.nil?
     if value.to_s == self.verify_token
@@ -104,32 +103,34 @@ class User < ActiveRecord::Base
   end
 
   def make_verify_token
-    User.update_all({:verify_token => Digest::SHA1.hexdigest("--#{Time.now.to_s}--")[0,20]}, :id => self.id)
+    User.update_all({:verify_token => Digest::SHA1.hexdigest("--#{Time.now.to_s}--")[0,30]}, :id => self.id)
     self.verify_token
   end
 
-  def get_token
-    self.verify_token
+  def make_random_username!
+    new_username = Digest::SHA1.hexdigest("--#{(Time.now + 2.hours).to_s}--")[0,8]
+
+    while User.find_by_username(new_username)
+      new_username = Digest::SHA1.hexdigest("--#{(Time.now + 2.hours).to_s}--")[0,8]
+    end
+
+    self.username = new_username
   end
 
   def listing_from_textbook(textbook_id)
     Listing.where(:user_id => self.id, :textbook_id => textbook_id).order('created_at DESC').limit(1).first
   end
 
-  def offers_for_textbook(textbook_id)
-    Offer.where(:sender_id => self.id, :textbook_id => textbook_id) + Offer.where(:reciever_id => self.id, :textbook_id => textbook_id)
-  end
-
   def active_offers_for_textbook(textbook_id)
     Offer.where(:sender_id => self.id, :textbook_id => textbook_id, :status => 0) + Offer.where(:reciever_id => self.id, :textbook_id => textbook_id, :status => 0)
   end
 
-  def offers_for_textbook_with_user(textbook, user1)
-    Offer.where(:sender_id => self.id, :reciever_id => user1, :textbook_id => textbook) + Offer.where(:sender_id => user1, :reciever_id => self.id, :textbook_id => textbook)
+  def active_offer_sent_to_user_for_textbook(user_id, textbook_id)
+    Offer.where(:sender_id => self.id, :textbook_id => textbook_id, :status => 0, :reciever_id => user_id).first
   end
 
-  def active_offers_for_textbook_with_user(textbook, user1)
-    Offer.where(:sender_id => self.id, :reciever_id => user1, :textbook_id => textbook, :status => 0) + Offer.where(:sender_id => user1, :reciever_id => self.id, :textbook_id => textbook, :status => 0)
+  def active_offer_between_user_for_textbook(user1, textbook)
+    Offer.where("(sender_id = ? AND reciever_id = ? ) OR (sender_id = ? AND reciever_id = ?)", self.id, user1, user1, self.id).where(:textbook_id => textbook, :status => 0).first
   end
 
   def new_offers
@@ -142,10 +143,6 @@ class User < ActiveRecord::Base
 
   def admin?
     self.admin == true
-  end
-
-  def self.find_by_username(username)
-    find_by_email(username.to_s + "@student.umass.edu")
   end
 
   private
@@ -162,7 +159,7 @@ class User < ActiveRecord::Base
       return true
     end
 
-    def fill_passwords_fields_if_empty
+    def fill_passwords_and_username_fields_if_empty
       if old_record? && current_password.blank?
         self.errors.add(:password, "You must enter your current password to update your settings")
 	return false
@@ -171,6 +168,14 @@ class User < ActiveRecord::Base
       if old_record? && self.password.blank?
         self.password = current_password
 	self.password_confirmation = current_password
+      end
+
+      if new_record?
+        make_random_username!
+      end
+
+      if old_record? && self.username.blank?
+        self.errors.add(:username, "Usernames can't be blank!")
       end
     end
 
@@ -181,7 +186,7 @@ class User < ActiveRecord::Base
         self.errors.add(:current_password, "The current password you enterered does not match our records")
 	return false
       end
-
+    
       self.salt = make_salt
       self.encrypted_password = encrypt(password)
     end

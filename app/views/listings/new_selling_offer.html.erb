@@ -1,19 +1,24 @@
-<%= link_to "Back to #{@listing.poster.username}'s listing for #{@textbook.title_short}" %><br/><br/>
+<%= link_to "Back to #{@other_user.username}'s listing for #{@textbook.title_short}", textbook_listing_path(@textbook, @listing) %><br/><br/>
 
 <% form_for(@offer, :url => textbook_offers_path(@textbook)) do |f| %>
   <%= render 'layouts/errors', :error => @offer, :header => "We couldn't submit your offer" %>
 
   <%= f.hidden_field :selling, :value => true %>
-  <%= f.hidden_field :reciever_id, :value => @listing.poster.id %>
+  <%= f.hidden_field :reciever_id, :value => @other_user.id %>
   <%= f.hidden_field :textbook_id, :value => @textbook.id%>
   <%= f.hidden_field :listing_id, :value => @listing.id %>
 
   <div class="bigger">
-    <b><%= @listing.poster.username %>'s Asking Price:</b> <%= number_to_currency(@listing.price) %>
+    <% if @counter_price %>
+      <b>Your Asking Price:</b> <%= number_to_currency(@listing.price) %><br/><br/>
+      <b><%= @other_user.username %>'s Offer Price: </b> <%= number_to_currency @counter_price %>
+    <% else %>
+      <b><%= @other_user.username %>'s Asking Price:</b> <%= number_to_currency(@listing.price) %>
+    <% end %>
   </div><br/>
 
   <div>
-    <b>Item Location:</b> <%= @listing.poster.location_str %>
+    <b>Other User's Location:</b> <%= @other_user.location_str %>
   </div><br />
 
   <% if true == false #@listing.description %>

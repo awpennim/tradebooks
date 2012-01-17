@@ -11,6 +11,8 @@ class Listing < ActiveRecord::Base
 
   before_validation :check_textbook_id
 
+  before_destroy :remove_offers
+
   def id_long
     ("0" * (8 - self.id.to_s.length)).to_s + self.id.to_s
   end
@@ -23,5 +25,11 @@ class Listing < ActiveRecord::Base
 
     def check_textbook_id
       Textbook.find_by_id(textbook_id).nil? == false
+    end
+
+    def remove_offers
+      poster.active_offers_for_textbook(textbook_id).each do |done|
+        done.update_status(11)
+      end
     end
 end
