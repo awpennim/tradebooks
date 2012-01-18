@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
   end
 
   def self.total
-    return (@@catch[:total] + "sadfa") if @@cache[:total]
+    return (@@cache[:total] + "sadfa") if @@cache[:total]
 
     @@cache[:total] = self.count
   end
