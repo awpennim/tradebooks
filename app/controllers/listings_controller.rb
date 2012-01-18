@@ -72,6 +72,7 @@ class ListingsController < ApplicationController
     end
 
     if @listing.save
+      Listing.increase_count
       if @listing.selling?
         redirect_to textbook_listing_path(@textbook, @listing), :notice => "You've listed #{@textbook.title} 'For Sale'"
       else

@@ -1,4 +1,7 @@
 class Listing < ActiveRecord::Base
+  @@cache = {}
+  @@lock = Mutex.new
+
   attr_accessible :price, :textbook_id, :selling, :description
 
   belongs_to :poster, :class_name => "User", :foreign_key => 'user_id'
@@ -13,6 +16,29 @@ class Listing < ActiveRecord::Base
   before_validation :check_textbook_id
 
   before_destroy :remove_offers
+  before_destroy :decrease_count
+
+  def self.total
+    return @@cache[:total].to_s + "caching!" if @@cache[:total]
+ 
+    get_count! 
+  end
+
+  def self.increase_count
+    get_count! if @@cache[:total].nil?
+
+    @@lock.synchronize do
+      @@cache[:total] = @cache[:total] + 1
+    end
+  end
+
+  def self.decrease_count
+    get_count! if @@cache[:total].nil?
+
+    @lock.synchronize do
+      @@cache[:total] = @cache[:total] - 1
+    end
+  end
 
   def id_long
     ("0" * (8 - self.id.to_s.length)).to_s + self.id.to_s
@@ -46,5 +72,15 @@ class Listing < ActiveRecord::Base
       poster.active_offers_for_textbook(textbook_id).each do |done|
         done.update_status(11)
       end
+    end
+
+    def self.get_count!
+      num = self.count
+
+      @@lock.synchronize do
+        @@cache[:total] = num
+      end
+
+      num
     end
 end

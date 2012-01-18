@@ -101,6 +101,7 @@ class UsersController < ApplicationController
     puts @user.location
 
     if @user.save
+      User.increase_count
       UserMailer.verify_notification(@user, @user.make_verify_token!).deliver
       sign_in_for_first_time(@user)
     else
@@ -151,6 +152,7 @@ class UsersController < ApplicationController
     end
 
     @user.destroy
+    User.decrease_count
 
     if !current_user.nil? && current_user.admin?
       redirect_to users_url, :notice => "You successfully destroyed the user, #{@user.username}, with ID: #{@user.id}"

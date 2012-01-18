@@ -60,7 +60,19 @@ class Offer < ActiveRecord::Base
     def make_sure_no_duplicate_offers
       other_offer = self.sender.active_offer_between_user_for_textbook(self.reciever_id, self.textbook_id)
 
-      return check_book_is_listed if other_offer.nil?
+      if other_offer.nil?
+        if self.listing.nil?
+	  if self.selling?
+            self.errors.add(:reciever_id, "You don't have a current listing 'For Sale' for this book. You must post a listing before sending an offer to sell your book.")
+	  else
+            self.errors.add(:reciever_id, "#{self.reciever.username} doesn't have a current listing 'For Sale' for this book.")
+	  end
+
+          return false
+	end
+          
+        return true
+      end
 
       if self.reciever_id == other_offer.reciever_id
         self.errors.add(:reciever_id, "You already sent #{self.reciever.username} an offer for this book. You can check your offers sent by navigating to the 'Offers' page in the upper-left links then clicking 'View sent offers here'. (note: once a user rejects (not counter offers) your offer for a particular book, you may only respond to their offers)")

@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   @@cache = {}
+  @@lock = Mutex.new
 
   attr_accessor :password, :password_confirmation, :current_password
   attr_accessible :email, :password, :password_confirmation, :current_password, :location, :username
@@ -28,8 +29,8 @@ class User < ActiveRecord::Base
   has_many :sent_messages, :class_name => "Message", :foreign_key => "sender_id", :dependent => :delete_all, :order => 'created_at DESC'
   has_many :recieved_messages, :class_name => "Message", :foreign_key => "reciever_id", :dependent => :delete_all, :order => 'created_at DESC'
 
-  has_many :sell_listings, :class_name => "Listing", :foreign_key => "user_id", :dependent => :delete_all, :order => 'created_at DESC', :conditions => { :selling => true }
-  has_many :buy_listings, :class_name => "Listing", :foreign_key => "user_id", :dependent => :delete_all, :order => 'created_at DESC', :conditions => { :selling => false }
+  has_many :sell_listings, :class_name => "Listing", :foreign_key => "user_id", :dependent => :destroy, :order => 'created_at DESC', :conditions => { :selling => true }
+  has_many :buy_listings, :class_name => "Listing", :foreign_key => "user_id", :dependent => :destroy, :order => 'created_at DESC', :conditions => { :selling => false }
 
   has_many :sent_offers, :class_name => "Offer", :foreign_key => "sender_id", :order => 'created_at DESC', :dependent => :delete_all
   has_many :recieved_offers, :class_name => "Offer", :foreign_key => 'reciever_id', :order => 'created_at DESC', :dependent => :delete_all
@@ -45,9 +46,25 @@ class User < ActiveRecord::Base
   end
 
   def self.total
-    return (@@cache[:total].to_s + "sadfa") if @@cache[:total]
+    return @@cache[:total].to_s + "caching!" if @@cache[:total]
+ 
+    get_count!   
+  end
 
-    @@cache[:total] = self.count
+  def self.increase_count
+    get_count! if @@cache[:total].nil?
+
+    @@lock.synchronize do
+      @@cache[:total] = @cache[:total] + 1
+    end
+  end
+
+  def self.decrease_count
+    get_count! if @@cache[:total].nil?
+
+    @lock.synchronize do
+      @@cache[:total] = @cache[:total] - 1
+    end
   end
 
   def self.location_from_index(index)
@@ -239,5 +256,15 @@ class User < ActiveRecord::Base
 
     def secure_hash(string)
       Digest::SHA2.hexdigest string
+    end
+
+    def self.get_count!
+      num = self.count
+
+      @@lock.synchronize do
+        @@cache[:total] = num
+      end
+
+      num
     end
 end
