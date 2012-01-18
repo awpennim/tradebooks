@@ -28,7 +28,7 @@ class Listing < ActiveRecord::Base
     get_count! if @@cache[:total].nil?
 
     @@lock.synchronize do
-      @@cache[:total] = @cache[:total] + 1
+      @@cache[:total] = @@cache[:total] + 1
     end
   end
 
@@ -36,7 +36,7 @@ class Listing < ActiveRecord::Base
     get_count! if @@cache[:total].nil?
 
     @lock.synchronize do
-      @@cache[:total] = @cache[:total] - 1
+      @@cache[:total] = @@cache[:total] - 1
     end
   end
 

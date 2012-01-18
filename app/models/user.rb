@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
   end
 
   def self.total
-    return @@cache[:total].to_s + "caching!" if @@cache[:total]
+    return @@cache[:total] if @@cache[:total]
  
     get_count!   
   end
@@ -55,7 +55,7 @@ class User < ActiveRecord::Base
     get_count! if @@cache[:total].nil?
 
     @@lock.synchronize do
-      @@cache[:total] = @cache[:total] + 1
+      @@cache[:total] = @@cache[:total] + 1
     end
   end
 
@@ -63,7 +63,7 @@ class User < ActiveRecord::Base
     get_count! if @@cache[:total].nil?
 
     @lock.synchronize do
-      @@cache[:total] = @cache[:total] - 1
+      @@cache[:total] = @@cache[:total] - 1
     end
   end
 
