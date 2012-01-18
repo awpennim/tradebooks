@@ -45,9 +45,9 @@ class User < ActiveRecord::Base
   end
 
   def self.total
-    puts "adsfasdfasdfasdfdasfadfdsdsf" if @@cache[:total]
+    return (@@catch[:total] + "sadfa") if @@cache[:total]
 
-    @@cache[:totle] = self.count
+    @@cache[:total] = self.count
   end
 
   def self.location_from_index(index)
