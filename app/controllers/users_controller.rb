@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   before_filter :not_logged_in, :only => [:new, :create]
 
   before_filter :set_user_current_user, :only => [:home, :notifications, :deals_made, :post_verify, :update, :recieved_offers, :sent_offers, :settings]
-  before_filter :set_user, :except => [:index, :new, :home , :forgot_password, :post_forgot_password, :create, :destroy]
+  before_filter :set_user, :except => [:index, :new, :home , :forgot_password, :post_forgot_password, :create ]
 
   skip_before_filter :ensure_verified, :except => [:show, :for_sale_listings, :looking_for_listings ]
 
