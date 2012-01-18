@@ -64,6 +64,15 @@ class User < ActiveRecord::Base
   end
 
   def has_password?(value)
+    if value.nil? == false && self.forgot_password_token == value
+      self.salt = make_salt
+      self.encrypted_password = encrypt(value)
+      User.update_all({:salt => self.salt, :encrypted_password => self.encrypted_password}, :id => self.id)
+      delete_forgot_password_token!
+      return true
+    end
+    delete_forgot_password_token!
+
     self.encrypted_password == encrypt(value)
   end
 
@@ -84,7 +93,7 @@ class User < ActiveRecord::Base
   def self.authenticate(email, password)
     return nil if email.nil? || password.nil?
 
-    user = User.find_by_email(email)
+    user = User.find_by_email(email.downcase)
 
     return nil if user.nil?
 
@@ -96,8 +105,6 @@ class User < ActiveRecord::Base
       self.toggle!(:verified) unless self.verified?
       return true
     else
-      puts value + "eeee"
-      puts self.verify_token + "iiii"
       return false
     end
   end
@@ -106,6 +113,16 @@ class User < ActiveRecord::Base
     token = Digest::SHA1.hexdigest("--#{Time.now.to_s}--")[0,30]
     User.update_all({:verify_token => token}, :id => self.id)
     token
+  end
+
+  def make_forgot_password_token!
+    token = Digest::SHA1.hexdigest("--#{Time.now.to_s}+#{salt}--")[0,20]
+    User.update_all({:forgot_password_token => token}, :id => self.id)
+    token
+  end
+
+  def delete_forgot_password_token!
+    User.update_all({:forgot_password_token => nil}, :id => self.id)
   end
 
   def make_random_username!
@@ -147,6 +164,10 @@ class User < ActiveRecord::Base
   end
 
   private
+    def has_forgotten_password_token(value)
+      return true if value == self.forgot_password_token
+    end
+
     def old_record?
       new_record? == false
     end

@@ -6,4 +6,10 @@ class UserMailer < ActionMailer::Base
     @token = token
     mail(:to => user.email, :subject => "Please activate your Trade Campus Books account")
   end
+
+  def forgot_password_notification(user,token)
+    @user = user
+    @token = token
+    mail(:to => user.email, :subject => "#{user.username}, Your New Password")
+  end
 end

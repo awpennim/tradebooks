@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :only => [:edit, :update, :show, :home, :verify, :notifications, :looking_for_listings, :for_sale_listings, :recieved_offers, :sent_offers]
+  before_filter :authenticate, :only => [:edit, :update, :show, :home, :verify, :notifications, :looking_for_listings, :for_sale_listings, :recieved_offers, :sent_offers ]
   before_filter :correct_user, :only => [:edit, :update, :home, :verify, :new_verification_token , :notifications, :recieved_offers, :sent_offers ]
   before_filter :approved_user, :only => [:destroy ]
   before_filter :authenticate_admin, :only => [:index]
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
   end
 
   def verify
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
     @title = "Account Verification"
   end
 
@@ -80,8 +80,26 @@ class UsersController < ApplicationController
     end
   end
 
+  def forgot_password
+    @title = "Forgot Password"
+  end
+
+  def post_forgot_password
+    @user = User.find_by_email(params[:user].to_s.downcase)
+
+    if @user.nil?
+      redirect_to forgot_password_users_path, :notice => "We couldn't find a user with that email address"
+      return
+    end
+
+    UserMailer.forgot_password_notification(@user, @user.make_forgot_password_token!).deliver
+
+    redirect_to signin_path, :notice => "A new password has been sent to #{@user.username} at #{@user.email}"
+  end
+
   def create
     params[:user][:location] = User.index_from_location params[:user][:location]
+    params[:user][:email].downcase!
     @user = User.new(params[:user])
     puts @user.location
 

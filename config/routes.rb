@@ -33,6 +33,11 @@ Zoomasstextbooks::Application.routes.draw do
       post 'new_verification_token'
     end
 
+    collection do
+      get 'forgot_password'
+      post 'post_forgot_password'
+    end
+
     resources :messages, :only => [:destroy, :create, :new, :index, :show], :path_names => { :new => "compose" } do
 
       collection do
