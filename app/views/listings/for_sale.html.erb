@@ -5,9 +5,9 @@
 
   <table class="full_width">
     <tr class="bold">
-      <td>Listing ID</td>
       <td>User</td>
       <td>Location</td>
+      <td>Short Description</td>
       <td>Asking Price</td>
       <td>Offer sent?</td>
       <td>Last renewed</td>
@@ -16,7 +16,6 @@
 
     <% @listings.each do |listing| %>
       <tr>
-        <td><%= link_to listing.id_long, textbook_listing_path(@textbook, listing) %></td>
         <td><%= link_to listing.poster.username, listing.poster %></td>
 	<td>
 	  <% if User.matching_locations(current_user, listing.poster) %>
@@ -25,6 +24,7 @@
 	    <%= User.location_from_index listing.poster.location %>
 	  <% end %>
 	</td>
+        <td><%= link_to listing.description_short, textbook_listing_path(@textbook, listing) %></td>
         <td><%= number_to_currency(listing.price) %></td>
 	<td><%= if logged_in? && current_user.active_offer_sent_to_user_for_textbook(listing.poster.id, @textbook.id) then raw "<b> #{ number_to_currency(current_user.active_offer_sent_to_user_for_textbook(listing.poster.id, @textbook.id).price) } </b>" else raw "(none)" end %></td>
         <td><%= time_ago_in_words(listing.updated_at) %> ago</td>

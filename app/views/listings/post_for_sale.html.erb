@@ -2,9 +2,13 @@
   <%= render 'layouts/errors', :error => @listing, :header => "We couldn't list your book" %>
 
   <div>
-    <%= f.label 'Asking Price (between 299.99 and 0.01) :' %>
+    <%= f.label :price, 'Asking Price (between 299.99 and 0.01)' %><br/>
     <%= f.text_field :price %>
   </div><br />
+  <div>
+    <%= f.label :desciption, 'Description (optional) (250 character limit)' %><br/>
+    <%= f.text_area :description, :cols => 40, :rows => 4 %>
+  </div><br/>
   <div class="action">
     <%= f.submit "List Book!" %>
   </div>

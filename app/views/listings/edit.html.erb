@@ -1,8 +1,10 @@
 <% form_for(@listing, :url => textbook_listing_path(@textbook, @listing)) do |f| %>
   <%= render 'layouts/errors', :error => @listing, :header => "We couldn't update your listing" %>
-
+  <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note: You <b>cannot edit your description</b> for a listing once you have posted it. If you need to change your description, you must remove this listing, and post a new one. The purpose for this is so buyers can be assured that once they send an offer, the description of the item will stay the same.
+  </p>
   <div>
-    <%= f.label 'Asking Price (between 299.99 and 0.01) :' %>
+    <%= f.label 'Asking Price (between 299.99 and 0.01)' %><br/>
     <%= f.text_field :price %>
   </div><br />
   <div class="action">

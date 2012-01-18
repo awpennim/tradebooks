@@ -7,6 +7,13 @@
     <td><span class="bold">Last Renewed: </span><%= time_ago_in_words(@listing.updated_at) %> ago</td>
   </tr>
 </table>
+
+<% if @listing.has_description? %>
+  <p>
+    <b>Description: </b><%= @listing.description %>
+  </p>
+<% end %>
+
 <p class="double">Asking Price: <%= number_to_currency(@listing.price) %></p>
 
 <% if current_user.id == @listing.poster.id %>
