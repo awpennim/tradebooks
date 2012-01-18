@@ -1,6 +1,6 @@
 <div class="notification_or_message <%= if offer.status == 0 || offer.status == 9 then "white" end %>">
   <span class="date small_text right"><% if offer.status == 0 %><%= link_to 'Cancel Offer', cancel_textbook_offer_path(offer.textbook, offer, :path => request.path), :method => :delete, :confirm => 'Are you sure you\'d like to cancel this offer?' %> | Offer expires in (<%= time_ago_in_words(offer.created_at - 24.hours, include_seconds = true) %>) | <% end %> sent <%= time_ago_in_words(offer.created_at) %> ago</span>
-  <span class="bigger bold"><%= if offer.selling? then "Sent Offer To Sell to #{offer.reciever.username}" else "Sent Offer To Buy from #{offer.reciever.username}" end %></span><br/>
+  <span class="bigger bold"><%= if offer.selling? then "Sent Sales Offer to #{offer.reciever.username}" else "Sent Purchase Offer to #{offer.reciever.username}" end %></span><br/>
   <span class="little_bigger"><%= link_to offer.textbook.title_short, textbook_path(offer.textbook) %></span>
   <p>
     <span class="float_right">Offer to: <%= link_to offer.reciever.username, offer.reciever %></span><br/><br/>
