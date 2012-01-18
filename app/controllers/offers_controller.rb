@@ -59,7 +59,7 @@ class OffersController < ApplicationController
 
     if @offer.selling?
       if @offer.save
-        redirect_to textbook_listing_path(@textbook,@listing), :notice => "Sales Offer sent to #{@listing.poster.username} for #{@textbook.title_short} at #{number_to_currency @offer.price} #{@listing.poster.username} has 24 hours to respond to your offer."
+        redirect_to textbook_listing_path(@textbook,@listing), :notice => "Sales Offer sent to #{@offer.reciever.username} for #{@textbook.title_short} at #{number_to_currency @offer.price} #{@listing.poster.username} has 24 hours to respond to your offer."
       else
 	@other_user = @offer.reciever
         @counter_price = @other_user.active_offer_sent_to_user_for_textbook(@other_user.id, @textbook.id)
@@ -68,7 +68,7 @@ class OffersController < ApplicationController
       end
     else
       if @offer.save
-        redirect_to textbook_listing_path(@textbook,@listing), :notice => "Purchase Offer sent to #{@listing.poster.username} for #{@textbook.title_short} at #{number_to_currency @offer.price} #{@listing.poster.username} has 24 hours to respond to your offer."
+        redirect_to textbook_listing_path(@textbook,@listing), :notice => "Purchase Offer sent to #{@offer.reciever.username} for #{@textbook.title_short} at #{number_to_currency @offer.price} #{@listing.poster.username} has 24 hours to respond to your offer."
       else
         @other_user = @offer.reciever
         @counter_price = @other_user.active_offer_sent_to_user_for_textbook(@other_user.id, @textbook.id)
