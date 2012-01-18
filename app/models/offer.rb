@@ -34,9 +34,9 @@ class Offer < ActiveRecord::Base
 
   def listing
     if selling?
-      sender.listing_from_textbook(textbook_id)
+      sender.selling_listing_from_textbook(textbook_id)
     else
-      reciever.listing_from_textbook(textbook_id)
+      reciever.selling_listing_from_textbook(textbook_id)
     end
   end
 

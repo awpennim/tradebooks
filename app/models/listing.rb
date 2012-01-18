@@ -16,10 +16,10 @@ class Listing < ActiveRecord::Base
   before_validation :check_textbook_id
 
   before_destroy :remove_offers
-  before_destroy :decrease_count
+  before_destroy :decrease_count_instance_method
 
   def self.total
-    return @@cache[:total].to_s + "caching!" if @@cache[:total]
+    return @@cache[:total] if @@cache[:total]
  
     get_count! 
   end
@@ -70,7 +70,9 @@ class Listing < ActiveRecord::Base
 
     def remove_offers
       poster.active_offers_for_textbook(textbook_id).each do |done|
-        done.update_status(11)
+        if (self.selling? && done.selling?) || (self.selling? == false && done.selling? == false)
+          done.update_status(11)
+	end
       end
     end
 
@@ -82,5 +84,9 @@ class Listing < ActiveRecord::Base
       end
 
       num
+    end
+
+    def decrease_count_instance_method
+      Listing.decrease_count
     end
 end

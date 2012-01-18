@@ -8,7 +8,6 @@
       <td>Book Title</td>
       <td>Short Description</td>
       <td>Asking Price</td>
-      <td>Offer Sent?</td>
       <%= if @user.id != current_user.id then raw "<td>Offer sent?</td>" end %>
       <td>Last renewed</td>
     </tr>
@@ -19,8 +18,7 @@
 	<td><%= link_to listing.textbook.title_short, textbook_path(listing.textbook) %></td>
         <td><%= link_to listing.description_short, textbook_listing_path(listing.textbook, listing) %></td>
         <td><%= number_to_currency(listing.price) %></td>
-        <% if @user.id != current_user.id %><td><%= if current_user.active_offer_sent_to_user_for_textbook(@user.id, listing.textbook) then number_to_currency(current_user.active_offer_sent_to_user_for_textbook(@user.id, listing.textbook).price) else "(none)" end %></td><% end %>
-	<td><%= if current_user.active_offer_sent_to_user_for_textbook(@user.id, listing.textbook.id) then raw "<b> #{ number_to_currency(current_user.activer_offer_sent_to_user_for_textbook(@user.id, listing.textbook.id)) } </b>" else "(none)" end %></td>
+        <% if @user.id != current_user.id %><td><%= if current_user.active_offer_sent_to_user_for_textbook(@user.id, listing.textbook) then raw "<b> #{number_to_currency(current_user.active_offer_sent_to_user_for_textbook(@user.id, listing.textbook).price)}</b>" else "(none)" end %></td><% end %>
         <td><%= time_ago_in_words(listing.updated_at) %> ago</td>
       </tr>
     <% end %>

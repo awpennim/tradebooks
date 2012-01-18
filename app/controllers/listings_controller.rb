@@ -38,9 +38,9 @@ class ListingsController < ApplicationController
     @offer = current_user.active_offer_sent_to_user_for_textbook @listing.poster.id, @textbook.id
 
     if @selling	
-      @title = "#{@listing.poster.username}'s 'For Sale' Listing for: #{@listing.textbook.title}"
+      @title = "#{@listing.poster.username}'s 'For Sale' Listing for: #{@listing.textbook.title_short}"
     else
-      @title = "#{@listing.poster.username}'s 'Looking For' Listing for: #{@listing.textbook.title}"
+      @title = "#{@listing.poster.username}'s 'Looking For' Listing for: #{@listing.textbook.title_short}"
     end
   end
 

@@ -10,11 +10,11 @@ RCC_PRIV = '6Lc4acwSAAAAAL8yBEhrlD4S_uHa6H99kCtj76NI'
 ActionMailer::Base.delivery_method = :smtp
 
 ActionMailer::Base.smtp_settings = {
-  :user_name => "support@tradecampusbooks.com",
+  :user_name => "awpennim",
   :password => "hahiqua",
   :domain => "www.tradecampusbooks.com",
-  :address => "smtpout.secureserver.net",
-  :port => 80,
+  :address => "smtp.sendgrid.net",
+  :port => 587,
   :enable_starttls_auto => true,
   :authentication => :plain
 }
