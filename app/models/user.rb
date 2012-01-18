@@ -21,7 +21,6 @@ class User < ActiveRecord::Base
 
   before_validation :fill_passwords_and_username_fields_if_empty
   before_validation :encrypt_password
-  after_create :make_verify_token
 
   has_many :notifications, :order => 'created_at DESC', :dependent => :delete_all
   has_many :sent_messages, :class_name => "Message", :foreign_key => "sender_id", :dependent => :delete_all, :order => 'created_at DESC'
@@ -93,17 +92,20 @@ class User < ActiveRecord::Base
   end
 
   def verify!(value)
-    return false if value.nil?
-    if value.to_s == self.verify_token
+    if value.nil? == false && value.to_s == self.verify_token
       self.toggle!(:verified) unless self.verified?
+      return true
+    else
+      puts value + "eeee"
+      puts self.verify_token + "iiii"
+      return false
     end
-
-    return true
   end
 
-  def make_verify_token
-    User.update_all({:verify_token => Digest::SHA1.hexdigest("--#{Time.now.to_s}--")[0,30]}, :id => self.id)
-    self.verify_token
+  def make_verify_token!
+    token = Digest::SHA1.hexdigest("--#{Time.now.to_s}--")[0,30]
+    User.update_all({:verify_token => token}, :id => self.id)
+    token
   end
 
   def make_random_username!

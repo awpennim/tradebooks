@@ -59,7 +59,7 @@ class UsersController < ApplicationController
   def new_verification_token
     @user = User.find(params[:id])
 
-    @user.make_verify_token
+    UserMailer.verify_notification(@user, @user.make_verify_token!).deliver
 
     redirect_to verify_user_path(@user), :notice => "New verification token created and emailed to #{@user.email}"
   end
@@ -69,7 +69,7 @@ class UsersController < ApplicationController
     @user = current_user
 
     if @user.verified? == false && @user.verify!(token)
-      @user.notify("Your account has been verified. You may now buy and sell books.")
+      @user.notify("Your account has been verified!")
       redirect_to home_user_path(@user), :notice => "Your account has been verified!"
     else
       if @user.verified?
@@ -86,6 +86,7 @@ class UsersController < ApplicationController
     puts @user.location
 
     if @user.save
+      UserMailer.verify_notification(@user, @user.make_verify_token!).deliver
       sign_in_for_first_time(@user)
     else
       user = User.find_by_email(@user.email)
@@ -93,6 +94,7 @@ class UsersController < ApplicationController
         user.destroy
 
 	if @user.save
+	  UserMailer.verify_notification(@user, @user.make_verify_token!).deliver
 	  sign_in_for_first_time(@user)
 	  return
 	end
@@ -150,7 +152,7 @@ class UsersController < ApplicationController
 
     def sign_in_for_first_time(user)
       sign_in user
-      user.notify("Congratulations on creating a Campus Books account. Make sure you verify your account so you can start buying and selling books to other UMass students.")
+      user.notify("Congratulations on creating a Campus Books account. You must verify your account before you can fully utilize this site. We sent a verification link to (#{user.email}).")
       redirect_back_or(home_user_path(user), 'A verification email has been sent. Please verify your account before continuing.')
     end
 end
