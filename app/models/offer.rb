@@ -54,6 +54,19 @@ class Offer < ActiveRecord::Base
 	return false
       end
 
+      if self.sender.listing_from_textbook(self.textbook_id) && self.sender.listing_from_textbook(self.textbook_id).selling? != self.selling?
+        if self.selling?	
+          self.errors.add(:reciever_id, "You're currently listing this book 'Looking For' not 'For Sale'. You must list this book 'For Sale' before sending selling offers for it")
+	  return false
+	else
+          self.errors.add(:reciever_id, "You're currently listing this book 'For Sale'. You must remove that listing before sending offers to other users to buy theirs")
+	  return false
+
+	end
+      end
+
+
+
       return true
     end
 

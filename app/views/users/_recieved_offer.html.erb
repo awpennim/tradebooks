@@ -5,7 +5,7 @@
   <span class="little_bigger"><%= link_to offer.textbook.title_short, textbook_path(offer.textbook) %></span><br/>
   <% if offer.selling? %>
     <span class="little_bigger"><%= offer.sender.username %>'s Asking Price: <b>    <%= if offer.active? then "(not active)" else number_to_currency offer.listing.price end %></b><br/> 
-    <%= link_to "#{offer.sender.username}'s listing", textbook_listing_path(offer.textbook, listing) if offer.active? %></span>
+    <%= link_to "#{offer.sender.username}'s listing", textbook_listing_path(offer.textbook, offer.listing) if offer.active? %></span>
   <% else %>
     <span class="little_bigger">Your Asking Price: <b><%= if offer.active? then number_to_currency offer.listing.price else "(not active)" end %></b></span><br/>
   <% end %>
