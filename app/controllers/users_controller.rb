@@ -5,6 +5,9 @@ class UsersController < ApplicationController
   before_filter :authenticate_admin, :only => [:index]
   before_filter :not_logged_in, :only => [:new, :create]
 
+  before_filter :set_user_current_user, :only => [:home, :notifications, :deals_made, :post_verify, :update, :recieved_offers, :sent_offers, :settings]
+  before_filter :set_user, :except => [:index, :new, :home , :forgot_password, :post_forgot_password, :create, :destroy]
+
   skip_before_filter :ensure_verified, :except => [:show, :for_sale_listings, :looking_for_listings ]
 
   def index
@@ -13,12 +16,10 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
     @title = @user.username
   end
 
   def home
-    @user = current_user
     @title = "Home"
   end
 
@@ -28,37 +29,34 @@ class UsersController < ApplicationController
   end
 
   def notifications
-    @user = current_user
     @title = "Notifications"
   end
 
   def for_sale_listings
-    @user = User.find_by_id(params[:id])
     @title = "#{@user.username}'s 'For Sale' listings"
     @title = "Your 'For Sale' listings" if @user.id == current_user.id
     @listings = @user.sell_listings.paginate(:page => params[:page])
   end
 
   def looking_for_listings
-    @user = User.find_by_id(params[:id])
     @title = "#{@user.username}'s 'Looking For' listings"
     @title = "Your 'Looking For' listings" if @user.id == current_user.id
     @listings = @user.buy_listings.paginate(:page => params[:page])
   end
 
   def settings
-    @user = User.find_by_id(params[:id])
     @title = "Settings"
   end
 
+  def deals_made
+    @user.deals.paginate(:page => params[:page], :per_page => 5)
+  end
+
   def verify
-    @user = User.find_by_id(params[:id])
     @title = "Account Verification"
   end
 
   def new_verification_token
-    @user = User.find(params[:id])
-
     UserMailer.verify_notification(@user, @user.make_verify_token!).deliver
 
     redirect_to verify_user_path(@user), :notice => "New verification token created and emailed to #{@user.email}"
@@ -66,7 +64,6 @@ class UsersController < ApplicationController
 
   def post_verify
     token = params[:token]
-    @user = current_user
 
     if @user.verified? == false && @user.verify!(token)
       @user.notify("Your account has been verified!")
@@ -107,7 +104,7 @@ class UsersController < ApplicationController
       UserMailer.verify_notification(@user, @user.make_verify_token!).deliver
       sign_in_for_first_time(@user)
     else
-      user = User.find_by_email(@user.email)
+      user = User.find_by_email(@user.email.downcase)
       if user.nil? == false && user.verified? == false
         user.destroy
 
@@ -124,7 +121,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = current_user
     params[:user][:location] = User.index_from_location params[:user][:location]
 
     if @user.update_attributes(params[:user])
@@ -149,8 +145,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
-
     if @user.admin?
       redirect_to @user, :notice => "You can't delete an administrator!"
       return
@@ -172,5 +166,15 @@ class UsersController < ApplicationController
       sign_in user
       user.notify("Congratulations on creating a Campus Books account. You must verify your account before you can fully utilize this site. We sent a verification link to (#{user.email}).")
       redirect_back_or(home_user_path(user), 'A verification email has been sent. Please verify your account before continuing.')
+    end
+
+    def set_user
+      return if @user
+      @user = User.find_by_id(params[:id])
+      redirect_to root_path if @user.nil?
+    end
+
+    def set_user_current_user
+      @user = current_user
     end
 end

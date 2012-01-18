@@ -14,7 +14,7 @@
     <%= f.password_field :password_confirmation %>
   </div>
   <div class="field">
-    <%= f.label :location, 'Show Potential Buyers or Sellers Where You Live' %><br />
+    <%= f.label :location, 'Living Location (Dorms, Off Campus Apartments, Commuter)' %><br />
     <%= f.select :location, options_for_select(User.LOCATIONS_LIST_ARRAY, @user.location_str) %>
   </div>
   <div class="actions">

@@ -1,3 +1,5 @@
+<%= User.total %>
+
 <div>
   <p>
     &nbsp;&nbsp;&nbsp;Welcome to Trade Campus Books where UMass Amherst students can list, send offers, and make deals on books they wish to buy and sell. All users require a '@student.umass.edu' email address to become verified. Only verified users can list books they want to buy or sell, send offers regarding a currently listed book, or accept an offer to make a deal on a book. This site is <strong>completely free</strong> and will remain so forever. If you have any questions, feel free to email us at <%= mail_to 'support@tradecampusbooks.com' %>. To begin, <%= link_to 'sign up', signup_path %> or start <%= link_to 'searching', textbooks_search_path %> for your books.

@@ -1,11 +1,13 @@
 class User < ActiveRecord::Base
+  @@cache = {}
+
   attr_accessor :password, :password_confirmation, :current_password
   attr_accessible :email, :password, :password_confirmation, :current_password, :location, :username
   attr_reader :verified
 
   EMAIL_REGEX = /\A[\w+\-.]+@student\.umass\.edu/i
 
-  LOCATIONS_LIST = ["(Not Specified)", "Off-Campus Housing", "Commuter", "Baker Hall, Central" "Brett Hall, Central", "Brooks Hall, Central", "Brown Hall, Sylvan","Butterfield Hall, Central", "Cance Hall, Southwest", "Cashin Hall, Sylvan", "Chadbourne Hall, Central", "Coolidge Hall, Southwest", "Crabtree Hall, Northeast", "Crampton Hall, Southwest", "Dickinson Hall, Orchard Hill", "Dwight Hall, Northeast", "Emerson Hall, Southwest", "Field Hall, Orchard Hill", "Gorman Hall, Central", "Grayson Hall, Orchard Hill", "Greenough Hall, Central", "Hamlin Hall, Northeast", "James Hall, Southwest", "John Adams Hall, Southwest", "John Quincy Adams Hall, Southwest", "Johnson Hall, Northeast", "Kennedy Hall, Southwest", "Knowlton Hall, Northeast", "Leach Hall, Northeast", "Lewis Hall, Northeast", "MacKimmie Hall, Southwest", "Mary Lyon Hall, Northeast", "McNamara hall, Sylvan", "Melville Hall, Southwest", "Moore Hall, Southwest", "North A, North", "North B, North", "North C, North", "North D, North", "Patterson Hall, Southwest", "Pierpont Hall, Southwest", "Prince Hall, Southwest", "Thatcher Hall, Northeast", "Thoreau Hall, Southwest", "Van Meter Hall, Central", "Washington Hall, Southwest", "Webster Hall, Orchard Hill", "Wheeler Hall, Central"]
+  LOCATIONS_LIST = ["(Not Specified)", "Commuter",  "Hobart (Off Campus)", "Puffton (Off Campus)", "Amherst Center (Off Campus)", "Rolling Green (Off Campus)", "Alpine Commons (Off Campus)", "Sunderland (Off Campus)", "Hadley (Off Campus)", "Aspen Chase (Off Campus)", "The Boulders (Off Campus)", "Baker Hall, Central" "Brett Hall, Central", "Brooks Hall, Central", "Brown Hall, Sylvan","Butterfield Hall, Central", "Cance Hall, Southwest", "Cashin Hall, Sylvan", "Chadbourne Hall, Central", "Coolidge Hall, Southwest", "Crabtree Hall, Northeast", "Crampton Hall, Southwest", "Dickinson Hall, Orchard Hill", "Dwight Hall, Northeast", "Emerson Hall, Southwest", "Field Hall, Orchard Hill", "Gorman Hall, Central", "Grayson Hall, Orchard Hill", "Greenough Hall, Central", "Hamlin Hall, Northeast", "James Hall, Southwest", "John Adams Hall, Southwest", "John Quincy Adams Hall, Southwest", "Johnson Hall, Northeast", "Kennedy Hall, Southwest", "Knowlton Hall, Northeast", "Leach Hall, Northeast", "Lewis Hall, Northeast", "MacKimmie Hall, Southwest", "Mary Lyon Hall, Northeast", "McNamara hall, Sylvan", "Melville Hall, Southwest", "Moore Hall, Southwest", "North A, North", "North B, North", "North C, North", "North D, North", "Patterson Hall, Southwest", "Pierpont Hall, Southwest", "Prince Hall, Southwest", "Thatcher Hall, Northeast", "Thoreau Hall, Southwest", "Van Meter Hall, Central", "Washington Hall, Southwest", "Webster Hall, Orchard Hill", "Wheeler Hall, Central"]
 
   validates :email, :presence => {:message => "Email field is blank"},
                     :format => {:with => EMAIL_REGEX, :message => "Make sure your email ends with '@student.umass.edu'"},
@@ -34,8 +36,18 @@ class User < ActiveRecord::Base
 
   has_many :faqs
 
+  has_many :deals_bought, :class_name => "Deal", :foreign_key => "buyer_id", :order => 'created_at DESC', :dependent => :delete_all
+  has_many :deals_sold, :class_name => "Deal", :foreign_key => "seller_id", :order => 'created_at DESC', :dependent => :delete_all
+
+  
   def self.LOCATIONS_LIST_ARRAY
     LOCATIONS_LIST
+  end
+
+  def self.total
+    puts "adsfasdfasdfasdfdasfadfdsdsf" if @@cache[:total]
+
+    @@cache[:totle] = self.count
   end
 
   def self.location_from_index(index)
@@ -161,6 +173,10 @@ class User < ActiveRecord::Base
 
   def admin?
     self.admin == true
+  end
+
+  def deals
+    Deal.where("buyer_id = '#{id}' OR seller_id = '#{self.id}'")
   end
 
   private

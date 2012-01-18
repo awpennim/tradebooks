@@ -16,7 +16,7 @@
       <%= f.password_field :password_confirmation %>
     </div>
     <div class="settings">
-      <%= f.label :location, 'Living Location' %>
+      <%= f.label :location, 'Living Location (Dorms, Off Campus Apartments, Commuter)' %><br/>
       <%= f.select :location, options_for_select(User.LOCATIONS_LIST_ARRAY, user.location_str) %>
     </div>
     <div class="settings">
