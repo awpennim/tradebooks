@@ -1,0 +1,11 @@
+<h1>Verify your Trade Campus Books Account!</h1>
+
+<p>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please verify your account with email address, <%= @user.email %>, by following this <%= link_to 'verification link', verify_user_url(@user, :token => @token) %> or you may copy and paste this verification token into the verification box: <%= @token %>
+  
+</p>
+
+<p>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You are recieving this because an account at <%= link_to 'Trade Campus Books', root_url %> was created using this email address. If this email is incorrect, please disregard it.
+</p>
+
