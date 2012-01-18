@@ -35,7 +35,7 @@ class Listing < ActiveRecord::Base
   def self.decrease_count
     get_count! if @@cache[:total].nil?
 
-    @lock.synchronize do
+    @@lock.synchronize do
       @@cache[:total] = @@cache[:total] - 1
     end
   end
