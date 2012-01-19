@@ -2,7 +2,7 @@ class ListingsController < ApplicationController
   before_filter :authenticate, :except => [:for_sale, :looking_for]
   before_filter :set_textbook
   before_filter :set_listing, :except => [:for_sale, :looking_for, :post_for_sale, :post_looking_for, :create ]
-  before_filter :correct_user, :except => [:for_sale, :looking_for, :create, :show, :post_for_sale, :post_looking_for]
+  before_filter :correct_user, :except => [:for_sale, :looking_for, :create, :show, :post_for_sale, :post_looking_for, :new_buying_offer, :new_selling_offer]
 
   def why_renew
     @title = "Why Renew?"
@@ -133,6 +133,6 @@ class ListingsController < ApplicationController
     end
 
     def correct_user
-      redirect_to home_user_path(current_user) if logged_in? && current_user.id != @listing.poster.id
+      redirect_to home_user_path(current_user), :notice => "You don't have permission to view that page" if logged_in? && current_user.id != @listing.poster.id
     end
 end

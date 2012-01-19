@@ -72,7 +72,7 @@ class Listing < ActiveRecord::Base
       return true if self.selling? == false
 
       poster.active_offers_for_textbook(textbook_id).each do |done|
-        if (self.selling? && done.selling?) || (self.selling? == false && done.selling? == false)
+        if
           done.update_status(11)
 	end
       end
