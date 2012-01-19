@@ -60,6 +60,8 @@ class User < ActiveRecord::Base
 
   def verified?
     return false if self.verified == false || self.disabled
+
+    return true
   end
 
   def self.decrease_count
