@@ -8,11 +8,11 @@
     </div>
     <br />
     <div class="settings">
-      <%= f.label :password %><br/>
+      <%= f.label :password, 'New Password (optional)' %><br/>
       <%= f.password_field :password %>
     </div>
     <div class="settings">
-      <%= f.label :password_confirmation, "Password Confirmation" %><br/>
+      <%= f.label :password_confirmation, "New Password Confirmation" %><br/>
       <%= f.password_field :password_confirmation %>
     </div>
     <div class="settings">
@@ -20,7 +20,7 @@
       <%= f.select :location, options_for_select(User.LOCATIONS_LIST_ARRAY, user.location_str) %>
     </div>
     <div class="settings">
-      <%= f.label :username, 'Username (exactly 8 characters)' %><br/>
+      <%= f.label :username, 'Username (5 to 10 characters)' %><br/>
       <%= f.text_field :username, :value => current_user.username %>
     </div>
     <div class="actions">

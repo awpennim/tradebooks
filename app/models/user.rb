@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
                        :numericality => {:maximum => 46, :minimum => 0}
   validates :username, :presence => {:message => "You left the username field blank!"},
                        :uniqueness => {:case_sensitive => false, :message => "That username is already taken"},
-                       :length => {:is => 8, :message => "Usernames must be exactly 8 characters"}
+                       :length => {:within =>5..10, :message => "Username length must be 5 to 10 characters"}
 
   before_validation :fill_passwords_and_username_fields_if_empty
   before_validation :encrypt_password

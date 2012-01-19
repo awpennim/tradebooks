@@ -1,5 +1,5 @@
 <div class="notification_or_message <%= if offer.status == 0 then "white" end %>">
-  <% if offer.status == 0 %><span class="date small_text right">Offer expires in (<%= time_ago_in_words(offer.created_at - 24.hours, include_seconds = true) %>) | recieved <%= time_ago_in_words(offer.created_at) %> ago</span><% end %>
+  <span class="date small_text right"><% if offer.status == 0 %>Offer expires in (<%= time_ago_in_words(offer.created_at - 24.hours, include_seconds = true) %>) | <% end %>recieved <%= time_ago_in_words(offer.created_at) %> ago</span>
   <span class="bigger bold"><%= if offer.selling? then "Recieved Sales Offer from #{offer.sender.username}" else "Recieved Purchase Offer from #{offer.sender.username}" end %></span><br/>
   <% if offer.status == 0 %><span class="right"><%= link_to 'Accept and Buy', accept_textbook_offer_path(offer.textbook, offer), :method => :post, :confirm => "If you accept this offer, you are obliged to carry out this transaction with #{offer.sender.username}" %> | <%= link_to 'Counter Offer', counter_textbook_offer_path(offer.textbook, offer) %> | <%= link_to 'Reject', reject_textbook_offer_path(offer.textbook, offer), :method => :delete, :confirm => "Are you sure you'd like to reject this offer?" %></span><% end %>
   <span class="little_bigger"><%= link_to offer.textbook.title_short, textbook_path(offer.textbook) %></span><br/>
@@ -12,9 +12,9 @@
     <span class="float_right little_bigger">Offer from: <%= link_to offer.sender.username, offer.sender %></span><br/><br/>
     <span class="float_right"><b><%= offer.sender.username %></b>'s Location: <b><%= User.location_from_index offer.sender.location %></span></b>
     
-    <span class="little_bigger">Offer: <b><%= number_to_currency offer.price %></b></span><br/>
+    <span class="little_bigger">Offer: <b><%= number_to_currency offer.price %></b></span><br/><br/>
 
-    <span class="little_bigger">Status: <b><%= Offer.status_from_index offer.status %></b></span>
+    <span>Status: <b><%= Offer.status_from_index offer.status %></b></span>
 
   </p>
 
