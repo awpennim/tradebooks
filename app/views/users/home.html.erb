@@ -20,6 +20,14 @@
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to 'Search', textbooks_search_path %> for your books by clicking on the <b>'Search'</b> link in the upper right header. You can list books you need in <b>'Looking For'</b> and books you're trying to sell in <b>'For Sale'</b>. Remember, only <b>UMass Amherst students</b> can use this site, so you <b>don't</b> have to deal with shipping and you <b>always</b> get to see the book you're purchasing before you spend any money (all transactions are student to student). Also, this site is <b>completely free</b> to use.<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Once you've listed your books in <b>'Looking For'</b> or <b>'For Sale'</b>, you can start sending offers to buy and sell books. Sending multiple offers to many different sellers or buyers for a specific book is <b>encouraged</b>. Once, one of your offers for a particular book is accepted, <b>all other offers sent for that specific book are automatically cancelled</b> (for both the buyer and seller), so you can be assured that you'll purchase only one copy. From a seller's standpoint, once you sell a book, all other offers you've sent to others (or recieved) regarding that specific book, are cancelled and the buyers are notified of the completed sale.<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please remember to use your best judgement while deciding where and when to meet your buyer or seller. If a meeting place can't be agreed upon, the W.E.B. Du Bois is expected to be the default meeting ground.<br/><br/>
+
+    <table class="full_width">
+      <tr class="center_text little_bigger">
+        <td><%= link_to "Browse Recent 'For Sale' Listings", recent_for_sale_path %></td>
+        <td><%= link_to "Browse Recent 'Looking For' Listings", recent_looking_for_path %></td>
+      </tr>
+    </table><br/><br/>
+
     <span class="bigger">Start listing your books 'For Sale' and 'Looking For' by searching for them <%= link_to 'here', textbooks_search_path  %>
 </div>
 <br/>
