@@ -42,7 +42,7 @@ module SessionsHelper
   end
 
   def correct_user
-    redirect_to home_user_path(current_user), :notice => "You do not have permission to view that page" if logged_in? == false || params[:id] != current_user.id.to_s
+    redirect_to home_user_path(current_user), :notice => "You do not have permission to view that page" if logged_in? && params[:id] != current_user.id.to_s
   end
 
   def current_user
@@ -76,6 +76,7 @@ module SessionsHelper
   end
 
   def ensure_verified
+    puts "adsfasdfasdfdafadffdsafdsafasfd"
     redirect_to home_user_path(current_user), :notice => "You must verify your account first!" unless current_user.verified?
   end
 

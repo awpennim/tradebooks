@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
   before_filter :authenticate
-  before_filter :correct_user, :only => [:new, :inbox, :new, :create, :outbox, :destroy] 
+  before_filter :correct_user, :except => [:show, :destroy, :create] 
   before_filter :approved_user, :only => [:show, :destroy]
 
   def show

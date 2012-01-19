@@ -1,9 +1,9 @@
 class OffersController < ApplicationController
   include ActionView::Helpers::NumberHelper
 
+  before_filter :authenticate
   before_filter :set_offer, :except => [:new_selling, :new_buying, :create]
   before_filter :set_textbook
-  before_filter :authenticate
   before_filter :correct_user_reciever, :only => [:counter, :accept, :reject]
   before_filter :correct_user_sender, :only => [:cancel]
 
