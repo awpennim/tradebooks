@@ -7,13 +7,15 @@
     <p class="little_bigger padding_bottom">
       <span class="float_right">Offer from: <%= link_to offer.sender.username, offer.sender %></span>
     </p>
+    <p class="padding_bottom">
+      <% if offer.status == 0 %><span class="right"><%= link_to 'Accept and Buy', accept_textbook_offer_path(offer.textbook, offer), :method => :post, :confirm => "If you accept this offer, you are obliged to carry out this transaction with #{offer.sender.username}" %> | <%= link_to 'Counter Offer', counter_textbook_offer_path(offer.textbook, offer) %> | <%= link_to 'Reject', reject_textbook_offer_path(offer.textbook, offer), :method => :delete, :confirm => "Are you sure you'd like to reject this offer?" %></span><% end %>
+    </p>
     <p class="little_bigger">
       <span class="float_right"><b><%= offer.sender.username %></b>'s Location: <b><%= User.location_from_index offer.sender.location %></span></b>
     </p>
 
   </span>
   <span class="bigger bold"><%= if offer.selling? then "Recieved Sales Offer from #{offer.sender.username}" else "Recieved Purchase Offer from #{offer.sender.username}" end %></span><br/>
-  <% if offer.status == 0 %><span class="right"><%= link_to 'Accept and Buy', accept_textbook_offer_path(offer.textbook, offer), :method => :post, :confirm => "If you accept this offer, you are obliged to carry out this transaction with #{offer.sender.username}" %> | <%= link_to 'Counter Offer', counter_textbook_offer_path(offer.textbook, offer) %> | <%= link_to 'Reject', reject_textbook_offer_path(offer.textbook, offer), :method => :delete, :confirm => "Are you sure you'd like to reject this offer?" %></span><% end %>
   <span class="little_bigger"><%= link_to offer.textbook.title_short, textbook_path(offer.textbook) %></span><br/><br/>
   <% if offer.selling? %>
     <span class="little_bigger"><%= offer.sender.username %>'s Asking Price: <b>    <%= if offer.active? == false then "(not active)" else number_to_currency offer.listing.price end %></b></span><br/> 
