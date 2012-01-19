@@ -41,9 +41,9 @@ module ApplicationHelper
 	end
       elsif name.to_sym == :deal
         if not_zero
-          return "<li class='new_link'>#{ link_to pluralize(size, 'Deal'), deals_user_path(current_user) }</li>"
+          return "<li class='new_link'>#{ link_to pluralize(size, 'Deal') + " Pending", deals_user_path(current_user) }</li>"
 	else
-          return "<li>#{ link_to 'Deals', deals_user_path(current_user) }</li>"
+          return "<li>#{ link_to 'Deals Pending', deals_user_path(current_user) }</li>"
 	end
       end
     end

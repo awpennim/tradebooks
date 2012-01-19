@@ -58,6 +58,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def verified?
+    return false if self.verified == false || self.disabled
+  end
+
   def self.decrease_count
     get_count! if @@cache[:total].nil?
 

@@ -118,7 +118,7 @@ class ListingsController < ApplicationController
 
     def set_listing
       @listing = Listing.find_by_id(params[:id])
-      redirect_to root_path, :notice => "We couldn't find a listing with that ID"
+      redirect_to root_path, :notice => "We couldn't find a listing with that ID" if @listing.nil?
       @selling = @listing.selling?
     end
 

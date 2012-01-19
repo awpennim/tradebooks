@@ -5,8 +5,12 @@ body {
 .container {
   margin: 0 7em;
   background: #666;
-  padding: 0 3em;
+  padding: 0 2em;
   min-height: 100%;
+}
+
+.content {
+  padding: 0 1em;
 }
 
 header {
@@ -180,7 +184,6 @@ footer {
 }
 
 .date {
-  font-weight: bold;
   margin: 0;
   padding-top: 5px;
   text-align: right;
@@ -228,4 +231,8 @@ footer {
 
 .half_width{
   width: 50%
+}
+
+.padding_bottom {
+  padding-bottom: 2em;
 }

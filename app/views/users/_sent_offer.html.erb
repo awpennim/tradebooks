@@ -8,7 +8,7 @@
 
     <span class="little_bigger">Price: <b><%= if offer.active? then number_to_currency offer.price else "(offer inactive)" end %></b></span><br/>
 
-    <span class="little_bigger">Status: <b><%= Offer.status_from_index offer.status %></b></span>
+    <span class="little_bigger">Status: <b><%= if offer.selling? then Offer.status_from_index offer.status, :selling => true else Offer.status_from_index offer.status, :buying => true end %></b></span>
 
   </p>
 

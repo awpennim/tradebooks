@@ -42,7 +42,7 @@ module SessionsHelper
   end
 
   def correct_user
-    redirect_to home_user_path(current_user), :notice => "You do not have permission to view that page" if params[:id] != current_user.id.to_s
+    redirect_to home_user_path(current_user), :notice => "You do not have permission to view that page" if logged_in? == false || params[:id] != current_user.id.to_s
   end
 
   def current_user

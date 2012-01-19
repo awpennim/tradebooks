@@ -4,8 +4,8 @@
     <%= render 'invalid' %>
 
     <div class="field">
-      <%= f.label :email, "Email Ending with '@student.umass.edu'" %></br>
-      <%= f.email_field :email %>
+      <%= f.label :email, "UMass Email Address" %></br>
+      <%= f.text_field :email, :size => 10 %><b>@student.umass.edu</b>
     </div>
     <div class="field">
       <%= f.label :password %></br>

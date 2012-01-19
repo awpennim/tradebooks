@@ -69,5 +69,6 @@ class TextbooksController < ApplicationController
 
     def set_textbook
       @textbook = Textbook.find_by_id(params[:id])
+      redirect_to root_path, :notice => "We couldn't find a textbook with that ID" if @textbook.nil?
     end
 end

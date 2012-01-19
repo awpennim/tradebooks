@@ -32,6 +32,7 @@ Zoomasstextbooks::Application.routes.draw do
       get 'sent_offers'
       post 'new_verification_token'
       get 'deals'
+      get 'deals_made'
     end
 
     collection do

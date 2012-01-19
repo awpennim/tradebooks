@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.authenticate(params[:session][:email],
+    user = User.authenticate(params[:session][:email].to_s + "@student.umass.edu",
                              params[:session][:password])
 
     if user

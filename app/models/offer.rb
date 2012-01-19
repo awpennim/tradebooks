@@ -12,20 +12,22 @@ class Offer < ActiveRecord::Base
   validates :price, :numericality => {:greater_than => 0.0, :less_than => 300.0, :message => "The Offer Amount must be between $299.99 and $0.01"}
   validates :textbook_id, :presence => true
 
-  STATUS_LIST = ["Active", "Rejected", "Counter Offer Sent", "Cancelled: Interested seller sold the book to another buyer", "Cancelled: Interested buyer bought the same book from another seller", "Cancelled: Interested buyer's account was deleted", "Cancelled: Interested seller's account was deleted", "Cancelled: Interested seller cancelled offer", "Cancelled: Interested buyer cancelled offer", "Deal Made (Check Your 'Deals')", "Expired", "Listing removed"]
+  STATUS_LIST = [["Active", "Rejected", "Counter Offer Sent", "Cancelled: Interested seller sold the book to another buyer", "Cancelled: Interested buyer bought the same book from another seller", "Cancelled: Interested buyer's account was deleted", "Cancelled: Interested seller's account was deleted", "Cancelled: Interested seller cancelled offer", "Cancelled: Interested buyer cancelled offer", "Deal Made (Check Your 'Deals')", "Expired", "Seller removed 'For Sale' listing"],["Active", "Rejected", "Counter Offer Sent", "Cancelled: Interested seller sold the book to another buyer", "Cancelled: You purchased the same book from another seller", "Cancelled: Your account was deleted", "Cancelled: Interested seller's account was deleted", "Cancelled: Interested seller cancelled offer", "Cancelled: You cancelled the offer", "Deal Made, Book Purchased (Check Your 'Deals')", "Expired", "Cancelled: Seller removed 'For sale' listing"], ["Active", "Rejected", "Counter Offer Sent", "Cancelled: You sold the book to another buyer", "Cancelled: Interested buyer bought the same book from another seller", "Cancelled: Interested buyer's account was deleted", "Cancelled: Your account was deleted", "Cancelled: You cancelled the offer", "Cancelled: Interested buyer cancelled offer", "Deal Made, Book Sold (Check Your 'Deals')", "Expired", "You removed the 'For Sale' listing for this book"]]
 
   before_validation :check_textbook_id_and_reciever_id
   before_create :make_sure_no_duplicate_offers
 
   def update_status(new_status)
-    return nil unless (0..(STATUS_LIST.length - 1)).include? new_status
+    return nil unless (0..(STATUS_LIST[0].length - 1)).include? new_status
     self.update_attribute('status', new_status)  if status == 0
 
     make_deal! if new_status == 9
   end
 
-  def self.status_from_index(index)
-    STATUS_LIST[index]
+  def self.status_from_index(index, options = {})
+    return STATUS_LIST[1][index] if options[:buying]
+    return STATUS_LIST[2][index] if options[:selling]
+    STATUS_LIST[0][index]
   end
 
   def active?

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :only => [:edit, :update, :show, :home, :verify, :notifications, :looking_for_listings, :for_sale_listings, :recieved_offers, :sent_offers ]
-  before_filter :correct_user, :only => [:edit, :update, :home, :verify, :new_verification_token , :notifications, :recieved_offers, :sent_offers ]
+  before_filter :authenticate, :only => [:home, :update, :verify, :new_verification_token, :notifications, :recieved_offers, :send_offers, :settings,:show,:looking_for_listings, :for_sale_listings, :recieved_offers, :deals, :deals_made]
+  before_filter :correct_user, :only => [:update, :home, :verify, :new_verification_token , :notifications, :recieved_offers, :sent_offers, :settings , :deals, :deals_made]
   before_filter :approved_user, :only => [:destroy ]
   before_filter :authenticate_admin, :only => [:index]
   before_filter :not_logged_in, :only => [:new, :create]
@@ -49,7 +49,11 @@ class UsersController < ApplicationController
   end
 
   def deals_made
-    @user.deals.paginate(:page => params[:page], :per_page => 5)
+    @deals = (@user.deals_bought.where('buyer_status > 0') + @user.deals_sold.where('seller_status > 0')).paginate(:page => params[:page], :per_page => 5)
+  end
+
+  def deals
+    @deals = @user.new_deals.paginate(:page => params[:page], :per_page => 5)
   end
 
   def verify
@@ -82,7 +86,7 @@ class UsersController < ApplicationController
   end
 
   def post_forgot_password
-    @user = User.find_by_email(params[:user].to_s.downcase)
+    @user = User.find_by_email(params[:user].to_s.downcase + "@student.umass.edu")
 
     if @user.nil?
       redirect_to forgot_password_users_path, :notice => "We couldn't find a user with that email address"
@@ -146,7 +150,7 @@ class UsersController < ApplicationController
   end
 
   def deals
-    @title = "Deals Made"
+    @title = "Deals Pending"
     @deals = current_user.deals.paginate(:page => params[:page], :per_page => 5)
   end
 

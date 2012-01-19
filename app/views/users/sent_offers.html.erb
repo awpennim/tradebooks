@@ -1,3 +1,5 @@
+<%= link_to 'Go Back to your Offers', recieved_offers_user_path(current_user) %>
+
 <% if @offers.size > 0 %>
   <%= will_paginate @offers %>
 

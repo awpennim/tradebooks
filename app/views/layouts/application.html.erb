@@ -9,7 +9,9 @@
   <body>
     <div class="container">
       <%= render 'layouts/header', :flash => flash %>
-        <%= yield %>
+        <div class="content">
+          <%= yield %>
+	</div>
       <%= render 'layouts/footer' %>
     </div>  
   </body>
