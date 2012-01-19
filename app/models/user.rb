@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
 
   has_many :deals_bought, :class_name => "Deal", :foreign_key => "buyer_id", :order => 'created_at DESC', :dependent => :delete_all
   has_many :deals_sold, :class_name => "Deal", :foreign_key => "seller_id", :order => 'created_at DESC', :dependent => :delete_all
-  
+
   def self.LOCATIONS_LIST_ARRAY
     LOCATIONS_LIST
   end

@@ -9,6 +9,10 @@
 
 <br/>
 
+<% if logged_in? && current_user.admin %>
+  <%= link_to 'Delete User', user_path(@user), :method => :delete, :confirm => "Are you sure?" %>
+<% end %>
+
 <table class="full_width">
   <tr class="bold double">
     <td class="center_text">

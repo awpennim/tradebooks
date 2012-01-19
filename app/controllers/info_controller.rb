@@ -27,10 +27,12 @@ class InfoController < ApplicationController
   end
 
   def recent_for_sale
-
+    @title = "Recent 'For Sale' Listings"
+    @listings = Listing.recent_for_sale.paginate(:page => params[:page], :per_page => 15)
   end
 
   def recent_looking_for
-
+    @title = "Recent 'Looking For' Listings"
+    @listings = Listing.recent_looking_for.paginate(:page => params[:page], :per_page => 15)
   end
 end

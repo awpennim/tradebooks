@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :except => [:new, :forgot_password, :post_forgot_password, :create]
-  before_filter :correct_user, :except => [:show, :index, :for_sale_listings, :looking_for_listings ]
+  before_filter :authenticate, :except => [:new, :forgot_password, :post_forgot_password, :create, :destroy, :index]
+  before_filter :correct_user, :except => [:show, :index, :for_sale_listings, :looking_for_listings, :destroy ]
   before_filter :approved_user, :only => [:destroy ]
   before_filter :authenticate_admin, :only => [:index]
   before_filter :not_logged_in, :only => [:new, :create]
