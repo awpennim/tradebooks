@@ -39,6 +39,12 @@ module ApplicationHelper
 	else
           return "<li>#{ link_to 'Offers', recieved_offers_user_path(current_user) }</li>"
 	end
+      elsif name.to_sym == :deal
+        if not_zero
+          return "<li class='new_link'>#{ link_to pluralize(size, 'Deal'), deals_user_path(current_user) }</li>"
+	else
+          return "<li>#{ link_to 'Deals', deals_user_path(current_user) }</li>"
+	end
       end
     end
 end

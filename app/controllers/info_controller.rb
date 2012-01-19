@@ -18,10 +18,6 @@ class InfoController < ApplicationController
     @faqs = Faq.paginate(:page => params[:page], :per_page => 5, :order => 'created_at DESC')
   end
 
-  def why_renew
-    @title = "Why Renew?"
-  end
-
   def privacy_policy
     @title = "Privacy Policy"
   end

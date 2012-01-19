@@ -21,7 +21,7 @@
 <p class="double">Asking Price: <%= number_to_currency(@listing.price) %></p>
 
 <% if current_user.id == @listing.poster.id %>
-  <p><span class="new_link"><%= link_to "Renew your listing!", renew_textbook_listing_path(@textbook, @listing) %></span> | <%= link_to "Why?", info_why_renew_path %></p>
+  <p><span class="new_link"><%= link_to "Renew your listing!", renew_textbook_listing_path(@textbook, @listing) %></span> | <%= link_to "Why?", why_renew_textbook_listing_path(@textbook, @listing) %></p>
   <p class="new_link"><%= link_to "Edit your listing", edit_textbook_listing_path(@textbook, @listing) %></p>
   <p class="new_link"><%= link_to "Remove your listing", textbook_listing_path(@textbook, @listing), :confirm => "Are you sure you'd like to remove this listing? This will permantly remove all offers affiliated with this listing.", :method => :delete %></p>
 <% elsif @offer %>

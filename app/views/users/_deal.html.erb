@@ -1,0 +1,9 @@
+<div class="notification_or_message">
+  <span class="date small_text right">
+    Deal Made (<%= time_ago_in_words deal.created_at %>) ago
+  </span>
+  <span class="bigger bold"><%= if selling then "Sale" else "Purchase" end %></span><br/><br/>
+  <b>Book: </b><%= link_to deal.textbook.title_short, deal.textbook %><br/><br/>
+  <b><% if selling %> Buyer: </b><%= link_to deal.buyer.username, deal.buyer %> &nbsp; (<%= link_to 'Send Message', new_user_message_path(current_user, :to => deal.buyer.username) %>) <% else %> Seller: </b><%= link_to deal.seller.username, deal.seller %> &nbsp; (<%= link_to 'Send Message', new_user_message_path(current_user, :to => deal.seller.username) %>) <% end %><br/><br/>  
+  <b>Price: </b><%= number_to_currency deal.price %>
+</div>

@@ -9,7 +9,16 @@
   <%= f.hidden_field :listing_id, :value => @listing.id %>
 
   <div class="bigger">
-    <b><%= @listing.poster.username %>'s Asking Price:</b> <%= number_to_currency(@listing.price) %>
+    <% if @counter_price %>
+      <b><%= @other_user.username %>'s Offer Price:</b> <%= number_to_currency(@counter_price) %><br/>
+      <b><%= @other_user.username %>'s Asking Price:</b> <%= number_to_currency(@listing.price) %>
+    <% else %>
+      <b><%= @listing.poster.username %>'s Asking Price:</b> <%= number_to_currency(@listing.price) %>
+    <% end %>
+  </div><br/>
+
+  <div class="little_bigger">
+    <%= link_to @textbook.title, @textbook %>
   </div><br/>
 
   <div>

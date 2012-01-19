@@ -31,7 +31,7 @@ Zoomasstextbooks::Application.routes.draw do
       get 'recieved_offers'
       get 'sent_offers'
       post 'new_verification_token'
-      get 'deals_made'
+      get 'deals'
     end
 
     collection do
@@ -58,6 +58,7 @@ Zoomasstextbooks::Application.routes.draw do
         get 'renew'
         get 'new_selling_offer'
 	get 'new_buying_offer'
+	get 'why_renew'
       end
 
       collection do
@@ -87,7 +88,6 @@ Zoomasstextbooks::Application.routes.draw do
   match "/about", :to => "info#about"
   match "/faq", :to => "info#faq"
   match "/privacy_policy", :to => "info#privacy_policy"
-  get "info/why_renew"
   get "info/under_construction"
 
 

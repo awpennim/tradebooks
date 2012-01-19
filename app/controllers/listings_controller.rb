@@ -3,6 +3,10 @@ class ListingsController < ApplicationController
   before_filter :set_textbook
   before_filter :authenticate, :except => [:for_sale, :looking_for]
 
+  def why_renew
+    @title = "Why Renew?"
+  end
+
   def for_sale
     @title = "For Sale : #{ @textbook.title }"
     @listings = @textbook.sell_listings.paginate(:page => params[:page])
@@ -16,7 +20,7 @@ class ListingsController < ApplicationController
   def new_selling_offer
     redirect_to textbook_listing_path(@textbook, @listing), :notice => "You've already sent #{@listing.poster.username} an offer for this book. You can check your offers sent by navigating to the 'Offers' page in the upper-left links then clicking 'View sent offers here'" if current_user.active_offer_sent_to_user_for_textbook(@listing.poster.id, @textbook.id) 
 
-    @title = "Sell #{@listing.poster.username} your copy of #{@textbook.title_short}"
+    @title = "Sales Offer to #{@listing.poster.username}"
     @other_user = @listing.poster
     @offer = Offer.new
   end
@@ -24,7 +28,7 @@ class ListingsController < ApplicationController
   def new_buying_offer
     redirect_to textbook_listing_path(@textbook, @listing), :notice => "You've already sent #{@listing.poster.username} an offer for this book. You can check your offers sent by navigating to the 'Offers' page in the upper-left links then clicking 'View sent offers here'" if current_user.active_offer_sent_to_user_for_textbook(@listing.poster.id, @textbook.id) 
 
-    @title = "Buy #{@listing.poster.username}'s #{@textbook.title_short}"
+    @title = "Purchase Offer to #{@listing.poster.username}"
     @other_user = @listing.poster
     @offer = Offer.new
   end

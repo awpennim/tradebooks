@@ -1,0 +1,13 @@
+<% if @deals.size > 0 %>
+  <%= will_paginate @deals %>
+
+  <% @deals.each do |deal| %>
+    <%= render 'users/deal', :deal => deal, :selling => (deal.seller_id == current_user.id) %>
+  <% end %>
+
+  <%= will_paginate @deals %>
+<% else %>
+  <p>
+    You haven't made any deals yet
+  </p>
+<% end %>

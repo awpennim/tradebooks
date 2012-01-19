@@ -6,6 +6,7 @@
       <%= link_to "'For Sale'", for_sale_listings_user_path(current_user) %>
       <%= link_to "'Looking For'", looking_for_listings_user_path(current_user) %>
       <%= raw display_link(current_user.new_offers, :offer) %>
+      <%= raw display_link(current_user.new_deals, :deal) %>
     </ul>
   <% end %>
 
@@ -23,7 +24,7 @@
   </ul>
 </header>
 
-<h1 class="center_text"><%= link_to 'Trade Campus Books', root_path %></h1>
+<h1 class="center_text"><%= link_to 'TradeCampusBooks.com', root_path %></h1>
 
 <%= render 'layouts/flash', :flash => flash %>
 

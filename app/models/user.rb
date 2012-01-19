@@ -39,7 +39,6 @@ class User < ActiveRecord::Base
 
   has_many :deals_bought, :class_name => "Deal", :foreign_key => "buyer_id", :order => 'created_at DESC', :dependent => :delete_all
   has_many :deals_sold, :class_name => "Deal", :foreign_key => "seller_id", :order => 'created_at DESC', :dependent => :delete_all
-
   
   def self.LOCATIONS_LIST_ARRAY
     LOCATIONS_LIST
@@ -197,7 +196,11 @@ class User < ActiveRecord::Base
   end
 
   def deals
-    Deal.where("buyer_id = '#{id}' OR seller_id = '#{self.id}'")
+    Deal.where("buyer_id = '#{id}' OR seller_id = '#{self.id}'").order("created_at DESC")
+  end
+
+  def new_deals
+    self.deals_bought.where(:buyer_status => 0) + self.deals_sold.where(:seller_status => 0)
   end
 
   private

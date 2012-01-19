@@ -10,7 +10,7 @@
 
   <div class="bigger">
     <% if @counter_price %>
-      <b>Your Asking Price:</b> <%= number_to_currency(@listing.price) %><br/><br/>
+      <b>Your Asking Price:</b> <%= number_to_currency(@listing.price) %><br/>
       <b><%= @other_user.username %>'s Offer Price: </b> <%= number_to_currency @counter_price %>
     <% else %>
       <b><%= @other_user.username %>'s Asking Price:</b> <%= number_to_currency(@listing.price) %>

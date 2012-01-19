@@ -12,7 +12,7 @@ class Offer < ActiveRecord::Base
   validates :price, :numericality => {:greater_than => 0.0, :less_than => 300.0, :message => "The Offer Amount must be between $299.99 and $0.01"}
   validates :textbook_id, :presence => true
 
-  STATUS_LIST = ["Active", "Rejected", "Counter Offer Sent", "Cancelled: Interested seller sold the book to another buyer", "Cancelled: Interested buyer bought the same book from another seller", "Cancelled: Interested buyer's account was deleted", "Cancelled: Interested seller's account was deleted", "Cancelled: Interested seller cancelled offer", "Cancelled: Interested buyer cancelled offer", "Accepted, Deal Made", "Expired", "Listing removed"]
+  STATUS_LIST = ["Active", "Rejected", "Counter Offer Sent", "Cancelled: Interested seller sold the book to another buyer", "Cancelled: Interested buyer bought the same book from another seller", "Cancelled: Interested buyer's account was deleted", "Cancelled: Interested seller's account was deleted", "Cancelled: Interested seller cancelled offer", "Cancelled: Interested buyer cancelled offer", "Deal Made (Check Your 'Deals')", "Expired", "Listing removed"]
 
   before_validation :check_textbook_id_and_reciever_id
   before_create :make_sure_no_duplicate_offers
@@ -21,7 +21,7 @@ class Offer < ActiveRecord::Base
     return nil unless (0..(STATUS_LIST.length - 1)).include? new_status
     self.update_attribute('status', new_status)  if status == 0
 
-    deal_with_other_offers if new_status == 9
+    make_deal! if new_status == 9
   end
 
   def self.status_from_index(index)
@@ -41,7 +41,21 @@ class Offer < ActiveRecord::Base
   end
 
   def make_deal!
-    return true if deal_with_other_offers 
+    if deal_with_other_offers 
+      if selling?
+        Deal.create!(:buyer_id => self.reciever_id, :seller_id => self.sender_id, :price => self.price, :textbook_id => self.textbook_id)
+      else
+        Deal.create!(:buyer_id => self.sender_id, :seller_id => self.reciever_id, :price => self.price, :textbook_id => self.textbook_id)
+      end
+
+      sender_listing = sender.listing_from_textbook(textbook_id)
+      sender_listing.destroy if sender_listing.nil? == false
+
+      reciever_listing = reciever.listing_from_textbook(textbook_id)
+      reciever_listing.destroy if reciever_listing.nil? == false
+    else
+      return false
+    end
   end
 
   private

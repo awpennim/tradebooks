@@ -13,11 +13,11 @@ class OffersController < ApplicationController
     @other_user = @offer.sender
 
     if @offer.selling? #Counter buying offer
-      @title = "To Buy #{@textbook.title_short} from #{@other_user.username}"
+      @title = "Counter Purchase Offer to #{@other_user.username}"
       @offer = Offer.new
       render 'listings/new_buying_offer'
     else #Counter selling offer
-      @title = "To Sell #{@textbook.title_short} to #{@other_user.username}"
+      @title = "Counter Sales Offer to #{@other_user.username}"
       @offer = Offer.new
       render 'listings/new_selling_offer'
     end
@@ -25,13 +25,13 @@ class OffersController < ApplicationController
 
   def accept
     @offer.update_status(9)
-    @offer.make_deal!
+
     if @offer.selling?
-      @offer.sender.notify("Your offer to #{@offer.reciever.username} to sell your copy of #{@offer.textbook.title_short} for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
-      redirect_to recieved_offers_user_path(current_user), :notice => "Congratulations! You've accepted to sell #{@offer.sender.username} your copy of #{@offer.textbook.title_short} for #{@offer.price}"
+      @offer.sender.notify("Your offer to #{@offer.reciever.username} to sell your copy of '#{@offer.textbook.title_short}' for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
+      redirect_to recieved_offers_user_path(current_user), :notice => "Congratulations! You've accepted to sell #{@offer.sender.username} your copy of #{@offer.textbook.title_short} for #{ number_to_currency @offer.price}"
     else
-      @offer.sender.notify("Your offer to #{@offer.reciever.username} to buy #{@offer.textbook.title_short} for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
-      redirect_to recieved_offers_user_path(current_user), :notice => "Congratulations! You've accepted to buy #{@offer.sender.username}'s copy of #{@offer.textbook.title_short} for #{@offer.price}"
+      @offer.sender.notify("Your offer to #{@offer.reciever.username} to buy '#{@offer.textbook.title_short}' for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
+      redirect_to recieved_offers_user_path(current_user), :notice => "Congratulations! You've accepted to buy #{@offer.sender.username}'s copy of #{@offer.textbook.title_short} for #{ number_to_currency @offer.price }"
     end
   end
 
@@ -59,20 +59,20 @@ class OffersController < ApplicationController
 
     if @offer.selling?
       if @offer.save
-        redirect_to textbook_listing_path(@textbook,@listing), :notice => "Sales Offer sent to #{@offer.reciever.username} for #{@textbook.title_short} at #{number_to_currency @offer.price} #{@listing.poster.username} has 24 hours to respond to your offer."
+        redirect_to textbook_listing_path(@textbook,@listing), :notice => "Sales Offer sent to #{@offer.reciever.username} for '#{@textbook.title_short}' at #{number_to_currency @offer.price} #{@listing.poster.username} has 24 hours to respond to your offer."
       else
 	@other_user = @offer.reciever
         @counter_price = @other_user.active_offer_sent_to_user_for_textbook(@other_user.id, @textbook.id)
-        @title = "To Sell #{@textbook.title_short} to #{@other_user.username}"
+        @title = "To Sell '#{@textbook.title_short}' to #{@other_user.username}"
         render 'listings/new_selling_offer',     
       end
     else
       if @offer.save
-        redirect_to textbook_listing_path(@textbook,@listing), :notice => "Purchase Offer sent to #{@offer.reciever.username} for #{@textbook.title_short} at #{number_to_currency @offer.price} #{@listing.poster.username} has 24 hours to respond to your offer."
+        redirect_to textbook_listing_path(@textbook,@listing), :notice => "Purchase Offer sent to #{@offer.reciever.username} for '#{@textbook.title_short}' at #{number_to_currency @offer.price} #{@listing.poster.username} has 24 hours to respond to your offer."
       else
         @other_user = @offer.reciever
         @counter_price = @other_user.active_offer_sent_to_user_for_textbook(@other_user.id, @textbook.id)
-        @title = "To Buy #{@textbook.title_short} from #{@other_user.username}"
+        @title = "To Buy '#{@textbook.title_short}' from #{@other_user.username}"
         render 'listings/new_buying_offer',     
       end
     end

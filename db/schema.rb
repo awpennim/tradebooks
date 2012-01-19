@@ -11,15 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120118072850) do
+ActiveRecord::Schema.define(:version => 20120119022824) do
 
   create_table "deals", :force => true do |t|
     t.integer  "buyer_id"
     t.integer  "seller_id"
-    t.integer  "seller_status", :default => 0
-    t.integer  "buyer_status",  :default => 0
+    t.integer  "seller_status",                               :default => 0
+    t.integer  "buyer_status",                                :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "price",         :precision => 8, :scale => 2
+    t.integer  "textbook_id"
   end
 
   add_index "deals", ["buyer_id"], :name => "index_deals_on_buyer_id"

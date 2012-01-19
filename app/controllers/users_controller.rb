@@ -145,6 +145,11 @@ class UsersController < ApplicationController
     @offers = current_user.sent_offers.paginate(:page => params[:page])
   end
 
+  def deals
+    @title = "Deals Made"
+    @deals = current_user.deals.paginate(:page => params[:page], :per_page => 5)
+  end
+
   def destroy
     if @user.admin?
       redirect_to @user, :notice => "You can't delete an administrator!"

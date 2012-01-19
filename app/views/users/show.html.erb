@@ -1,6 +1,7 @@
 <table class="full_width">
   <tr>
     <td><b>Username:</b> <%= @user.username %></td>
+    <%= if current_user.admin? then raw "<td><b>Email:</b> #{ @user.email }</td>" end %>
     <td><b>Living Location:</b> <%= @user.location_str %></td>
     <td><b>Completed Deals:</b> 0</td>
   </tr>
