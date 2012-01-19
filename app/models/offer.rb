@@ -43,9 +43,9 @@ class Offer < ActiveRecord::Base
   def make_deal!
     if deal_with_other_offers 
       if selling?
-        Deal.create!(:buyer_id => self.reciever_id, :seller_id => self.sender_id, :price => self.price, :textbook_id => self.textbook_id)
+        Deal.create!(:buyer_id => self.reciever_id, :seller_id => self.sender_id, :price => self.price, :textbook_id => self.textbook_id, :description => self.listing.description)
       else
-        Deal.create!(:buyer_id => self.sender_id, :seller_id => self.reciever_id, :price => self.price, :textbook_id => self.textbook_id)
+        Deal.create!(:buyer_id => self.sender_id, :seller_id => self.reciever_id, :price => self.price, :textbook_id => self.textbook_id, :description => self.listing.description)
       end
 
       sender_listing = sender.listing_from_textbook(textbook_id)

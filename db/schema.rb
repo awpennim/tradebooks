@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120119022824) do
+ActiveRecord::Schema.define(:version => 20120119031813) do
 
   create_table "deals", :force => true do |t|
     t.integer  "buyer_id"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20120119022824) do
     t.datetime "updated_at"
     t.decimal  "price",         :precision => 8, :scale => 2
     t.integer  "textbook_id"
+    t.string   "description"
   end
 
   add_index "deals", ["buyer_id"], :name => "index_deals_on_buyer_id"

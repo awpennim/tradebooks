@@ -1,5 +1,5 @@
 class Deal < ActiveRecord::Base
-  attr_accessible :buyer_id, :seller_id, :price, :textbook_id
+  attr_accessible :buyer_id, :seller_id, :price, :textbook_id, :description
 
   validates :buyer_id, :presence => true
   validates :seller_id, :presence => true
