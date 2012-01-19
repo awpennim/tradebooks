@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :only => [:home, :update, :verify, :new_verification_token, :notifications, :recieved_offers, :send_offers, :settings,:show,:looking_for_listings, :for_sale_listings, :recieved_offers, :deals, :deals_made]
-  before_filter :correct_user, :only => [:update, :home, :verify, :new_verification_token , :notifications, :recieved_offers, :sent_offers, :settings , :deals, :deals_made ]
+  before_filter :authenticate, :only => [:home, :update, :verify, :new_verification_token, :notifications, :recieved_offers, :sent_offers, :settings,:show,:looking_for_listings, :for_sale_listings, :recieved_offers, :deals, :deals_made]
+  before_filter :correct_user, :only => [:update, :home, :verify, :new_verification_token , :notifications, :recieved_offers, :sent_offers, :settings , :deals, :deals_made, :sent_offers, :received_offers ]
   before_filter :approved_user, :only => [:destroy ]
   before_filter :authenticate_admin, :only => [:index]
   before_filter :not_logged_in, :only => [:new, :create]
 
-  skip_before_filter :ensure_verified, :except => [:show, :for_sale_listings, :looking_for_listings, :deals, :deals_made ]
+  skip_before_filter :ensure_verified, :except => [:show, :for_sale_listings, :looking_for_listings, :deals, :deals_made, :recieved_offers, :sent_offers ]
 
   before_filter :set_user_current_user, :only => [:home, :notifications, :deals_made, :post_verify, :update, :recieved_offers, :sent_offers, :settings]
   before_filter :set_user, :except => [:index, :new, :home , :forgot_password, :post_forgot_password, :create ]

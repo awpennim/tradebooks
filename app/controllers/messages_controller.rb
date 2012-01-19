@@ -1,8 +1,7 @@
 class MessagesController < ApplicationController
-  before_filter :approved_user, :only => [:show, :delete]
-  before_filter :correct_user, :only => [:new] 
-
-  skip_before_filter 
+  before_filter :authenticate
+  before_filter :correct_user, :only => [:new, :inbox, :new, :create, :outbox, :destroy] 
+  before_filter :approved_user, :only => [:show, :destroy]
 
   def show
     @message = Message.find(params[:id])

@@ -26,4 +26,11 @@ class InfoController < ApplicationController
     @title = "Under Construction Page"
   end
 
+  def recent_for_sale
+
+  end
+
+  def recent_looking_for
+
+  end
 end

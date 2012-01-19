@@ -4,7 +4,6 @@ class User < ActiveRecord::Base
 
   attr_accessor :password, :password_confirmation, :current_password
   attr_accessible :email, :password, :password_confirmation, :current_password, :location, :username
-  attr_reader :verified
 
   EMAIL_REGEX = /\A[\w+\-.]+@student\.umass\.edu/i
 
@@ -58,8 +57,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def verified?
-    return false if self.verified == false || self.disabled
+  def is_verified?
+    return false if self.verified != true || self.disabled
 
     return true
   end
