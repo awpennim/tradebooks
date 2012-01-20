@@ -59,12 +59,12 @@ class ListingsController < ApplicationController
 
   def post_for_sale
     @listing = Listing.new
-    @title = "Post your 'For Sale' listing for #{@textbook.title}"
+    @title = "Post your 'For Sale' listing for #{@textbook.title_short}"
   end
 
   def post_looking_for
     @listing = Listing.new
-    @title = "Post your 'Looking For' listing for #{@textbook.title}"
+    @title = "Post your 'Looking For' listing for #{@textbook.title_short}"
   end
 
   def create
