@@ -29,7 +29,7 @@ class TextbooksController < ApplicationController
 
   # GET /textbooks/1/edit
   def edit
-    @textbook.isbn_str = @textbook.isbn_dsp
+    @title = "Edit #{@textbook.title_short}"
   end
 
   def request_book
@@ -50,7 +50,19 @@ class TextbooksController < ApplicationController
       redirect_to root_path
       return
     end
-     
+
+    if params[:textbook][:admin_create] && logged_in? && current_user.admin?
+      @textbook = Textbook.new(params[:textbook])
+      @textbook.admin_create = true
+
+      if @textbook.save
+        redirect_to @textbook
+      else
+        render :new
+      end
+      return
+    end
+    
     @textbook = Textbook.new(params[:textbook])
 
     if @textbook.save

@@ -4,15 +4,17 @@ class Textbook < ActiveRecord::Base
   require 'isbn_app'
   include ISBN_app
 
-  attr_accessor :isbn_str
-  attr_accessible :isbn, :isbn_str
+  attr_accessor :isbn_str, :admin_create
+  attr_accessible :isbn, :isbn_str, :suffix, :admin_create, :author, :title, :publisher_text, :summary
 
   has_many :sell_listings, :class_name => "Listing", :foreign_key => "textbook_id", :dependent => :delete_all, :order => 'updated_at DESC', :conditions => { :selling => true }
   has_many :buy_listings, :class_name => "Listing", :foreign_key => "textbook_id", :dependent => :delete_all, :order => 'updated_at DESC', :conditions => { :selling => false }
 
-  validates :isbn, :uniqueness => {:scope => :suffix}
-  validates :author, :presence => true
-  validates :title, :presence => true
+  validates :isbn, :uniqueness => {:scope => :suffix, :message => "ISBN has already been created"},
+                   :length => {:within => 0..10, :message => "ISBN is too long"}
+  validates :author, :presence => {:message => "Author field is blank"}
+  validates :title, :presence => {:message => "Title field is blank"},
+                    :length => {:within => 0..255, :message => "Title is too long"}
 
   before_validation :fill_atts, :if => :need_fill?
   
@@ -25,6 +27,8 @@ class Textbook < ActiveRecord::Base
     self.title = params[:title]
     self.summary = params[:summary]
     self.publisher_text = params[:publisher_text]
+    self.suffix = params[:suffix]
+    self.isbn = params[:isbn]
 
     self.save
   end
@@ -97,6 +101,13 @@ class Textbook < ActiveRecord::Base
     end
 
     def fill_atts
+      if admin_create
+        self.author = nil if self.author.blank?
+	self.summary = nil if self.summary.blank?
+	self.publisher_text = nil if self.publisher_text.blank?
+        return true
+      end
+
       if isbn_str.nil? || isbn_str.length == 0
         self.errors.add(:isbn, "field has no digits")
         return nil

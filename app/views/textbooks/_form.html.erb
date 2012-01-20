@@ -1,8 +1,16 @@
 <div class ="textbook_form">
   <%= form_for(textbook) do |f| %>
-    <%= render 'layouts/errors', :error => textbook %>
-
+    <%= render 'layouts/errors', :error => textbook, :header => "couldn't update textbook" %>
+    <%= f.hidden_field :admin_create, :value => true %>
     <table>
+      <tr>
+        <td><%= f.label :isbn, 'ISBN' %></td>
+        <td><%= f.text_field :isbn %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :suffix, "Trailing 'X'" %></td>
+        <td><%= f.check_box :suffix %></td>
+      </tr>
       <tr>
         <td><%= f.label :title, 'Title' %></td>
         <td><%= f.text_field :title %></td>
@@ -23,7 +31,7 @@
     <br>
 
     <div class="actions">
-      <%= f.submit "Update" %>
+      <%= f.submit %>
     </div>
   <% end %>
 </div>
