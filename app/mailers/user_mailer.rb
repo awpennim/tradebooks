@@ -12,4 +12,10 @@ class UserMailer < ActionMailer::Base
     @token = token
     mail(:to => user.email, :subject => "#{user.username}, Your New Password")
   end
+
+  def send_textbook_request_to_admin(request, user)
+    @user = user
+    @request = request
+    mail(:to => "apenniman@tradecampusbooks.com", :subject => "#{user.username}'s textbook request")
+  end
 end

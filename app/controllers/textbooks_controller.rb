@@ -1,6 +1,7 @@
 class TextbooksController < ApplicationController
   before_filter :authenticate_admin, :only => [:index, :new, :update, :delete, :edit]
   before_filter :set_textbook, :only => [:show, :edit, :update, :destroy]
+  before_filter :authenticate, :only => [:request]
   skip_before_filter :ensure_verified
 
   def index
@@ -29,6 +30,19 @@ class TextbooksController < ApplicationController
   # GET /textbooks/1/edit
   def edit
     @textbook.isbn_str = @textbook.isbn_dsp
+  end
+
+  def request_book
+    @isbn_str = params[:isbn]
+    
+    if @isbn_str.nil?
+      redirect_to root_path
+      return
+    end
+
+    UserMailer.send_textbook_request_to_admin(@isbn_str, current_user).deliver
+
+    redirect_to textbooks_search_path, :notice => "Your request has been sent. You will be notified once this book has been added"
   end
 
   def create

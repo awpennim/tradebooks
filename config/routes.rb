@@ -50,9 +50,12 @@ Zoomasstextbooks::Application.routes.draw do
   end
 
   match "/signup", :to => "users#new"
-
-  get "textbooks/search" 
+  get "textbooks/search"
   resources :textbooks do
+
+    collection do
+      post 'request_book'
+    end
     
     resources :listings, :except => [:index, :new] do
       member do
