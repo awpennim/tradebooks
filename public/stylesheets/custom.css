@@ -238,10 +238,15 @@ footer {
 }
 
 .padding_top {
-  padding-top: 2.5em;
+  padding-top: 3em;
+}
+
+#search_form {
+  padding-bottom: 4em;
 }
 
 #barcode_image {
   float: right;
   padding-right: 10em;
+  badding-bottom: 1em;
 }
