@@ -18,4 +18,9 @@ class UserMailer < ActionMailer::Base
     @request = request
     mail(:to => "apenniman@tradecampusbooks.com", :subject => "#{user.username}'s textbook request")
   end
+  
+  def alert_admin_new_user(user)
+    @user = user
+    mail(:to => "apenniman@tradecampusbooks.com", :subject => "#{user.email}, created an account", :from => "support@tradecampusbooks.com")
+  end
 end

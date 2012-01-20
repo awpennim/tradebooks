@@ -107,6 +107,7 @@ class UsersController < ApplicationController
 
     if @user.save
       User.increase_count
+      UserMailer.alert_admin_new_user(@user).deliver
       UserMailer.verify_notification(@user, @user.make_verify_token!).deliver
       sign_in_for_first_time(@user)
     else
