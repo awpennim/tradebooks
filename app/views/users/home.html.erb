@@ -26,11 +26,11 @@
         <td><%= link_to "Browse Recent 'For Sale' Listings", recent_for_sale_path %></td>
         <td><%= link_to "Browse Recent 'Looking For' Listings", recent_looking_for_path %></td>
       </tr>
-    </table><br/><br/>
+    </table><br/>
 
-    <span class="bigger">Start listing your books 'For Sale' and 'Looking For' by searching for them <%= link_to 'here', textbooks_search_path  %>
+    <span class="bigger new_link"><%= link_to 'Start Buying and Selling Books', textbooks_search_path  %></span>
 </div>
-<br/>
+<br/><br/>
 
 <% if Rails.env == "development" && current_user.verified? == false %>
   <p>

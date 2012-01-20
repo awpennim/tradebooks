@@ -46,7 +46,7 @@ class UsersController < ApplicationController
   end
 
   def settings
-    @title = "Settings"
+    @title = "User's Settings"
   end
 
   def deals_made

@@ -94,6 +94,7 @@ Zoomasstextbooks::Application.routes.draw do
   match "/privacy_policy", :to => "info#privacy_policy"
   match "/recent_for_sale", :to => "info#recent_for_sale"
   match "/recent_looking_for", :to => "info#recent_looking_for"
+  get "info/spire"
   get "info/under_construction"
 
 

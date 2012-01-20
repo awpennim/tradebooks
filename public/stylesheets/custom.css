@@ -236,3 +236,12 @@ footer {
 .padding_bottom {
   padding-bottom: 1em;
 }
+
+.padding_top {
+  padding-top: 2.5em;
+}
+
+#barcode_image {
+  float: right;
+  padding-right: 10em;
+}

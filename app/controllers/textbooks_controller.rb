@@ -24,7 +24,7 @@ class TextbooksController < ApplicationController
 
   def search
     @textbook = Textbook.new
-    @title = "Search for Textbooks"
+    @title = "Search for a Book"
   end
 
   # GET /textbooks/1/edit

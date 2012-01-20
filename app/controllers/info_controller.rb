@@ -13,6 +13,10 @@ class InfoController < ApplicationController
     @title = "About"
   end
 
+  def spire
+    @title = "Finding ISBNs with Spire"
+  end
+
   def faq
     @title = "Frequently Asked Questions"
     @faqs = Faq.paginate(:page => params[:page], :per_page => 5, :order => 'created_at DESC')

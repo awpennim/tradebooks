@@ -13,7 +13,7 @@
   <ul class="links right">
     <% if logged_in? %>
       <li>Welcome, <%= link_to current_user.username, current_user %> (<%= link_to "sign out", signout_path %><%= if current_user.verified? == false then raw " | <span class='new_link'>#{link_to 'Verify!', verify_user_path(current_user) }</span>" end %> )&nbsp; </li>
-      <li><%= link_to "Buy and Sell", textbooks_search_path %></li>
+      <li><%= link_to "Search Books", textbooks_search_path %></li>
       <li><%= link_to "Home", home_user_path(current_user) %></li>
       <li><%= link_to "Settings", settings_user_path(current_user) %></li>
     <% else %>
