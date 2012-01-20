@@ -5,7 +5,6 @@
 
   <table class="full_width">
     <tr class="bold">
-      <td>Posting User</td>
       <td>Book Title</td>
       <td>Short Description</td>
       <td>Asking Price</td>
@@ -15,7 +14,6 @@
 
     <% @listings.each do |listing| %>
       <tr>
-        <td><%= link_to listing.poster.username, listing.poster %></td>
 	<td><%= link_to listing.textbook.title_short, textbook_path(listing.textbook) %></td>
         <td><%= link_to listing.description_short, textbook_listing_path(listing.textbook, listing) %></td>
         <td><%= number_to_currency(listing.price) %></td>
