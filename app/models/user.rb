@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
   end
 
   def self.increase_count
-    get_count! if @@cache[:total].nil?
+    return get_count! if @@cache[:total].nil?
 
     @@lock.synchronize do
       @@cache[:total] = @@cache[:total] + 1
@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
   end
 
   def self.decrease_count
-    get_count! if @@cache[:total].nil?
+    return get_count! if @@cache[:total].nil?
 
     @@lock.synchronize do
       @@cache[:total] = @@cache[:total] - 1
