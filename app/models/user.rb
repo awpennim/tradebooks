@@ -79,6 +79,10 @@ class User < ActiveRecord::Base
     LOCATIONS_LIST.index loc
   end
 
+  def location_in_words
+    User.location_from_index(location)
+  end
+
   def self.matching_locations(user1, user2)
     return false if user1.nil? || user2.nil? || user1.location != user2.location
     return true

@@ -1,5 +1,8 @@
 <p>
-  <b>Title: </b><%= @textbook.title %>
+  <b>Title: </b><%= link_to @textbook.title, @textbook %>
+</p>
+<p>
+  <b>Author: </b><%= @textbook.author %>
 </p>
 
 <table class="full_width">
