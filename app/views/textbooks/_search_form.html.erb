@@ -6,7 +6,7 @@
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Every book has a one or two ISBNs on the back cover usually located below and/or above the barcorde( try both numbers in the 'search' ). If you are looking for a book that you need, <b>you can find the ISBN on SPIRE</b> by following the <%= link_to "'Textbooks Summary' link", info_spire_path %> on your schedule <b>or</b> by <b>'googling' the title and author</b>. For example, if you copy and pasted this ISBN, <b>0-13-166301-1</b>&nbsp; or &nbsp;<b>9-780131-663015</b>, into the search field below, you would be sent to <%= link_to 'this page', textbook_path(14) %>. Once you've successfully found your book using our search, there will be links to list your book <b>'For Sale'</b> or <b>'Looking For'</b>. 
     </p>
     <div id="barcode_image">
-      <%= image_tag 'barcode.jpg' %>
+      <%= image_tag 'barcode.JPG' %>
     </div>
     <div class="isbn_search padding_top">
       <%= f.label :isbn_str, 'ISBN:' %>
