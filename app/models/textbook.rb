@@ -116,7 +116,7 @@ class Textbook < ActiveRecord::Base
       book_data = book_data(:isbn => isbn_str)
 
       if book_data.nil?
-        self.errors.add(:isbn, "We couldn't find a book with that ISBN number in our database. To request that we add it, please login, then #{ ActionController::Base.helpers.link_to 'click here', request_book_textbooks_path(:isbn => isbn_str), :method => :post }")
+        self.errors.add(:isbn, "We couldn't find a book with that ISBN number in our database. To request that we add it, please login, then #{ ActionController::Base.helpers.link_to 'click here', request_book_textbooks_path(:isbn => isbn_str) }")
         self.isbn = isbn_str
         return false
       end

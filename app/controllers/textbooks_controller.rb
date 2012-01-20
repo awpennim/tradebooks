@@ -1,7 +1,7 @@
 class TextbooksController < ApplicationController
   before_filter :authenticate_admin, :only => [:index, :new, :update, :delete, :edit]
   before_filter :set_textbook, :only => [:show, :edit, :update, :destroy]
-  before_filter :authenticate, :only => [:request]
+  before_filter :authenticate, :only => [:request_book]
   skip_before_filter :ensure_verified
 
   def index

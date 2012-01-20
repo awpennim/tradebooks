@@ -54,7 +54,7 @@ Zoomasstextbooks::Application.routes.draw do
   resources :textbooks do
 
     collection do
-      post 'request_book'
+      get 'request_book'
     end
     
     resources :listings, :except => [:index, :new] do
