@@ -14,7 +14,7 @@ class InfoController < ApplicationController
   end
 
   def spire
-    @title = "Finding ISBNs with Spire"
+    @title = "Finding ISBNs with SPIRE"
   end
 
   def faq
