@@ -1,4 +1,4 @@
-<%= link_to 'View your Active Offers', active_recieved_offers_user_path(current_user) %><br/>
+<%= link_to 'View your Recieved Offer History', recieved_offers_user_path(current_user) %><br/>
 <%= link_to 'View your Offers Sent', sent_offers_user_path(current_user) %>
 
 <% if @offers.size > 0 %>
@@ -11,8 +11,13 @@
 
   <%= will_paginate @offers %><br/>
 
-  <%= link_to 'View your Active offers', active_recieved_offers_user_path(current_user) %><br/>
+  <%= link_to 'View your Recieved Offer History', recieved_offers_user_path(current_user) %><br/>
   <%= link_to 'View your Offers Sent', sent_offers_user_path(current_user) %>
+
+  <% else %>
+    <p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You currently have no active offers
+    </p>
 <% end %>
 
 

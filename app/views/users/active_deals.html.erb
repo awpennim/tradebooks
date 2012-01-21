@@ -1,4 +1,4 @@
-<%= link_to 'Back to Active Deals', active_deals_user_path(current_user) %>
+<%= link_to 'Go to Deals History', deals_user_path(current_user) %>
 
 <% if @deals.size > 0 %>
   <%= will_paginate @deals %>
@@ -10,9 +10,9 @@
   <%= will_paginate @deals %>
 <% else %>
   <p>
-    You haven't completed any deals yet
+    You don't have any deals pending
   </p>
 <% end %>
 
-<%= link_to 'Back to Active Deals', active_deals_user_path(current_user) %>
+<%= link_to 'Go to Deals History', deals_user_path(current_user) %>
 

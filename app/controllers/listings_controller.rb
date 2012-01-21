@@ -78,6 +78,7 @@ class ListingsController < ApplicationController
 
     if @listing.save
       Listing.increase_count
+      UserMailer.alert_admin_new_listing(@listing).deliver
       if @listing.selling?
         redirect_to textbook_listing_path(@textbook, @listing), :notice => "You've listed #{@textbook.title} 'For Sale'"
       else

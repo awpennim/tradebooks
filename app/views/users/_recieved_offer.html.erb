@@ -1,7 +1,9 @@
+<% offer.check_status! %>
+
 <div class="notification_or_message <%= if offer.status == 0 then "white" end %>">
   <span class="date right">
     <span class="small_text bold">
-      <% if offer.status == 0 %>Offer expires in (<%= time_ago_in_words(offer.created_at - 24.hours, include_seconds = true) %>) | <% end %>recieved <%= time_ago_in_words(offer.created_at) %> ago
+     <% if offer.status == 0 %>Offer expires in (<%= time_ago_in_words(offer.created_at + 2.minutes, true) %>) | <% end %>recieved <%= time_ago_in_words(offer.created_at, true) %> ago
     </span>
 
     <p class="little_bigger padding_bottom">
@@ -25,9 +27,13 @@
 
   <span class="little_bigger"><%= offer.sender.username %>'s Offer: <b><%= number_to_currency offer.price %></b></span><br/><br/>
 
-  <span>Status: <b><%= if offer.selling? then Offer.status_from_index offer.status, :buying => true else Offer.status_from_index offer.status, :selling => true end %></b></span>
+  <span><b>Status: </b><%= if offer.selling? then Offer.status_from_index offer.status, :buying => true else Offer.status_from_index offer.status, :selling => true end %></span><br/>
 
   <% if offer.message %>
-    <br /><b>Message:</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= offer.message %><br/><br/>
+    <br /><b>Message:</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= offer.message %><br/>
+  <% end %>
+
+  <% if offer.active? && offer.listing.description? %>
+    <br/><b>Book Description: </b><%= offer.listing.description %>
   <% end %>
 </div>

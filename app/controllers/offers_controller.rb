@@ -6,6 +6,7 @@ class OffersController < ApplicationController
   before_filter :set_textbook
   before_filter :correct_user_reciever, :only => [:counter, :accept, :reject]
   before_filter :correct_user_sender, :only => [:cancel]
+  before_filter :check_offer_expired
 
   def counter
     @listing = @offer.listing
@@ -27,18 +28,18 @@ class OffersController < ApplicationController
     @offer.update_status(9)
 
     if @offer.selling?
-      @offer.sender.notify("Your offer to #{@offer.reciever.username} to sell your copy of '#{@offer.textbook.title_short}' for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
-      redirect_to recieved_offers_user_path(current_user), :notice => "Congratulations! You've accepted to sell #{@offer.sender.username} your copy of #{@offer.textbook.title_short} for #{ number_to_currency @offer.price}"
+      @offer.sender.notify("Congratulations! Your offer to #{@offer.reciever.username} to sell your copy of '#{@offer.textbook.title_short}' for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
+      redirect_to active_deals_user_path(current_user), :notice => "Congratulations! You've accepted to sell #{@offer.sender.username} your copy of #{@offer.textbook.title_short} for #{ number_to_currency @offer.price}"
     else
-      @offer.sender.notify("Your offer to #{@offer.reciever.username} to buy '#{@offer.textbook.title_short}' for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
-      redirect_to recieved_offers_user_path(current_user), :notice => "Congratulations! You've accepted to buy #{@offer.sender.username}'s copy of #{@offer.textbook.title_short} for #{ number_to_currency @offer.price }"
+      @offer.sender.notify("Congratulations! Your offer to #{@offer.reciever.username} to buy '#{@offer.textbook.title_short}' for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
+      redirect_to active_deals_user_path(current_user), :notice => "Congratulations! You've accepted to buy #{@offer.sender.username}'s copy of #{@offer.textbook.title_short} for #{ number_to_currency @offer.price }"
     end
   end
 
   def reject
     @offer.update_status(1)
     @offer.sender.notify("Your offer to #{@offer.reciever.username} for #{@offer.textbook.title_short} was rejected")
-    redirect_to recieved_offers_user_path(current_user), :notice => "You've rejected #{@offer.reciever.username}'s offer for #{@offer.textbook.title_short}"
+    redirect_to active_recieved_offers_user_path(current_user), :notice => "You've rejected #{@offer.reciever.username}'s offer for #{@offer.textbook.title_short}"
   end
 
   def cancel
@@ -59,7 +60,7 @@ class OffersController < ApplicationController
 
     if @offer.selling?
       if @offer.save
-        redirect_to textbook_listing_path(@textbook,@listing), :notice => "Sales Offer sent to #{@offer.reciever.username} for '#{@textbook.title_short}' at #{number_to_currency @offer.price} #{@listing.poster.username} has 24 hours to respond to your offer."
+        redirect_to sent_offers_user_path(current_user), :notice => "Sales Offer sent to #{@offer.reciever.username} for '#{@textbook.title_short}' at #{number_to_currency @offer.price} #{@listing.poster.username} has 48 hours to respond to your offer."
       else
 	@other_user = @offer.reciever
         @counter_price = @other_user.active_offer_sent_to_user_for_textbook(@other_user.id, @textbook.id)
@@ -68,7 +69,7 @@ class OffersController < ApplicationController
       end
     else
       if @offer.save
-        redirect_to textbook_listing_path(@textbook,@listing), :notice => "Purchase Offer sent to #{@offer.reciever.username} for '#{@textbook.title_short}' at #{number_to_currency @offer.price} #{@listing.poster.username} has 24 hours to respond to your offer."
+        redirect_to sent_offers_user_path(current_user), :notice => "Purchase Offer sent to #{@offer.reciever.username} for '#{@textbook.title_short}' at #{number_to_currency @offer.price} #{@listing.poster.username} has 48 hours to respond to your offer."
       else
         @other_user = @offer.reciever
         @counter_price = @other_user.active_offer_sent_to_user_for_textbook(@other_user.id, @textbook.id)
@@ -83,6 +84,17 @@ class OffersController < ApplicationController
 
     def set_offer
       @offer = Offer.find_by_id(params[:id])
+    end
+
+    def check_offer_expired
+      if @offer.nil? == false
+        @offer.check_status!
+
+        if @offer.active? != true
+           redirect_to active_recieved_offers_user_path(current_user), :notice => "That offer is no longer active"
+          return
+        end
+      end
     end
 
     def set_textbook

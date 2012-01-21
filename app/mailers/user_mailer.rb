@@ -23,4 +23,13 @@ class UserMailer < ActionMailer::Base
     @user = user
     mail(:to => "apenniman@tradecampusbooks.com", :subject => "#{user.email}, created an account", :from => "support@tradecampusbooks.com")
   end
+
+  def alert_admin_new_listing(listing)
+    @user = listing.poster
+    if listing.selling?
+      mail(:to => "apenniman@tradecampusbooks.com", :subject => "#{@user.username}, with id: #{@user.id}, posted a new 'For Sale' listing", :from => "support@tradecampusbooks.com")
+    else
+      mail(:to => "apenniman@tradecampusbooks.com", :subject => "#{@user.username}, with id: #{@user.id}, posted a new 'Looking For' listing", :from => "support@tradecampusbooks.com")
+    end
+  end
 end

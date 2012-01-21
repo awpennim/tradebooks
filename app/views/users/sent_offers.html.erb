@@ -1,11 +1,22 @@
-<%= link_to 'Go Back to your Offers', recieved_offers_user_path(current_user) %>
+<%= link_to 'Go to your Active Offers', active_recieved_offers_user_path(current_user) %><br/>
+<%= link_to 'Go to your Recieved Offers History', recieved_offers_user_path(current_user) %>
 
 <% if @offers.size > 0 %>
+  <br/><br/>
   <%= will_paginate @offers %>
 
   <% @offers.each do |offer| %>
     <%= render 'users/sent_offer', :offer => offer, :listing => offer.listing %>
   <% end %>
 
-  <%= will_paginate @offers %>
+  <%= will_paginate @offers %><br/>
+
+  <%= link_to 'Go to your Active Offers', active_recieved_offers_user_path(current_user) %><br/>
+  <%= link_to 'Go to your Recieved Offers History', recieved_offers_user_path(current_user) %>
+<% else %>
+  <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You have not sent any offers yet
+  </p>
 <% end %>
+
+

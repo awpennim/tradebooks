@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_filter :authenticate_admin, :only => [:index]
   before_filter :not_logged_in, :only => [:new, :create]
 
-  skip_before_filter :ensure_verified, :except => [:show, :for_sale_listings, :looking_for_listings, :deals, :deals_made, :recieved_offers, :sent_offers ]
+  skip_before_filter :ensure_verified, :only => [:home, :new, :create, :settings, :verify, :post_verify, :forgot_password, :post_forgot_password, :update, :destroy, :notifications]
 
   before_filter :set_user_current_user, :only => [:home, :notifications, :deals_made, :post_verify, :update, :recieved_offers, :sent_offers, :settings]
   before_filter :set_user, :except => [:index, :new, :home , :forgot_password, :post_forgot_password, :create ]
@@ -49,11 +49,13 @@ class UsersController < ApplicationController
     @title = "User's Settings"
   end
 
-  def deals_made
+  def deals
+    @title = "Deals History"
     @deals = (@user.deals_bought.where('buyer_status > 0') + @user.deals_sold.where('seller_status > 0')).paginate(:page => params[:page], :per_page => 5)
   end
 
-  def deals
+  def active_deals
+    @title = "Active Deals"
     @deals = @user.new_deals.paginate(:page => params[:page], :per_page => 5)
   end
 
@@ -141,19 +143,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def active_recieved_offers
+    @title = "Active Offers"
+    @offers = current_user.recieved_offers.where('status = 0').paginate(:page => params[:page], :per_page => 5)
+  end
+
   def recieved_offers
-    @title = "Offers"
-    @offers = current_user.recieved_offers.paginate(:page => params[:page])
+    @title = "Offers History"
+    @offers = current_user.recieved_offers.where('status > 0').paginate(:page => params[:page], :per_page => 5)
   end
 
   def sent_offers
     @title = "Sent Offers"
-    @offers = current_user.sent_offers.paginate(:page => params[:page])
-  end
-
-  def deals
-    @title = "Deals Pending"
-    @deals = current_user.deals.paginate(:page => params[:page], :per_page => 5)
+    @offers = current_user.sent_offers.paginate(:page => params[:page], :per_page => 5)
   end
 
   def destroy

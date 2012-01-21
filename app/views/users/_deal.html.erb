@@ -1,4 +1,4 @@
-<div class="notification_or_message">
+<div class="notification_or_message <%= if (deal.buyer_id == current_user.id && deal.buyer_status == 0) || (deal.seller_id == current_user.id && deal.seller_status == 0) then "white" end %>">
   <span class="date small_text right">
     Deal Made (<%= time_ago_in_words deal.created_at %>) ago
   </span>
@@ -8,6 +8,6 @@
   <b>Price: </b><%= number_to_currency deal.price %>
   <% if deal.description.blank? == false %>
     <br/><br/>
-    <b>Item Description: </b><%= deal.description %>
+    <b>Book Description: </b><%= deal.description %>
   <% end %>
 </div>
