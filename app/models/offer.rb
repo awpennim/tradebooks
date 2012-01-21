@@ -43,7 +43,7 @@ class Offer < ActiveRecord::Base
   end
 
   def check_status!
-    if (created_at + 2.minutes).past?
+    if (created_at + 48.hours).past?
       update_status(10)
       return false
     end

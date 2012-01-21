@@ -3,7 +3,7 @@
 <div class="notification_or_message <%= if offer.status == 0 then "white" end %>">
   <span class="date right">
     <span class="small_text bold">
-     <% if offer.status == 0 %>Offer expires in (<%= time_ago_in_words(offer.created_at + 2.minutes, true) %>) | <% end %>recieved <%= time_ago_in_words(offer.created_at, true) %> ago
+     <% if offer.status == 0 %>Offer expires in (<%= time_ago_in_words(offer.created_at + 48.hours, true) %>) | <% end %>recieved <%= time_ago_in_words(offer.created_at, true) %> ago
     </span>
 
     <p class="little_bigger padding_bottom">
