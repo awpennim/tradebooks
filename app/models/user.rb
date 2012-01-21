@@ -180,6 +180,10 @@ class User < ActiveRecord::Base
     Listing.where(:user_id => self.id, :textbook_id => textbook_id, :selling => true).order('created_at DESC').limit(1).first
   end
 
+  def buying_listing_from_textbook(textbook_id)
+    Listing.where(:user_id => self.id, :textbook_id => textbook_id, :selling => false).order('created_at DESC').limit(1).first
+  end
+
   def active_offers_for_textbook(textbook_id)
     Offer.where(:sender_id => self.id, :textbook_id => textbook_id, :status => 0) + Offer.where(:reciever_id => self.id, :textbook_id => textbook_id, :status => 0)
   end

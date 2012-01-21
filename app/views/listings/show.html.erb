@@ -26,7 +26,7 @@
 <% if current_user.id == @listing.poster.id %>
   <p><span class="new_link"><%= link_to "Renew your listing!", renew_textbook_listing_path(@textbook, @listing) %></span> | <%= link_to "Why?", why_renew_textbook_listing_path(@textbook, @listing) %></p>
   <p class="new_link"><%= link_to "Edit your listing", edit_textbook_listing_path(@textbook, @listing) %></p>
-  <p class="new_link"><%= link_to "Remove your listing", textbook_listing_path(@textbook, @listing), :confirm => "Are you sure you'd like to remove this listing? This will permantly remove all offers affiliated with this listing.", :method => :delete %></p>
+  <p class="new_link"><%= link_to "Remove your listing", textbook_listing_path(@textbook, @listing), :confirm => "Are you sure you'd like to remove this listing? #{ if @listing.selling? then "This will cancel all 'active' offers recieved for this book." end }", :method => :delete %></p>
 <% elsif @offer %>
     <p><%= render 'users/sent_offer', :offer => @offer, :url => textbook_listing_path(@textbook, @listing) %></p>
 <% else %>
