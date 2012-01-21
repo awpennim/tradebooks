@@ -13,6 +13,10 @@
 
   <%= link_to 'View your Active offers', active_recieved_offers_user_path(current_user) %><br/>
   <%= link_to 'View your Offers Sent', sent_offers_user_path(current_user) %>
+<% else %>
+  <p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You haven't recieved any offers
+  </p>
 <% end %>
 
 
