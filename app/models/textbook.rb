@@ -105,7 +105,6 @@ class Textbook < ActiveRecord::Base
 
     def fill_atts
       if admin_create
-        self.suffix = nil if self.suffix == false
         self.author = nil if self.author.blank?
 	self.summary = nil if self.summary.blank?
 	self.publisher_text = nil if self.publisher_text.blank?
@@ -140,7 +139,7 @@ class Textbook < ActiveRecord::Base
         return false
       end
 
-      isbn_recieved = book_data["isbn"]
+      isbn_recieved = book_data["isbn"].to_s
     
       if book_data["isbn"] != isbn_str && !isbn_recieved.nil? && isbn_recieved[0..(isbn_recieved.length - 2)].gsub(/[^0-9]/,'') + isbn_recieved[isbn_recieved.length - 1].sub(/[^(0-9)|(x|X)]/,'') == isbn_recieved #runs checks to make sure its a good number
         if checkISBN!(isbn_recieved) #if the found isbn is good then search database
