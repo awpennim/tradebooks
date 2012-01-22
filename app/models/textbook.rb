@@ -24,6 +24,7 @@ class Textbook < ActiveRecord::Base
 
     params[:summary] = nil if params[:summary].blank?
     params[:publisher_text] = nil if params[:publisher_text].blank?
+    params[:suffix] = nil if params[:suffix] == "0"
 
     self.author = params[:author]
     self.title = params[:title]
@@ -104,6 +105,7 @@ class Textbook < ActiveRecord::Base
 
     def fill_atts
       if admin_create
+        self.suffix = nil if self.suffix == false
         self.author = nil if self.author.blank?
 	self.summary = nil if self.summary.blank?
 	self.publisher_text = nil if self.publisher_text.blank?
