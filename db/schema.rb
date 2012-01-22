@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120122005202) do
+ActiveRecord::Schema.define(:version => 20120122075340) do
 
   create_table "deals", :force => true do |t|
     t.integer  "buyer_id"
@@ -89,6 +89,16 @@ ActiveRecord::Schema.define(:version => 20120122005202) do
   add_index "offers", ["sender_id", "reciever_id"], :name => "index_offers_on_sender_id_and_reciever_id"
   add_index "offers", ["sender_id", "textbook_id"], :name => "index_offers_on_sender_id_and_textbook_id"
   add_index "offers", ["sender_id"], :name => "index_offers_on_sender_id"
+
+  create_table "textbook_twins", :force => true do |t|
+    t.integer  "isbn"
+    t.boolean  "suffix"
+    t.integer  "textbook_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "textbook_twins", ["isbn", "suffix"], :name => "index_textbook_twins_on_isbn_and_suffix", :unique => true
 
   create_table "textbooks", :force => true do |t|
     t.integer  "isbn",           :null => false

@@ -10,6 +10,8 @@ class Textbook < ActiveRecord::Base
   has_many :sell_listings, :class_name => "Listing", :foreign_key => "textbook_id", :dependent => :delete_all, :order => 'updated_at DESC', :conditions => { :selling => true }
   has_many :buy_listings, :class_name => "Listing", :foreign_key => "textbook_id", :dependent => :delete_all, :order => 'updated_at DESC', :conditions => { :selling => false }
 
+  has_many :twins, :class_name => "TextbookTwin"
+
   validates :isbn, :uniqueness => {:scope => :suffix, :message => "ISBN has already been created"},
                    :length => {:within => 0..10, :message => "ISBN is too long"}
   validates :author, :presence => {:message => "Author field is blank"}
@@ -117,7 +119,11 @@ class Textbook < ActiveRecord::Base
       return false unless temp = checkISBN!(isbn_str)
       isbn_str = temp
     
-      search = Textbook.find_by_isbn(self.isbn)
+      search = Textbook.where(:isbn => self.isbn, :suffix => self.suffix).limit(1).first
+
+      if search.nil? && TextbookTwin.where(:isbn => self.isbn, :suffix => self.suffix).limit(1).first.nil? == false
+        search = TextbookTwin.where(:isbn => self.isbn, :suffix => self.suffix).limit(1).first.textbook
+      end
 
       unless search.nil?
         self.id = search.id #already exists. Returns with the right id
@@ -136,7 +142,12 @@ class Textbook < ActiveRecord::Base
     
       if book_data["isbn"] != isbn_str && !isbn_recieved.nil? && isbn_recieved[0..(isbn_recieved.length - 2)].gsub(/[^0-9]/,'') + isbn_recieved[isbn_recieved.length - 1].sub(/[^(0-9)|(x|X)]/,'') == isbn_recieved #runs checks to make sure its a good number
         if checkISBN!(isbn_recieved) #if the found isbn is good then search database
-          search = Textbook.find_by_isbn(self.isbn)
+
+          search = Textbook.where(:isbn => self.isbn, :suffix => self.suffix).limit(1).first
+
+          if search.nil? && TextbookTwin.where(:isbn => self.isbn, :suffix => self.suffix).limit(1).first.nil? == false
+	    search = TextbookTwin.where(:isbn => self.isbn, :suffix => self.suffix).limit(1).first.textbook
+	  end
 
           unless search.nil?
             self.id = search.id
