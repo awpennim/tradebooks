@@ -38,7 +38,7 @@ class OffersController < ApplicationController
 
   def reject
     @offer.update_status(1)
-    @offer.sender.notify("Your offer to #{@offer.reciever.username} for #{@offer.textbook.title_short} was rejected")
+    @offer.sender.notify("#{@offer.reciever.username} rejected your purchase offer for #{ @offer.textbook.title}")
     redirect_to active_recieved_offers_user_path(current_user), :notice => "You've rejected #{@offer.reciever.username}'s offer for #{@offer.textbook.title_short}"
   end
 
