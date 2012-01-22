@@ -180,7 +180,7 @@ class UsersController < ApplicationController
 
     def sign_in_for_first_time(user)
       sign_in user
-      user.notify("Congratulations on signing up for TradeCampusBooks.com <b>You must #{ link_to('verify', verify_user_path(user))} your account before you can buy and sell books.</b> We sent a verification link to (#{user.email}).")
+      user.notify("Congratulations on signing up for TradeCampusBooks.com <b>You must #{ ActionController::Base.helpers.link_to('verify', verify_user_path(user))} your account before you can buy and sell books.</b> We sent a verification link to (#{user.email}).")
       redirect_back_or(home_user_path(user), 'A verification email has been sent. Please verify your account before continuing.')
     end
 
