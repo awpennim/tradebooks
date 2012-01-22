@@ -9,7 +9,6 @@
       <td>Short Description</td>
       <td>Asking Price</td>
       <td>Student Location</td>
-      <td>Last renewed</td>
     </tr>
     <br />
 
@@ -19,7 +18,6 @@
         <td><%= link_to listing.description_short, textbook_listing_path(listing.textbook, listing) %></td>
         <td><%= number_to_currency(listing.price) %></td>
 	<td><%= listing.poster.location_in_words %></td>
-        <td><%= time_ago_in_words(listing.updated_at) %> ago</td>
       </tr>
     <% end %>
   </table>
