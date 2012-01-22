@@ -1,5 +1,7 @@
+include Rails.application.routes.url_helpers
+
 class Offer < ActiveRecord::Base
-  attr_accessible :reciever_id, :textbook_id, :selling, :message, :price
+  attr_accessible :reciever_id, :textbook_id, :selling, :price, :offer
   attr_accessor :counter
 
   belongs_to :sender, :class_name => "User"
@@ -48,6 +50,7 @@ class Offer < ActiveRecord::Base
       return false
     end
     return true
+
   end
 
   def make_deal!
@@ -129,9 +132,9 @@ class Offer < ActiveRecord::Base
             offer.update_status(3)
 
             if self.sender_id == offer.sender_id
-              offer.reciever.notify("#{self.sender.username} sold their copy of #{self.textbook.title_short} to another buyer")
+	      Offer.notify_buyer_book_sold(offer.reciever,offer.sender,textbook)
 	    else
-              offer.sender.notify("#{self.sender.username} sold their copy of #{self.textbook.title_short} to another buyer")
+	      Offer.notify_buyer_book_sold(offer.sender,offer.reciever,textbook)
 	    end
 	  end
         end
@@ -140,9 +143,9 @@ class Offer < ActiveRecord::Base
 	    offer.update_status(4)
 
             if self.sender_id == offer.sender_id
-              offer.reciever.notify("#{self.reciever.username} bought a copy of #{self.textbook.title_short} from another seller")
+	      Offer.notify_seller_book_bought(offer.reciever,offer.sender,textbook)
 	    else
-              offer.sender.notify("#{self.reciever.username} bought a copy of #{self.textbook.title_short} from another seller")
+	      Offer.notify_seller_book_bought(offer.sender, offer.reciever, textbook)
 	    end
 	  end
 	end
@@ -152,9 +155,9 @@ class Offer < ActiveRecord::Base
             offer.update_status(4)
 
             if self.sender_id == offer.sender_id
-              offer.reciever.notify("#{self.sender.username} bought a copy of #{self.textbook.title_short} from another seller")
+	      Offer.notify_seller_book_bought(offer.reciever, offer.sender, textbook)
 	    else
-              offer.sender.notify("#{self.sender.username} bought a copy of #{self.textbook.title_short} from another seller")
+	      Offer.notify_seller_book_bought(offer.sender, offer.reciever, textbook)
 	    end
 	  end
 	end
@@ -163,9 +166,9 @@ class Offer < ActiveRecord::Base
 	    offer.update_status(3)
 
             if self.sender_id == offer.sender_id
-              offer.reciever.notify("#{self.sender.username} sold their copy of #{self.textbook.title_short} to another buyer")
+              Offer.notify_buyer_book_sold(offer.reciever, offer.sender, textbook)
 	    else
-              offer.sender.notify("#{self.sender.username} sold their copy of #{self.textbook.title_short} to another buyer")
+              Offer.notify_buyer_book_sold(offer.sender, offer.reciever, textbook)
 	    end
 	  end
 	end
@@ -187,5 +190,29 @@ class Offer < ActiveRecord::Base
           self.errors.add(:reciever_id, "#{self.reciever.username} must list this book 'For Sale' before sending an offer to buy it!")
 	end
       end
+    end
+
+    def self.deal_notify_buyer(user, other_user , offer)
+      user.notify("<b>Congratulations!</b> Your offer to #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} to <b>sell</b> your copy of #{ ActionController::Base.helpers.link_to(offer.textbook.title_short,  textbook_path(offer.textbook))} for <b>#{   ActionController::Base.helpers.number_to_currency(offer.price) } has been accepted!</b> Please communicate with #{ ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} through the #{ ActionController::Base.helpers.link_to('Deals', active_deals_user_path(user))} link to organize the trade.")
+    end
+
+    def self.deal_notify_seller(user, other_user , offer)
+      user.notify("<b>Congratulations!</b> Your offer to #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} to <b>buy</b> their copy of #{ ActionController::Base.helpers.link_to(offer.textbook.title_short, textbook_path(offer.textbook))} for <b> #{ ActionController::Base.helpers.number_to_currency(offer.price) } has been accepted!</b> Please communicate with #{ ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} through the #{ ActionController::Base.helpers.link_to('Deals', active_deals_user_path(user))} link to organize the trade.")
+    end
+
+    def self.purchase_offer_rejected(user, other_user, textbook)
+      user.notify("Sorry, #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} <b>rejected your purchase offer</b> for #{ ActionController::Base.helpers.link_to(textbook.title_short, textbook_path(textbook))}")
+    end
+
+    def self.sales_offer_rejected(user, other_user, textbook)
+      user.notify("Sorry, #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} <b>rejected your purchase offer</b> for #{ ActionController::Base.helpers.link_to(textbook.title_short, textbook_path(textbook))}")
+    end
+  
+    def self.notify_buyer_book_sold(user, other_user, textbook)
+      user.notify("Sorry, #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} <b>sold their copy</b> of #{ ActionController::Base.helpers.link_to(textbook.title_short, textbook_path(textbook))} to <b>a different buyer</b>")
+    end
+
+    def self.notify_seller_book_bought(user, other_user, textbook)
+      user.notify("Sorry, #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} <b>bought a copy</b> of #{ ActionController::Base.helpers.link_to(textbook.title_short, textbook_path(textbook))} from <b>a different seller</b>")
     end
 end

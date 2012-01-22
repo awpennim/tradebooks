@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120120012414) do
+ActiveRecord::Schema.define(:version => 20120122005202) do
 
   create_table "deals", :force => true do |t|
     t.integer  "buyer_id"
@@ -63,11 +63,11 @@ ActiveRecord::Schema.define(:version => 20120120012414) do
   add_index "messages", ["sender_id"], :name => "index_messages_on_sender_id"
 
   create_table "notifications", :force => true do |t|
-    t.string   "message"
-    t.boolean  "read",       :default => false
+    t.boolean  "read",                      :default => false
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "message",    :limit => 255
   end
 
   add_index "notifications", ["user_id"], :name => "index_notifications_on_user_id"

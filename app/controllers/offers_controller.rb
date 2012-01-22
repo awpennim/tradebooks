@@ -28,18 +28,23 @@ class OffersController < ApplicationController
     @offer.update_status(9)
 
     if @offer.selling?
-      @offer.sender.notify("Congratulations! Your offer to #{@offer.reciever.username} to sell your copy of '#{@offer.textbook.title_short}' for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
+      Offer.deal_notify_seller(@offer.sender, @offer.reciever, @offer)
       redirect_to active_deals_user_path(current_user), :notice => "Congratulations! You've accepted to sell #{@offer.sender.username} your copy of #{@offer.textbook.title_short} for #{ number_to_currency @offer.price}"
     else
-      @offer.sender.notify("Congratulations! Your offer to #{@offer.reciever.username} to buy '#{@offer.textbook.title_short}' for #{ number_to_currency(@offer.price) } has been accepted! Please communicate with #{ @offer.reciever.username } through the 'Deals' link to organize the trade.")
+      Offer.deal_notify_buyer(@offer.sender, @offer.reciever, @offer)
       redirect_to active_deals_user_path(current_user), :notice => "Congratulations! You've accepted to buy #{@offer.sender.username}'s copy of #{@offer.textbook.title_short} for #{ number_to_currency @offer.price }"
     end
   end
 
   def reject
     @offer.update_status(1)
-    @offer.sender.notify("#{@offer.reciever.username} rejected your purchase offer for #{ @offer.textbook.title}")
-    redirect_to active_recieved_offers_user_path(current_user), :notice => "You've rejected #{@offer.reciever.username}'s offer for #{@offer.textbook.title_short}"
+    if @offer.selling?
+      Offer.sales_offer_rejected(@offer.sender, @offer.reciever, @offer.textbook)
+      redirect_to active_recieved_offers_user_path(current_user), :notice => "You've rejected #{@offer.sender.username}'s sales offer for #{@offer.textbook.title_short}"
+    else
+      Offer.purchase_offer_rejected(@offer.sender, @offer.reciever, @offer.textbook)
+      redirect_to active_recieved_offers_user_path(current_user), :notice => "You've rejected #{@offer.sender.username}'s purchase offer for #{@offer.textbook.title_short}"
+    end
   end
 
   def cancel
@@ -69,7 +74,7 @@ class OffersController < ApplicationController
       end
     else
       if @offer.save
-        redirect_to sent_offers_user_path(current_user), :notice => "Purchase Offer sent to #{@offer.reciever.username} for '#{@textbook.title_short}' at #{number_to_currency @offer.price} #{@listing.poster.username} has 48 hours to respond to your offer."
+        redirect_to sent_offers_user_path(current_user), :notice => "Purchase Offer sent to #{@offer.reciever.username} for '#{@textbook.title_short}' at #{ number_to_currency @offer.price } #{@listing.poster.username} has 48 hours to respond to your offer."
       else
         @other_user = @offer.reciever
         @counter_price = @other_user.active_offer_sent_to_user_for_textbook(@other_user.id, @textbook.id)

@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include Rails.application.routes.url_helpers
+
   @@cache = {}
   @@lock = Mutex.new
 
@@ -200,8 +202,8 @@ class User < ActiveRecord::Base
     Offer.where(:reciever_id => self.id, :status => 0)
   end
 
-  def notify(message)
-    self.notifications.build(:message => message.to_s).save
+  def notify(notify_message)
+    self.notifications.build(:message => notify_message).save!
   end
 
   def admin?

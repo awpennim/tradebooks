@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+
   before_filter :authenticate, :except => [:new, :forgot_password, :post_forgot_password, :create, :destroy, :index]
   before_filter :correct_user, :except => [:show, :index, :for_sale_listings, :looking_for_listings, :destroy ]
   before_filter :approved_user, :only => [:destroy ]
@@ -73,7 +74,7 @@ class UsersController < ApplicationController
     token = params[:token]
 
     if @user.verified? == false && @user.verify!(token)
-      @user.notify("Your account has been verified!")
+      @user.notify("Your account <b>has been verified!</b>")
       redirect_to home_user_path(@user), :notice => "Your account has been verified!"
     else
       if @user.verified?
@@ -179,7 +180,7 @@ class UsersController < ApplicationController
 
     def sign_in_for_first_time(user)
       sign_in user
-      user.notify("Congratulations on creating a Campus Books account. You must verify your account before you can fully utilize this site. We sent a verification link to (#{user.email}).")
+      user.notify("Congratulations on signing up for TradeCampusBooks.com <b>You must #{ link_to('verify', verify_user_path(user))} your account before you can buy and sell books.</b> We sent a verification link to (#{user.email}).")
       redirect_back_or(home_user_path(user), 'A verification email has been sent. Please verify your account before continuing.')
     end
 
