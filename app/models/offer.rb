@@ -1,7 +1,7 @@
 include Rails.application.routes.url_helpers
 
 class Offer < ActiveRecord::Base
-  attr_accessible :reciever_id, :textbook_id, :selling, :price, :offer
+  attr_accessible :reciever_id, :textbook_id, :selling, :price, :offer, :message
   attr_accessor :counter
 
   belongs_to :sender, :class_name => "User"
