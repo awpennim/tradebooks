@@ -69,6 +69,8 @@ class Textbook < ActiveRecord::Base
 	return false
       end
 
+      puts value.to_s + "!!!!!!!!!"
+      puts value.class.to_s + "33333"
       value.gsub!('-', '')
       value.gsub!(' ', '')
       value.gsub!("\t",'')
