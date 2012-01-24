@@ -28,13 +28,13 @@ class UserMailer < ActionMailer::Base
   end
 
   def sales_offer_recieved_notification(user, offer)
-    @user = user
+    @user = offer.sender
     @offer = offer
     mail(:to => user.email, :subject => "You recieved a sales offer for '#{offer.textbook.title_short}' from '#{offer.sender.username}'")
   end
 
   def purchase_offer_recieved_notification(user, offer)
-    @user = user
+    @user = offer.sender
     @offer = offer
     mail(:to => user.email, :subject => "You recieved a purchase offer for '#{offer.textbook.title_short}' from '#{offer.sender.username}'")
   end
