@@ -36,14 +36,14 @@ class TextbooksController < ApplicationController
     @isbn_str = params[:isbn]
     
     if @isbn_str.nil?
-      puts root_path
-      redirect_to root_path
+      puts root_url
+      redirect_to root_url
       return
     end
 
     UserMailer.send_textbook_request_to_admin(@isbn_str, current_user).deliver
 
-    redirect_to textbooks_search_path, :notice => "Your request has been sent. You will be notified once this book has been added"
+    redirect_to textbooks_search_url, :notice => "Your request has been sent. You will be notified once this book has been added"
   end
 
   def create
