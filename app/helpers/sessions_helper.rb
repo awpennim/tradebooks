@@ -23,7 +23,7 @@ module SessionsHelper
     if temp
       redirect_to temp, :notice => notice
     else
-      redirect_to default
+      redirect_to default, :notice => notice
     end
   end
 
