@@ -1,6 +1,7 @@
 Zoomasstextbooks::Application.configure do
 
   config.action_mailer.default_url_options = {:host => "www.tradecampusbooks.com"}
+  config.action_mailer.deliver_method = :smtp
 
   # Settings specified here will take precedence over those in config/application.rb
 

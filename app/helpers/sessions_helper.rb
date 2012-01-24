@@ -5,7 +5,8 @@ module SessionsHelper
 
   def deny_access
     store_location
-    redirect_to signin_url, :notice => "You must be logged in to do that"
+    redirect_to signin_url
+    flash[:notice] = "You must be logged in to do that"
   end
 
   def store_location
@@ -21,7 +22,8 @@ module SessionsHelper
 
     clear_return_to
     if temp
-      redirect_to temp, :notice => notice
+      redirect_to temp 
+      flash[:notice] = notice
     else
       redirect_to default
     end
