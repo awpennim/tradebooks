@@ -26,7 +26,7 @@ class SessionsController < ApplicationController
     name = current_user.username
 
     sign_out
-    redirect_to root_path, :notice => "#{name}, you have been successfully logged out"
+    redirect_to root_path
   end
 
 end
