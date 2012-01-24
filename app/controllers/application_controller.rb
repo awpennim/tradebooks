@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_filter :ensure_domain
   APP_DOMAIN = 'www.tradecampusbooks.com'
 
-  Rails.application.routes.default_url_options[:host]='www.tradecampusbooks.com'
+  Rails.application.routes.default_url_options[:host]= 'www.tradecampusbooks.com'
 
   def ensure_domain
     if Rails.env.production? && request.env['HTTP_HOST'] != APP_DOMAIN
