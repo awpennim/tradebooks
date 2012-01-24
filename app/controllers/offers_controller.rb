@@ -67,7 +67,7 @@ class OffersController < ApplicationController
 
     if @offer.selling?
       if @offer.save
-        redirect_to sent_offers_user_path(current_user), :notice => "Sales Offer sent to #{@offer.reciever.username} for '#{@textbook.title_short}' at #{number_to_currency @offer.price} #{@offer.receiver.username} has 48 hours to respond to your offer."
+        redirect_to sent_offers_user_path(current_user), :notice => "Sales Offer sent to #{@offer.reciever.username} for '#{@textbook.title_short}' at #{number_to_currency @offer.price} #{@offer.reciever.username} has 48 hours to respond to your offer."
 	UserMailer.sales_offer_recieved_notification(@offer.reciever, @offer).deliver
       else
 	@other_user = @offer.reciever
