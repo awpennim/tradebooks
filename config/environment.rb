@@ -3,7 +3,6 @@ require File.expand_path('../application', __FILE__)
 
 ActionMailer::Base
 
-ActionMailer::Base.default_url_options = {:host => "www.tradecampusbooks.com"}
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
   :user_name => "awpennim",
