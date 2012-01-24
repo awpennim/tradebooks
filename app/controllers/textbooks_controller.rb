@@ -36,6 +36,7 @@ class TextbooksController < ApplicationController
     @isbn_str = params[:isbn]
     
     if @isbn_str.nil?
+      puts root_path
       redirect_to root_path
       return
     end
