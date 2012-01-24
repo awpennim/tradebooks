@@ -13,6 +13,11 @@ class UserMailer < ActionMailer::Base
     mail(:to => user.email, :subject => "#{user.username}, Your New Password")
   end
 
+  def mass_message(message, usr)
+      @message = message
+      mail(:to => usr.email, :subject => "Recent Errors")
+  end
+
   def deal_made_buying_notification(offer)
     @user = offer.sender
     @other_user = offer.reciever
