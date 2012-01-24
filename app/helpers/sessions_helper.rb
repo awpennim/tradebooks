@@ -65,7 +65,8 @@ module SessionsHelper
   end
 
   def sign_out
-    session[:remember_token_id], session[:remember_token_salt] = nil
+    session[:remember_token_id] = nil
+    session[:remember_token_salt] = nil
   end
 
   def current_user= (user)
