@@ -67,7 +67,7 @@ class OffersController < ApplicationController
 
     if @offer.selling?
       if @offer.save
-	UserMailer.sales_offer_recieved_notification(@offer.reciever, @offer).deliver
+	UserMailer.sales_offer_recieved_notification(@offer.sender, @offer).deliver
         redirect_to sent_offers_user_path(current_user), :notice => "Sales Offer sent to #{@offer.reciever.username} for '#{@textbook.title_short}' at #{number_to_currency @offer.price} #{@listing.poster.username} has 48 hours to respond to your offer."
       else
 	@other_user = @offer.reciever
@@ -77,7 +77,7 @@ class OffersController < ApplicationController
       end
     else
       if @offer.save
-        UserMailer.purchase_offer_recieved_notification(@offer.reciever, @offer).deliver
+        UserMailer.purchase_offer_recieved_notification(@offer.sender, @offer).deliver
         redirect_to sent_offers_user_path(current_user), :notice => "Purchase Offer sent to #{@offer.reciever.username} for '#{@textbook.title_short}' at #{ number_to_currency @offer.price } #{@listing.poster.username} has 48 hours to respond to your offer."
       else
         @other_user = @offer.reciever
