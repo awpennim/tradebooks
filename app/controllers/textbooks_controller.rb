@@ -69,7 +69,8 @@ class TextbooksController < ApplicationController
       redirect_to @textbook
     else
       if @textbook.id.nil?
-        render textbooks_search_path
+        render :search
+	return
       else
         redirect_to textbook_path(@textbook.id)
       end
