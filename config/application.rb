@@ -10,6 +10,15 @@ module Zoomasstextbooks
   class Application < Rails::Application
     config.action_mailer.default_url_options = {:host => 'www.tradecampusbooks.com'}
     config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      :user_name => "awpennim",
+      :password => "hahiqua",
+      :domain => "www.tradecampusbooks.com",
+      :address => "smtp.sendgrid.net",
+      :port => 587,
+      :enable_starttls_auto => true,
+      :authentication => :plain
+    }
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
