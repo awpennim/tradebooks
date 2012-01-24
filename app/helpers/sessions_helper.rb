@@ -23,9 +23,8 @@ module SessionsHelper
     if temp
       redirect_to temp, :notice => notice
     else
-      redirect_to default, :notice => notice
+      redirect_to default
     end
-
   end
 
   def authenticate_admin
