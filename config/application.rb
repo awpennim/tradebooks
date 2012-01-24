@@ -8,9 +8,9 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 
 module Zoomasstextbooks
   class Application < Rails::Application
-    config.action_mailer.default_url_options = {:host => 'www.tradecampusbooks.com'}
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = {
+    ActionMailer::Base.default_url_options = {:host => 'www.tradecampusbooks.com'}
+    ActionMailer::Base.delivery_method = :smtp
+    ActionMailer::Base.smtp_settings = {
       :user_name => "awpennim",
       :password => "hahiqua",
       :domain => "www.tradecampusbooks.com",
