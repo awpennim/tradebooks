@@ -21,7 +21,7 @@ module SessionsHelper
 
     clear_return_to
     if temp
-      redirect_to session[:return_to], :notice => notice
+      redirect_to temp, :notice => notice
     else
       redirect_to default, :notice => notice
     end
