@@ -26,6 +26,7 @@ class SessionsController < ApplicationController
     name = current_user.username
 
     sign_out
+    puts root_url.to_s + "dafasdfdsafadsfdsafs"
     redirect_to root_url
   end
 end
