@@ -9,7 +9,7 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 module Zoomasstextbooks
   class Application < Rails::Application
     config.action_mailer.default_url_options = {:host => 'www.tradecampusbooks.com'}
-    config.action_mailer.smtp_settings = :smtp
+    config.action_mailer.delivery_method = :smtp
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
