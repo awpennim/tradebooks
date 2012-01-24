@@ -192,11 +192,11 @@ class Offer < ActiveRecord::Base
       end
     end
 
-    def self.deal_notify_buyer(user, other_user , offer)
+    def self.deal_notify_seller(user, other_user , offer)
       user.notify("<b>Congratulations!</b> Your offer to #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} to <b>sell</b> your copy of #{ ActionController::Base.helpers.link_to(offer.textbook.title_short,  textbook_path(offer.textbook))} for <b>#{   ActionController::Base.helpers.number_to_currency(offer.price) } has been accepted!</b> Please communicate with #{ ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} through the #{ ActionController::Base.helpers.link_to('Deals', active_deals_user_path(user))} link to organize the trade.")
     end
 
-    def self.deal_notify_seller(user, other_user , offer)
+    def self.deal_notify_buyer(user, other_user , offer)
       user.notify("<b>Congratulations!</b> Your offer to #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} to <b>buy</b> their copy of #{ ActionController::Base.helpers.link_to(offer.textbook.title_short, textbook_path(offer.textbook))} for <b> #{ ActionController::Base.helpers.number_to_currency(offer.price) } has been accepted!</b> Please communicate with #{ ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} through the #{ ActionController::Base.helpers.link_to('Deals', active_deals_user_path(user))} link to organize the trade.")
     end
 

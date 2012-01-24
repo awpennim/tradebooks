@@ -1,0 +1,5 @@
+<h2>Congratulations, your sales offer has been accepted</h2>
+
+<p>
+  Your sales offer to <%= link_to @other_user.username, user_url(@other_user)%> for <%=link_to @offer.textbook.title_short, textbook_url(@offer.textbook)%> at <%= number_to_currency @offer.price %> has been accepted! Go to your <%= link_to 'deals', active_deals_user_url(@user) %>.
+</p>

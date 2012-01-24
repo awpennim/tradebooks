@@ -13,10 +13,36 @@ class UserMailer < ActionMailer::Base
     mail(:to => user.email, :subject => "#{user.username}, Your New Password")
   end
 
+  def deal_made_buying_notification(offer)
+    @user = offer.sender
+    @other_user = offer.reciever
+    @offer = offer
+    mail(:to => @user.email, :subject => "Congratulations, #{@other_user.username}, accepted your purchase offer")
+  end
+
+  def deal_made_selling_notification(offer)
+    @user = offer.sender
+    @other_user = offer.reciever
+    @offer = offer
+    mail(:to => @user.email, :subject => "Congratulations, #{@other_user.username}, accepted your sales offer")
+  end
+
+  def sales_offer_recieved_notification(user, offer)
+    @user = user
+    @offer = offer
+    mail(:to => user.email, :subject => "You recieved a sales offer for '#{offer.textbook.title_short}' from '#{offer.sender.username}'")
+  end
+
+  def purchase_offer_recieved_notification(user, offer)
+    @user = user
+    @offer = offer
+    mail(:to => user.email, :subject => "You recieved a purchase offer for '#{offer.textbook.title_short}' from '#{offer.sender.username}'")
+  end
+
   def send_textbook_request_to_admin(request, user)
     @user = user
     @request = request
-    mail(:to => "apenniman@tradecampusbooks.com", :subject => "#{user.username}'s textbook request")
+    mail(:to => "support@tradecampusbooks.com", :subject => "Textbook Request")
   end
   
   def alert_admin_new_user(user)

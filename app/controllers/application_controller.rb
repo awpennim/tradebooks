@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
 
   before_filter :ensure_verified, :if => :logged_in?
   before_filter :ensure_domain
-
   APP_DOMAIN = 'www.tradecampusbooks.com'
 
   def ensure_domain

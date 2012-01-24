@@ -1,0 +1,7 @@
+<h2>Purchase Offer Recieved from '<%= @user.username %>'</h2>
+<p>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to @user.username, user_url(@user) %> offered you <%= number_to_currency @offer.price %> for <%= link_to @offer.textbook.title_short, textbook_url(@offer.textbook) %>. To view this offer, <%= link_to 'Click Here', active_recieved_offers_user_url(@offer.reciever) %>
+</p><br/><br/><br/>
+<p>
+  If you have already sold this book and/or don't want to recieve any more offers for it, you should remove the listing <%= link_to 'here', textbook_listing_url(@offer.textbook, @offer.listing) %>.
+</p>

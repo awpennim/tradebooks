@@ -1,0 +1,4 @@
+<h2>Sales Offer Recieved from '<%= @user.username %>'</h2>
+<p>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to @user.username, user_url(@user) %> offered to sell you <%= link_to @offer.textbook.title_short, textbook_url(@offer.textbook) %> for <%= number_to_currency @offer.price %>. To view this offer, <%= link_to 'Click Here', active_recieved_offers_user_url(@offer.reciever) %>
+</p><br/><br/><br/>
