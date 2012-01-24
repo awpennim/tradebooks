@@ -73,7 +73,7 @@ class OffersController < ApplicationController
 	@other_user = @offer.reciever
         @counter_price = @other_user.active_offer_sent_to_user_for_textbook(@other_user.id, @textbook.id)
         @title = "To Sell '#{@textbook.title_short}' to #{@other_user.username}"
-        render 'listings/new_selling_offer',     
+        render 'listings/new_selling_offer'
       end
     else
       if @offer.save
@@ -83,7 +83,7 @@ class OffersController < ApplicationController
         @other_user = @offer.reciever
         @counter_price = @other_user.active_offer_sent_to_user_for_textbook(@other_user.id, @textbook.id)
         @title = "To Buy '#{@textbook.title_short}' from #{@other_user.username}"
-        render 'listings/new_buying_offer',     
+        render 'listings/new_buying_offer'
       end
     end
 
