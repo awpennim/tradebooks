@@ -17,13 +17,15 @@ module SessionsHelper
   end
 
   def redirect_back_or(default, notice = nil)
-    if session[:return_to]
+    temp = session[:return_to]
+
+    clear_return_to
+    if temp
       redirect_to session[:return_to], :notice => notice
     else
       redirect_to default, :notice => notice
     end
 
-    clear_return_to
   end
 
   def authenticate_admin
