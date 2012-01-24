@@ -3,6 +3,10 @@
     &nbsp;&nbsp;&nbsp;TradeCampusBooks.com <b>is a free service for students who are trying to sell their books and/or buy their books for the best possible price by cutting out the middlemen</b> (bookstores, amazon.com chegg.com). TradeCampusBooks.com's goal is to <b>save you money</b> by directly connecting you with students who want to buy your book or sell you theirs. The site is a place where students can list their books <b>'For Sale'</b> and <b>'Looking For'</b> for other UMass Amherst students to see. Once logged in, you can list your book (or your desired book) enabling other users to send you offers for your book (or offers selling theirs). All users require a '@student.umass.edu' email address, so you can be sure <b>only UMass Amherst students</b> will be listing their books or sending you offers. This site is <strong>completely free</strong> to use. If you have any questions, please email us at <%= mail_to 'support@tradecampusbooks.com' %>. You can start by just searching the books you need or are trying to get rid of, or you can sign up using your '@student.umass.edu' email address.
   </p>
 
+  <p class="new_link little_bigger full_width center_text">
+    <%= link_to 'How to set up your account', info_signing_up_path %> 
+  </p>
+
   <table class="full_width">
     <tr class="center_text little_bigger">
       <td><%= link_to "Browse Recent 'For Sale' Listings", recent_for_sale_path %></td>

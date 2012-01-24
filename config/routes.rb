@@ -96,6 +96,7 @@ Zoomasstextbooks::Application.routes.draw do
   match "/recent_for_sale", :to => "info#recent_for_sale"
   match "/recent_looking_for", :to => "info#recent_looking_for"
   get "info/spire"
+  get "info/signing_up"
   get "info/under_construction"
 
 

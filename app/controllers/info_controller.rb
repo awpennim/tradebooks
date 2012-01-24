@@ -17,6 +17,10 @@ class InfoController < ApplicationController
     @title = "Finding ISBNs with SPIRE"
   end
 
+  def signing_up
+    @title = "How to set up your TradeCampusBooks account"
+  end
+
   def faq
     @title = "Frequently Asked Questions"
     @faqs = Faq.paginate(:page => params[:page], :per_page => 5, :order => 'created_at DESC')
