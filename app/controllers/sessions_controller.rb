@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
 
     if user
       sign_in user
-      redirect_back_or home_user_path(user)
+      redirect_back_or home_user_url(user)
     else
       params[:session][:password] = nil
       @title = "Login"
@@ -26,6 +26,6 @@ class SessionsController < ApplicationController
     name = current_user.username
 
     sign_out
-    redirect_to "/"
+    redirect_to root_url
   end
 end

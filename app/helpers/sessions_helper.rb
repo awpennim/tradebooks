@@ -5,11 +5,11 @@ module SessionsHelper
 
   def deny_access
     store_location
-    redirect_to signin_path, :notice => "You must be logged in to do that"
+    redirect_to signin_url, :notice => "You must be logged in to do that"
   end
 
   def store_location
-    session[:return_to] = request.fullpath
+    session[:return_to] = request.url
   end
 
   def clear_return_to
@@ -23,27 +23,27 @@ module SessionsHelper
     if temp
       redirect_to temp, :notice => notice
     else
-      redirect_to default
+      redirect_to default, :notice => notice
     end
   end
 
   def authenticate_admin
     if current_user.nil?
       store_location
-      redirect_to signin_path, :notice => "You must be logged in to do that"
+      redirect_to signin_url, :notice => "You must be logged in to do that"
       return
     end
     unless current_user.admin?
-      redirect_to home_user_path(current_user), :notice => "You don't have permission to view that page"
+      redirect_to home_user_url(current_user), :notice => "You don't have permission to view that page"
     end
   end
 
   def approved_user
-    redirect_to home_user_path(current_user), :notice => "You do no have permission to view that page" if current_user.id.to_s != params[:id] && !current_user.admin?
+    redirect_to home_user_url(current_user), :notice => "You do no have permission to view that page" if current_user.id.to_s != params[:id] && !current_user.admin?
   end
 
   def correct_user
-    redirect_to home_user_path(current_user), :notice => "You do not have permission to view that page" if logged_in? && params[:id] != current_user.id.to_s
+    redirect_to home_user_url(current_user), :notice => "You do not have permission to view that page" if logged_in? && params[:id] != current_user.id.to_s
   end
 
   def current_user
@@ -55,7 +55,7 @@ module SessionsHelper
   end
 
   def not_logged_in
-    redirect_to home_user_path(current_user), :notice => "You are already logged in!" if logged_in?
+    redirect_to home_user_url(current_user), :notice => "You are already logged in!" if logged_in?
   end
 
   def sign_in user
@@ -78,8 +78,7 @@ module SessionsHelper
   end
 
   def ensure_verified
-    puts "adsfasdfasdfdafadffdsafdsafasfd"
-    redirect_to home_user_path(current_user), :notice => "You must verify your account first!" unless current_user.verified?
+    redirect_to home_user_url(current_user), :notice => "You must verify your account first!" unless current_user.verified?
   end
 
   private
