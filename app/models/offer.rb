@@ -1,4 +1,3 @@
-include Rails.application.routes.url_helpers
 
 class Offer < ActiveRecord::Base
   attr_accessible :reciever_id, :textbook_id, :selling, :price, :offer, :message
