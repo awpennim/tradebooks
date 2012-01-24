@@ -23,9 +23,10 @@ module SessionsHelper
     clear_return_to
     if temp
       redirect_to temp 
-      flash[:notice] = notice
+      flash[:notice] = notice if notice
     else
       redirect_to default
+      flash[:notice] = notice if notice
     end
   end
 
