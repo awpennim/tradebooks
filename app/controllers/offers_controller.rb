@@ -30,11 +30,11 @@ class OffersController < ApplicationController
     if @offer.selling?
       Offer.deal_notify_seller(@offer.sender, @offer.reciever, @offer)
       UserMailer.deal_made_selling_notification(@offer).deliver
-      redirect_to active_deals_user_path(current_user), :notice => "Congratulations! You've accepted to sell #{@offer.sender.username} your copy of #{@offer.textbook.title_short} for #{ number_to_currency @offer.price}"
+      redirect_to active_deals_user_url(current_user), :notice => "Congratulations! You've accepted to sell #{@offer.sender.username} your copy of #{@offer.textbook.title_short} for #{ number_to_currency @offer.price}"
     else
       Offer.deal_notify_buyer(@offer.sender, @offer.reciever, @offer)
       UserMailer.deal_made_buying_notification(@offer).deliver
-      redirect_to active_deals_user_path(current_user), :notice => "Congratulations! You've accepted to buy #{@offer.sender.username}'s copy of #{@offer.textbook.title_short} for #{ number_to_currency @offer.price }"
+      redirect_to active_deals_user_url(current_user), :notice => "Congratulations! You've accepted to buy #{@offer.sender.username}'s copy of #{@offer.textbook.title_short} for #{ number_to_currency @offer.price }"
     end
   end
 

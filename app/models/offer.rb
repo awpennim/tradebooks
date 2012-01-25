@@ -192,26 +192,26 @@ class Offer < ActiveRecord::Base
     end
 
     def self.deal_notify_seller(user, other_user , offer)
-      user.notify("<b>Congratulations!</b> Your offer to #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} to <b>sell</b> your copy of #{ ActionController::Base.helpers.link_to(offer.textbook.title_short,  textbook_path(offer.textbook))} for <b>#{   ActionController::Base.helpers.number_to_currency(offer.price) } has been accepted!</b> Please communicate with #{ ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} through the #{ ActionController::Base.helpers.link_to('Deals', active_deals_user_path(user))} link to organize the trade.")
+      user.notify("<b>Congratulations!</b> Your offer to #{ActionController::Base.helpers.link_to(other_user.username, Rails.application.routes.url_helpers.user_path(other_user))} to <b>sell</b> your copy of #{ ActionController::Base.helpers.link_to(offer.textbook.title_short,  Rails.application.routes.url_helpers.textbook_path(offer.textbook))} for <b>#{   ActionController::Base.helpers.number_to_currency(offer.price) } has been accepted!</b> Please communicate with #{ ActionController::Base.helpers.link_to(other_user.username, Rails.application.routes.url_helpers.user_path(other_user))} through the #{ ActionController::Base.helpers.link_to('Deals', Rails.application.routes.url_helpers.active_deals_user_path(user))} link to organize the trade.")
     end
 
     def self.deal_notify_buyer(user, other_user , offer)
-      user.notify("<b>Congratulations!</b> Your offer to #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} to <b>buy</b> their copy of #{ ActionController::Base.helpers.link_to(offer.textbook.title_short, textbook_path(offer.textbook))} for <b> #{ ActionController::Base.helpers.number_to_currency(offer.price) } has been accepted!</b> Please communicate with #{ ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} through the #{ ActionController::Base.helpers.link_to('Deals', active_deals_user_path(user))} link to organize the trade.")
+      user.notify("<b>Congratulations!</b> Your offer to #{ActionController::Base.helpers.link_to(other_user.username, Rails.application.routes.url_helpers.user_path(other_user))} to <b>buy</b> their copy of #{ ActionController::Base.helpers.link_to(offer.textbook.title_short, Rails.application.routes.url_helpers.textbook_path(offer.textbook))} for <b> #{ ActionController::Base.helpers.number_to_currency(offer.price) } has been accepted!</b> Please communicate with #{ ActionController::Base.helpers.link_to(other_user.username, Rails.application.routes.url_helpers.user_path(other_user))} through the #{ ActionController::Base.helpers.link_to('Deals', Rails.application.routes.url_helpers.active_deals_user_path(user))} link to organize the trade.")
     end
 
     def self.purchase_offer_rejected(user, other_user, textbook)
-      user.notify("Sorry, #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} <b>rejected your purchase offer</b> for #{ ActionController::Base.helpers.link_to(textbook.title_short, textbook_path(textbook))}")
+      user.notify("Sorry, #{ActionController::Base.helpers.link_to(other_user.username, Rails.application.routes.url_helpers.user_path(other_user))} <b>rejected your purchase offer</b> for #{ ActionController::Base.helpers.link_to(textbook.title_short, Rails.application.routes.url_helpers.textbook_path(textbook))}")
     end
 
     def self.sales_offer_rejected(user, other_user, textbook)
-      user.notify("Sorry, #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} <b>rejected your purchase offer</b> for #{ ActionController::Base.helpers.link_to(textbook.title_short, textbook_path(textbook))}")
+      user.notify("Sorry, #{ActionController::Base.helpers.link_to(other_user.username, Rails.application.routes.url_helpers.user_path(other_user))} <b>rejected your purchase offer</b> for #{ ActionController::Base.helpers.link_to(textbook.title_short, Rails.application.routes.url_helpers.textbook_path(textbook))}")
     end
   
     def self.notify_buyer_book_sold(user, other_user, textbook)
-      user.notify("Sorry, #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} <b>sold their copy</b> of #{ ActionController::Base.helpers.link_to(textbook.title_short, textbook_path(textbook))} to <b>a different buyer</b>")
+      user.notify("Sorry, #{ActionController::Base.helpers.link_to(other_user.username, Rails.application.routes.url_helpers.user_path(other_user))} <b>sold their copy</b> of #{ ActionController::Base.helpers.link_to(textbook.title_short, Rails.application.routes.url_helpers.textbook_path(textbook))} to <b>a different buyer</b>")
     end
 
     def self.notify_seller_book_bought(user, other_user, textbook)
-      user.notify("Sorry, #{ActionController::Base.helpers.link_to(other_user.username, user_path(other_user))} <b>bought a copy</b> of #{ ActionController::Base.helpers.link_to(textbook.title_short, textbook_path(textbook))} from <b>a different seller</b>")
+      user.notify("Sorry, #{ActionController::Base.helpers.link_to(other_user.username, Rails.application.routes.url_helpers.user_path(other_user))} <b>bought a copy</b> of #{ ActionController::Base.helpers.link_to(textbook.title_short, Rails.application.routes.url_helpers.textbook_path(textbook))} from <b>a different seller</b>")
     end
 end
