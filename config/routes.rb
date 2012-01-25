@@ -99,6 +99,7 @@ Zoomasstextbooks::Application.routes.draw do
   get "info/signing_up"
   get "info/list_book_for_sale"
   get "info/list_book_looking_for"
+  get "info/send_offer"
   get "info/under_construction"
 
 

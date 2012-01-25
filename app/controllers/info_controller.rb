@@ -29,6 +29,10 @@ class InfoController < ApplicationController
     @title = "How to list a book 'Looking For'"
   end
 
+  def send_offer
+    @title = "How to send a purchase/sales offer"
+  end
+
   def faq
     @title = "Frequently Asked Questions"
     @faqs = Faq.paginate(:page => params[:page], :per_page => 5, :order => 'created_at DESC')
