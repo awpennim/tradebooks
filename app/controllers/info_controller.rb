@@ -21,6 +21,14 @@ class InfoController < ApplicationController
     @title = "How to set up your TradeCampusBooks account"
   end
 
+  def list_book_for_sale
+    @title = "How to list a book 'For Sale'"
+  end
+
+  def list_book_looking_for
+    @title = "How to list a book 'Looking For'"
+  end
+
   def faq
     @title = "Frequently Asked Questions"
     @faqs = Faq.paginate(:page => params[:page], :per_page => 5, :order => 'created_at DESC')
