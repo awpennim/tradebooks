@@ -5,12 +5,11 @@ module ISBN_app
 
   ISBNDB_URL = "http://isbndb.com/api/books.xml?access_key=KT6GCO29"
 
+  #Returns the book data
   def book_data(hash = {})
     url = ISBNDB_URL.dup
 
     return nil if hash[:isbn] == nil
-
-    puts "sent empty hash"
 
     url << ("&results=texts&index1=isbn&value1=#{hash[:isbn].to_s}") #978 for all
     doc = REXML::Document.new(getXML(url))
@@ -28,6 +27,7 @@ module ISBN_app
     hash
   end
 
+  #Used by administrators. Returns statistics about use with isbndb.com
   def stats
     doc = REXML::Document.new(getXML(ISBNDB_URL + "&results=keystats"))
   
