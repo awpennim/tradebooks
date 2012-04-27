@@ -4,7 +4,7 @@ body {
 
 .container {
   margin: 0 7em;
-  background: #666;
+  background: #DCDCDC;
   padding: 0 2em;
   min-height: 100%;
 }
@@ -78,7 +78,7 @@ footer {
   padding: 7 px;
   padding-bottom: 0;
   margin-bottom: 20px;
-  background-color: #666;
+  background-color: #DCDCDC;
 }
 
 #error_explanation h2{
@@ -93,7 +93,7 @@ footer {
 }
 
 #error_explanation ul li {
-  color: white;
+  color: black;
 }
 
 .field {
@@ -135,7 +135,7 @@ footer {
 }
 
 .flash_notice {
-  color: white;
+  color: black;
   font-weight: bold;
   list-style-type: circle;
   margin-left: 10px;
@@ -173,7 +173,7 @@ footer {
 }
 
 .new_link a{
-  color: white;
+  color: black;
 }
 
 .notification_or_message {
