@@ -2,7 +2,7 @@ module ApplicationHelper
   include ReCaptcha::ViewHelper
 
   def title
-    base_title = "Trade Campus Books"
+    base_title = "Trade Campus Books | UMass Amherst"
     if @title
       "#{base_title} | #{@title}" 
     else
